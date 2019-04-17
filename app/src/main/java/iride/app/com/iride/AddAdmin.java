@@ -65,9 +65,18 @@ public class AddAdmin extends AppCompatActivity {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
+        if (getWindowManager().getDefaultDisplay().getRotation()%2==0){
+            int width = dm.widthPixels;
+            int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width*.5),(int) (height*.85));
+            getWindow().setLayout((int) (width*.85),(int) (height*.5));
+            getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
+        }else{
+            int width = dm.widthPixels;
+            int height = dm.heightPixels;
+
+            getWindow().setLayout((int) (width*.5),(int) (height*.85));
+            getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
+        }
     }
 }

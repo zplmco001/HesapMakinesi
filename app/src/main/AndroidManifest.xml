@@ -9,9 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".AddAdmin"
-            android:theme="@style/AppTheme.Popups" ></activity>
-        <activity android:name=".AdminNameChange"
+        <activity android:name=".DeleteUser"></activity>
+        <activity
+            android:name=".AddAdmin"
+            android:theme="@style/AppTheme.Popups" />
+        <activity
+            android:name=".AdminNameChange"
             android:theme="@style/AppTheme.Popups" />
         <activity
             android:name=".PasswordChange"

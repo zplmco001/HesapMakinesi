@@ -1,6 +1,7 @@
 package iride.app.com.iride;
 
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,8 @@ public class AdminPanel extends AppCompatActivity {
         changePassword = (Button) findViewById(R.id.changepass);
         changeName = (Button) findViewById(R.id.changename);
         addAdmin = (Button) findViewById(R.id.addadmin);
+
+
 
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -12,15 +12,16 @@ import android.widget.Toast;
 public class PasswordChange extends AppCompatActivity {
 
 
-    private EditText currentPass,newPass,newPassAgain;
+    private EditText passChangeName,currentPass,newPass,newPassAgain;
     private Button save,cancel;
 
-    private String cPass,nPass,nPassAg;
+    private String passChName,cPass,nPass,nPassAg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_change);
 
+        passChangeName = (EditText) findViewById(R.id.passchangename);
         currentPass = (EditText) findViewById(R.id.currentpass);
         newPass = (EditText) findViewById(R.id.newpass);
         newPassAgain = (EditText) findViewById(R.id.newpassagain);
@@ -32,26 +33,35 @@ public class PasswordChange extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                passChName=String.valueOf(passChangeName.getText());
                 cPass=String.valueOf(currentPass.getText());
                 nPass=String.valueOf(newPass.getText());
                 nPassAg=String.valueOf(newPassAgain.getText());
 
-                if(nPass.length()<4){
-                    Toast.makeText(getApplicationContext(),"Şifreniz en az 4 karakter olmak zorundadır!",Toast.LENGTH_SHORT).show();
+                DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
+                dc.open();
+                if(dc.checkUsername(passChName)){
+                    Toast.makeText(getApplicationContext(),"Böyle bir kullanıcı yok!",Toast.LENGTH_SHORT).show();
                 }else{
-                    DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
-                    dc.open();
-                    if(!dc.checkCurrentPassword(cPass)){
-                        Toast.makeText(getApplicationContext(),"Yanlış şifre girdiniz!",Toast.LENGTH_SHORT).show();
-                    }else if(!nPass.equals(nPassAg) ){
-                        Toast.makeText(getApplicationContext(),"Yeni şifreyi kontrol edin!",Toast.LENGTH_SHORT).show();
+                    if(nPass.length()<4){
+                        Toast.makeText(getApplicationContext(),"Şifreniz en az 4 karakter olmak zorundadır!",Toast.LENGTH_SHORT).show();
                     }else{
-                        dc.changePassword(nPass);
-                        Toast.makeText(getApplicationContext(),"Şifre değiştirildi",Toast.LENGTH_SHORT).show();
-                        dc.close();
-                        finish();
+                        if(!dc.checkCurrentPassword(cPass)){
+                            Toast.makeText(getApplicationContext(),"Yanlış şifre girdiniz!",Toast.LENGTH_SHORT).show();
+                        }else if(!nPass.equals(nPassAg) ){
+                            Toast.makeText(getApplicationContext(),"Yeni şifreyi kontrol edin!",Toast.LENGTH_SHORT).show();
+                        }else{
+                            dc.changePassword(passChName,nPass);
+                            Toast.makeText(getApplicationContext(),"Şifre değiştirildi",Toast.LENGTH_SHORT).show();
+                            dc.close();
+                            finish();
+                        }
                     }
                 }
+
+
+
             }
         });
 
@@ -63,13 +73,21 @@ public class PasswordChange extends AppCompatActivity {
         });
 
 
-
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
+        if (getWindowManager().getDefaultDisplay().getRotation()%2==0){
+            int width = dm.widthPixels;
+            int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width*.5),(int) (height*.85));
+            getWindow().setLayout((int) (width*.85),(int) (height*.5));
+            getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
+        }else{
+            int width = dm.widthPixels;
+            int height = dm.heightPixels;
+
+            getWindow().setLayout((int) (width*.5),(int) (height*.85));
+            getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
+        }
     }
 }

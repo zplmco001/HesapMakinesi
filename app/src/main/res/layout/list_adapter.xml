@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+    
+    <TextView
+        android:id="@+id/tw1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="33"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="SÜTUN 1"
+        />
+
+    <TextView
+        android:id="@+id/tw2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="33"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="SÜTUN 1"
+        />
+    <TextView
+        android:id="@+id/tw3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="33"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="SÜTUN 1"
+        />
+
+    <TextView
+        android:id="@+id/tw4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="33"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="SÜTUN 1"
+        />
+
+    <TextView
+        android:id="@+id/tw5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="33"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="SÜTUN 1"
+        />
+
+    <TextView
+        android:id="@+id/tw6"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="33"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="SÜTUN 1"
+        />
+
+    <TextView
+        android:id="@+id/tw7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="33"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="SÜTUN 1"
+        />
+
+    <TextView
+        android:id="@+id/tw8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="33"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="SÜTUN 1"
+        />
+
+
+
+
+
+</LinearLayout>

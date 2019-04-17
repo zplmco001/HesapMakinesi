@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,13 +30,15 @@ public class Home extends AppCompatActivity {
     private int fiyat;
     private TextView ucret, baslangic,bitis;
     private Timer timer;
-    private EditText ekstra;
+    private EditText ekstra,editText2;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        editText2 = (EditText) findViewById(R.id.editText2);
 
         buttons[0] = (Button) findViewById(R.id.buton1);
         buttons[1] = (Button) findViewById(R.id.buton2);
@@ -120,17 +123,28 @@ public class Home extends AppCompatActivity {
 
 
         Button yazdir = (Button)findViewById(R.id.yazdir);
+
         yazdir.setOnClickListener(new View.OnClickListener() {
+            int j=0;
             @Override
             public void onClick(View view) {
                 DatabaseConnection dc = new DatabaseConnection(getBaseContext());
                 dc.open();
-                dc.kayitEkle(0,(String)tarih.getText(),"memo",adet,selectedTarife,(String)baslangic.getText(),
-                        (String)bitis.getText(),Integer.parseInt((String) ucret.getText()));
+                dc.satisEkle(j,(String)tarih.getText(), String.valueOf(editText2.getText()),adet,selectedTarife,(String)baslangic.getText(),
+                        (String)bitis.getText(),fiyat);
+                j++;
             }
         });
 
 
+        Button deneme = (Button) findViewById(R.id.button);
+        deneme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),ViewDatabase.class);
+                startActivity(i);
+            }
+        });
 
     }
 

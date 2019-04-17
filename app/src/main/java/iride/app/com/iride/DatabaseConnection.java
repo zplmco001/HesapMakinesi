@@ -3,6 +3,7 @@ package iride.app.com.iride;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,10 @@ public class DatabaseConnection {
         sqLiteDatabase = database.getWritableDatabase();
     }
 
+    void read(){
+        sqLiteDatabase = database.getReadableDatabase();
+    }
+
     void close(){
         database.close();
     }
@@ -32,11 +37,12 @@ public class DatabaseConnection {
 
     void satisEkle(int fisNo,String kayitTarihi,String müsteriİsim,int adet,int tarife,String baslangicSure,String bitisSure,int toplamUcret){
 
-        String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret)" +
+        String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
                 "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
 
-        String query2="insert into gunluk_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret)" +
+        String query2="insert into gunluk_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
                 "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
+
 
 
         sqLiteDatabase.execSQL(query);
@@ -63,31 +69,29 @@ public class DatabaseConnection {
 
 
     List<SatisInfo> tumKayıtlar(){
-        String query = "select * from satis_info";
-        Cursor c = sqLiteDatabase.rawQuery(query,null);
 
-        if(c.getCount()==0){
-            c.close();
-            return null;
-        }else{
-            List<SatisInfo> list = new ArrayList<>();
-            c.moveToFirst();
-            for(int i=0 ; i<c.getCount(); i++){
-                int fis = c.getInt(c.getColumnIndex("fis_no"));
-                String tarih = c.getString(c.getColumnIndex("kayit_tarih"));
-                String isim = c.getString(c.getColumnIndex("müsteri_isim"));
-                int adet = c.getInt(c.getColumnIndex("adet"));
-                int tarife = c.getInt(c.getColumnIndex("tarife"));
-                String bassüre = c.getString(c.getColumnIndex("baslangic_sure"));
-                String bitsüre = c.getString(c.getColumnIndex("bitis_sure"));
-                int total = c.getInt(c.getColumnIndex("toplam_ucret"));
+        String columns [] = {"fis_no","kayit_tarih","musteri_isim","adet","tarife","baslangic_sure","bitis_sure","toplam_ucret"};
+        Cursor c = sqLiteDatabase.query("satis_info",columns,null,null,null,null,null);
+        Log.e("counter",""+c.getCount());
 
-                list.add(new SatisInfo(fis,tarih,isim,adet,tarife,bassüre,bitsüre,total));
-                c.moveToNext();
-            }
-            c.close();
-            return list;
+        List<SatisInfo> list = new ArrayList<>();
+        c.moveToFirst();
+        for(int i=0 ; i<c.getCount(); i++){
+            int fis = c.getInt(c.getColumnIndex("fis_no"));
+            String tarih = c.getString(c.getColumnIndex("kayit_tarih"));
+            String isim = c.getString(c.getColumnIndex("musteri_isim"));
+            int adet = c.getInt(c.getColumnIndex("adet"));
+            int tarife = c.getInt(c.getColumnIndex("tarife"));
+            String bassüre = c.getString(c.getColumnIndex("baslangic_sure"));
+            String bitsüre = c.getString(c.getColumnIndex("bitis_sure"));
+            int total = c.getInt(c.getColumnIndex("toplam_ucret"));
+
+            list.add(new SatisInfo(fis,tarih,isim,adet,tarife,bassüre,bitsüre,total));
+            c.moveToNext();
         }
+        c.close();
+        return list;
+
     }
 
 

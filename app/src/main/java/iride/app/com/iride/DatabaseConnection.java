@@ -75,4 +75,14 @@ public class DatabaseConnection {
         sqLiteDatabase.execSQL(query);
     }
 
+    void kayitEkle(int fis_no,String kayit_tarih,String musteri_isim,
+                   int adet,int tarife ,String baslangic_sure,String bitis_sure,int toplam_ucret){
+
+        String query = "insert into satis_info (fis_no, kayit_tarih, müsteri_isim," +
+        "adet, tarife, baslangic_sure, bitis_sure, toplam_ucret) values ('"+fis_no+"','"+kayit_tarih+
+                "','"+musteri_isim+"','"+adet+"','"+tarife+"','"+baslangic_sure+"','"+bitis_sure+"','"+toplam_ucret+"')";
+        sqLiteDatabase.execSQL(query);
+
+    }
+
 }

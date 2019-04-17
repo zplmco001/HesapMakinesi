@@ -1,495 +1,515 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
-    android:orientation="vertical"
-    android:weightSum="1"
-    tools:context="iride.app.com.iride.Home">
+    android:background="@drawable/main_background">
 
-
-    <LinearLayout
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="84dp"
-        android:background="@android:color/holo_orange_dark"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
 
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="40dp"
-            android:layout_weight="4.76" />
+        android:orientation="vertical"
+        android:weightSum="1"
+        tools:context="iride.app.com.iride.Home">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
-
-        <TextView
-            android:id="@+id/tarih"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="0.5"
-            android:gravity="center_vertical"
-            android:text="Tarih:"
-            android:textColor="?android:attr/colorBackground"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/fis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="0.5"
-            android:gravity="center_vertical"
-            android:text="Fiş No:"
-            android:textColor="?android:attr/colorBackground"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="0.5"
-            android:gravity="center_vertical"
-            android:text="İsim Soyisim:"
-            android:textColor="?android:attr/colorBackground"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
-            android:layout_weight="0.4"
-            android:backgroundTint="?android:attr/colorBackground"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="?android:attr/colorBackground"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.19"
-            android:gravity="center_vertical"
-            android:text="Adet:"
-            android:textColor="?android:attr/colorBackground"
-            android:textSize="20sp" />
-
-        <LinearLayout
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.12"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/buton1"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="1"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-
-                <Button
-                    android:id="@+id/buton2"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="2"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-
-                <Button
-                    android:id="@+id/buton3"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="3"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-
-                <Button
-                    android:id="@+id/buton4"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="4"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-
-                <Button
-                    android:id="@+id/buton5"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="5"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/buton6"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="6"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-
-                <Button
-                    android:id="@+id/buton7"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="7"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-
-                <Button
-                    android:id="@+id/buton8"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="8"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-
-                <Button
-                    android:id="@+id/buton9"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="9"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-
-                <Button
-                    android:id="@+id/buton10"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button"
-                    android:text="10"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="20sp"
-                    app:layout_constraintHorizontal_bias="0.729"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:layout_editor_absoluteY="219dp" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.5"
-            android:gravity="center_vertical"
-            android:text="Tarife:"
-            android:textColor="?android:attr/colorBackground"
-            android:textSize="20sp" />
-
-        <LinearLayout
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.37"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/tarife1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_button"
-                android:text="15 dakika 15 TL"
-                android:textColor="@android:color/background_light" />
-
-            <Button
-                android:id="@+id/tarife2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_button"
-                android:text="30 dakika 25 TL"
-                android:textColor="@android:color/background_light" />
-
-            <Button
-                android:id="@+id/tarife3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_button"
-                android:text="45 dakika 35 TL"
-                android:textColor="@android:color/background_light" />
-
-            <Button
-                android:id="@+id/tarife4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_button"
-                android:text="60 dakika 45 TL"
-                android:textColor="@android:color/background_light" />
-
-            <Button
-                android:id="@+id/aciktarife"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_button"
-                android:text="Açık Hesap"
-                android:textColor="@android:color/background_light" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/baslangic"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.5"
-            android:gravity="center_vertical"
-            android:text="Başlangıç Zamanı:"
-            android:textColor="?android:attr/colorBackground"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/bitis"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.5"
-            android:gravity="center_vertical"
-            android:text="Bitiş Zamanı:"
-            android:textColor="?android:attr/colorBackground"
-            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_height="64dp"
+            android:background="#1976D2"
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_weight="4.76"
+                android:backgroundTint="@android:color/background_light" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Button" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
             <TextView
-                android:id="@+id/ucret"
+                android:id="@+id/tarih"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.5"
                 android:gravity="center_vertical"
-                android:text="Ücret:"
+                android:text="Tarih:"
                 android:textColor="?android:attr/colorBackground"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/ekstra"
+                android:id="@+id/fis"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.5"
                 android:gravity="center_vertical"
-                android:text="Ekstra:"
+                android:text="Fiş No:"
                 android:textColor="?android:attr/colorBackground"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/toplam"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="0.5"
-                android:gravity="center_vertical"
-                android:text="Toplam:"
-                android:textColor="?android:attr/colorBackground"
-                android:textSize="20sp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="İsim Soyisim:"
+                android:textColor="?android:attr/colorBackground"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_weight="0.4"
+                android:backgroundTint="?android:attr/colorBackground"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="?android:attr/colorBackground"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.19"
+                android:gravity="center_vertical"
+                android:text="Adet:"
+                android:textColor="?android:attr/colorBackground"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.12"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/buton1"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="1"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+
+                    <Button
+                        android:id="@+id/buton2"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="2"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+
+                    <Button
+                        android:id="@+id/buton3"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="3"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+
+                    <Button
+                        android:id="@+id/buton4"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="4"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+
+                    <Button
+                        android:id="@+id/buton5"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="5"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/buton6"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="6"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+
+                    <Button
+                        android:id="@+id/buton7"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="7"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+
+                    <Button
+                        android:id="@+id/buton8"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="8"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+
+                    <Button
+                        android:id="@+id/buton9"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="9"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+
+                    <Button
+                        android:id="@+id/buton10"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_button"
+                        android:text="10"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp"
+                        app:layout_constraintHorizontal_bias="0.729"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:layout_editor_absoluteY="219dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="Tarife:"
+                android:textColor="?android:attr/colorBackground"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.37"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/tarife1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/corner_round_button"
+                    android:text="15 dakika 15 TL"
+                    android:textColor="@android:color/background_light" />
+
+                <Button
+                    android:id="@+id/tarife2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/corner_round_button"
+                    android:text="30 dakika 25 TL"
+                    android:textColor="@android:color/background_light" />
+
+                <Button
+                    android:id="@+id/tarife3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/corner_round_button"
+                    android:text="45 dakika 35 TL"
+                    android:textColor="@android:color/background_light" />
+
+                <Button
+                    android:id="@+id/tarife4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/corner_round_button"
+                    android:text="60 dakika 45 TL"
+                    android:textColor="@android:color/background_light" />
+
+                <Button
+                    android:id="@+id/aciktarife"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/corner_round_button"
+                    android:text="Açık Hesap"
+                    android:textColor="@android:color/background_light" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/baslangic"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="Başlangıç Zamanı:"
+                android:textColor="?android:attr/colorBackground"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/bitis"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="Bitiş Zamanı:"
+                android:textColor="?android:attr/colorBackground"
+                android:textSize="25sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/ucret"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="0.28"
+                    android:gravity="center_vertical"
+                    android:text="Ücret:"
+                    android:textColor="?android:attr/colorBackground"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ekstraText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="0.07"
+                    android:gravity="center_vertical"
+                    android:text="Ekstra:"
+                    android:textAlignment="viewEnd"
+                    android:textColor="?android:attr/colorBackground"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/ekstra"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="0.20"
+                    android:backgroundTint="@android:color/background_light"
+                    android:ems="10"
+                    android:inputType="numberSigned"
+                    android:textColor="@android:color/background_light" />
+
+                <TextView
+                    android:id="@+id/toplam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center_vertical"
+                    android:text="Toplam:"
+                    android:textColor="?android:attr/colorBackground"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/yonet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:text="Yönet" />
+
+            <Button
+                android:id="@+id/yazdir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="20dp"
+                android:text="Yazdır" />
+        </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/yonet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="20dp"
-            android:text="Yönet" />
-
-        <Button
-            android:id="@+id/yazdir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="20dp"
-            android:text="Yazdır" />
-    </RelativeLayout>
-</LinearLayout>
+</ScrollView>

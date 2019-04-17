@@ -19,8 +19,9 @@ public class Database extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("insert into admin (admin_name,password) values ('Admin','admin')");
 
 
-        String kayıtTable = "create table kayit (fis_no integer,kayit_tarih text,müsteri_isim text" +
-                "adet integer,tarife integer,baslangic_sure text,bitis_sure text,ucret integer)";
+        String kayıtTable = "create table satis_info (fis_no integer,kayit_tarih text,musteri_isim text," +
+                "adet integer,tarife integer,baslangic_sure text,bitis_sure text,toplam_ucret integer)";
+        sqLiteDatabase.execSQL(kayıtTable);
 
     }
 

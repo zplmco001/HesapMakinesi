@@ -1,21 +1,36 @@
 package iride.app.com.iride;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Home extends AppCompatActivity {
 
     private Button buttons[] = new Button[10];
     private Button tarife[] = new Button[5];
     private int tarifeUcret[] = {15,25,35,45};
+    private int tarifeZaman[] = {15,30,45,60};
     private int adet = 0;
     private int tUcret = 0;
     private int selected = -1;
     private int selectedTarife = -1;
-    private TextView ucret;
+    private int fiyat;
+    private TextView ucret, baslangic,bitis;
+    private Timer timer;
+    private EditText ekstra;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +62,116 @@ public class Home extends AppCompatActivity {
             tarife[i].setOnClickListener(new TarifeClick(i));
         }
 
+        ekstra = (EditText)findViewById(R.id.ekstra);
         ucret = (TextView) findViewById(R.id.ucret);
+        final TextView toplam = (TextView)findViewById(R.id.toplam);
+        ekstra.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if (!String.valueOf(ekstra.getText()).equals("-")&&charSequence.length()>0){
+                    int total = fiyat+Integer.parseInt(String.valueOf(ekstra.getText()));
+                    toplam.setText("Toplam: "+total+" TL");
+                }
+                else{
+                    toplam.setText("Toplam: "+fiyat+" TL");
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         Button yonet = (Button)findViewById(R.id.yonet);
         yonet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(getApplicationContext(),AdminLogIn.class);
+                startActivity(i);
             }
         });
 
+        final TextView tarih = (TextView)findViewById(R.id.tarih);
+        baslangic = (TextView) findViewById(R.id.baslangic);
+        bitis = (TextView) findViewById(R.id.bitis);
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int day = calendar.get(Calendar.DATE);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int year = calendar.get(Calendar.YEAR);
+
+        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int minute = calendar.get(Calendar.MINUTE);
+
+        timer = new Timer();
+        Task task = new Task(baslangic);
+        timer.schedule(task,0,10000);
+
+        tarih.setText(tarih.getText()+" "+day+"/"+month+"/"+year);
+
+
+        Button yazdir = (Button)findViewById(R.id.yazdir);
+        yazdir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseConnection dc = new DatabaseConnection(getBaseContext());
+                dc.open();
+                dc.kayitEkle(0,(String)tarih.getText(),"memo",adet,selectedTarife,(String)baslangic.getText(),
+                        (String)bitis.getText(),Integer.parseInt((String) ucret.getText()));
+            }
+        });
+
+
+
+    }
+
+    public void updateTime(final TextView baslangic){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+                String val = (String)baslangic.getText();
+                val = val.substring(0,17);
+                if (minute<10){
+                    baslangic.setText(val+" "+hour+":0"+minute);
+                }
+                else
+                    baslangic.setText(val+" "+hour+":"+minute);
+
+                if(bitis.length()>13&&selectedTarife<4){
+                    int hourF = Integer.parseInt(((String) baslangic.getText()).substring(18,20));
+                    int minuteF = Integer.parseInt(((String) baslangic.getText()).substring(21,23));
+                    Log.e("sure",""+hour+""+minute);
+
+                    if ((minute+tarifeZaman[selectedTarife])>=60){
+                        minute = (minute+tarifeZaman[selectedTarife])%60;
+                        hour = (hour+1)%24;
+                    }
+                    else {
+                        minute = minute+tarifeZaman[selectedTarife];
+                    }
+                    String valu = (String)bitis.getText();
+                    valu = valu.substring(0,13);
+                    if (minute<10){
+                        bitis.setText(valu+" "+hour+":0"+minute);
+                    }
+                    else
+                        bitis.setText(valu+" "+hour+":"+minute);
+                }
+
+            }
+        });
 
     }
 
@@ -73,7 +188,7 @@ public class Home extends AppCompatActivity {
         public void onClick(View view) {
 
             adet = index+1;
-            int fiyat = adet*tUcret;
+            fiyat = adet*tUcret;
             ucret.setText("Ücret:\t"+fiyat+" TL");
             buttons[index].setBackgroundDrawable(getResources().getDrawable(R.drawable.seleected_round_button));
             if (selected>=0&&selected!=index){
@@ -90,6 +205,7 @@ public class Home extends AppCompatActivity {
         private int index;
 
         TarifeClick(int index){
+
             this.index = index;
 
 
@@ -100,19 +216,57 @@ public class Home extends AppCompatActivity {
 
             if (index<4){
                 tUcret = tarifeUcret[index];
-                int fiyat = adet*tUcret;
+                fiyat = adet*tUcret;
                 ucret.setText("Ücret:\t"+fiyat+" TL");
+                int hour = Integer.parseInt(((String) baslangic.getText()).substring(18,20));
+                int minute = Integer.parseInt(((String) baslangic.getText()).substring(21,23));
+                Log.e("sure",""+hour+""+minute);
+
+                if ((minute+tarifeZaman[index])>=60){
+                    minute = (minute+tarifeZaman[index])%60;
+                    hour = (hour+1)%24;
+                }
+                else {
+                    minute = minute+tarifeZaman[index];
+                }
+                String val = (String)bitis.getText();
+                val = val.substring(0,13);
+                if (minute<10){
+                    bitis.setText(val+" "+hour+":0"+minute);
+                }
+                else
+                    bitis.setText(val+" "+hour+":"+minute);
             }
             else{
                 ucret.setText("Ücret:\t");
+                bitis.setText("Bitiş Zamanı:");
             }
             tarife[index].setBackgroundDrawable(getResources().getDrawable(R.drawable.seleected_round_button));
             if (selectedTarife>=0&&selectedTarife!=index){
-                tarife[selectedTarife].setBackgroundDrawable(getResources().getDrawable(R.drawable.round_button));
+                tarife[selectedTarife].setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
             }
 
             selectedTarife = index;
 
+
+
+
+        }
+    }
+    class Task extends TimerTask{
+
+        private TextView tv;
+
+        Task(TextView tv){
+
+            this.tv = tv;
+
+        }
+
+        @Override
+        public void run() {
+
+            updateTime(tv);
         }
     }
 }

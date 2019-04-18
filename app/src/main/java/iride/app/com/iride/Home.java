@@ -166,8 +166,8 @@ public class Home extends AppCompatActivity {
                     baslangic.setText(val+" "+hour+":"+minute);
 
                 if(bitis.length()>13&&selectedTarife<4){
-                    int hourF = Integer.parseInt(((String) baslangic.getText()).substring(18,20));
-                    int minuteF = Integer.parseInt(((String) baslangic.getText()).substring(21,23));
+                   // int hourF = Integer.parseInt(((String) baslangic.getText()).substring(18,20));
+                   // int minuteF = Integer.parseInt(((String) baslangic.getText()).substring(21,23));
                     Log.e("sure",""+hour+""+minute);
 
                     if ((minute+tarifeZaman[selectedTarife])>=60){
@@ -234,9 +234,19 @@ public class Home extends AppCompatActivity {
                 tUcret = tarifeUcret[index];
                 fiyat = adet*tUcret;
                 ucret.setText("Ücret:\t"+fiyat+" TL");
-                int hour = Integer.parseInt(((String) baslangic.getText()).substring(18,20));
-                int minute = Integer.parseInt(((String) baslangic.getText()).substring(21,23));
-                Log.e("sure",""+hour+""+minute);
+                int hour,minute;
+                if (baslangic.getText().length()>22){
+                    hour = Integer.parseInt(((String) baslangic.getText()).substring(18,20));
+                    minute = Integer.parseInt(((String) baslangic.getText()).substring(21,23));
+                    Log.e("sure",""+hour+""+minute);
+                }
+                else{
+                    hour = Integer.parseInt(((String) baslangic.getText()).substring(18,19));
+                    minute = Integer.parseInt(((String) baslangic.getText()).substring(20,22));
+                    Log.e("sure",""+hour+""+minute);
+                }
+
+
 
                 if ((minute+tarifeZaman[index])>=60){
                     minute = (minute+tarifeZaman[index])%60;

@@ -127,13 +127,13 @@ public class Home extends AppCompatActivity {
         Button yazdir = (Button)findViewById(R.id.yazdir);
 
         yazdir.setOnClickListener(new View.OnClickListener() {
-            int j=0;
+            int j=1;
             @Override
             public void onClick(View view) {
                 DatabaseConnection dc = new DatabaseConnection(getBaseContext());
                 dc.open();
-                dc.satisEkle(j,(String)tarih.getText(), String.valueOf(editText2.getText()),adet,selectedTarife,(String)baslangic.getText(),
-                        (String)bitis.getText(),fiyat);
+                dc.satisEkle(j,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(19),
+                        String.valueOf(bitis.getText()).substring(14),fiyat);
                 j++;
             }
         });

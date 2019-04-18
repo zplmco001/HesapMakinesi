@@ -19,13 +19,16 @@ public class ViewDatabase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_database);
 
+
         dc = new DatabaseConnection(this);
         dc.read();
         list = dc.tumKayıtlar();
         dc.close();
 
-        if(list.size()==0){
+
+        if(list.size()==1){
             Toast.makeText(this,"Liste boş!",Toast.LENGTH_SHORT).show();
+            finish();
         }else{
             ListAdapter adapter = new ListAdapter(this,R.layout.list_adapter,list);
             listView = (ListView) findViewById(R.id.listView);

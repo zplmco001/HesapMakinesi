@@ -19,7 +19,7 @@
             android:layout_weight="1"
             android:background="@drawable/round_button"
             android:text="Fiş No"
-            android:textSize="40dp"
+            android:textSize="35dp"
             android:textAlignment="center"/>
 
         <TextView
@@ -30,7 +30,7 @@
             android:background="@drawable/round_button"
             android:text="Tarih"
             android:textAlignment="center"
-            android:textSize="40dp" />
+            android:textSize="35dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
             android:background="@drawable/round_button"
             android:text="İsim"
             android:textAlignment="center"
-            android:textSize="40dp" />
+            android:textSize="35dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:background="@drawable/round_button"
             android:layout_marginRight="5dp"
             android:text="Adet"
-            android:textSize="40dp"
+            android:textSize="35dp"
             android:textAlignment="center"/>
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
             android:background="@drawable/round_button"
             android:layout_marginRight="5dp"
             android:text="Tarife"
-            android:textSize="40dp"
+            android:textSize="35dp"
             android:textAlignment="center"/>
         <TextView
             android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
             android:background="@drawable/round_button"
             android:layout_marginRight="5dp"
             android:text="Baslangıç"
-            android:textSize="40dp"
+            android:textSize="35dp"
             android:textAlignment="center"/>
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
             android:background="@drawable/round_button"
             android:layout_marginRight="5dp"
             android:text="Bitiş"
-            android:textSize="40dp"
+            android:textSize="35dp"
             android:textAlignment="center"/>
         <TextView
             android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
             android:background="@drawable/round_button"
             android:layout_marginRight="5dp"
             android:text="Ücret"
-            android:textSize="40dp"
+            android:textSize="35dp"
             android:textAlignment="center"/>
     </LinearLayout>
 

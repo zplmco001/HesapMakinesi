@@ -84,9 +84,24 @@ public class AdminLogIn extends AppCompatActivity {
             }
         });
 
+        //Display id 0: DisplayInfo{"Built-in Screen", uniqueId "local:0", app 2560 x 1704, real 2560 x 1800, largest app 2560 x 2416,
+        // smallest app 1800 x 1656, mode 1, defaultMode 1, modes [{id=1, width=1800, height=2560, fps=60.000004}], colorMode 0, supportedColorModes [0],
+        // hdrCapabilities android.view.Display$HdrCapabilities@a69d6308, rotation 3, density 320 (320.0 x 320.0) dpi, layerStack 0, appVsyncOff 1000000,
+        // presDeadline 16666666, type BUILT_IN, state ON, FLAG_SECURE, FLAG_SUPPORTS_PROTECTED_BUFFERS}, DisplayMetrics{density=2.0, width=2560, height=1704,
+        // scaledDensity=2.0, xdpi=320.0, ydpi=320.0}, isValid=true
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+       // Log.e("default ori",""+getWindowManager().getDefaultDisplay());
+
+        /*Log.e("orientation",""+getWindowManager().getDefaultDisplay().getOrientation());
+        Log.e("mode",""+getWindowManager().getDefaultDisplay().getDisplayId());
+        Log.e("rotation",""+getWindowManager().getDefaultDisplay().getRotation());
+        Log.e("width",""+getWindowManager().getDefaultDisplay().getWidth());
+        Log.e("height",""+getWindowManager().getDefaultDisplay().getHeight());*/
+
+        //if(  && getWindowManager().getDefaultDisplay().getWidth()<getWindowManager().getDefaultDisplay().getHeight())
 
         if (getWindowManager().getDefaultDisplay().getRotation()%2==0){
             int width = dm.widthPixels;

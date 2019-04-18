@@ -11,6 +11,11 @@ public class Database extends SQLiteOpenHelper {
         super(context,"database",null,1);
     }
 
+    Database(){
+        super(null,"database",null,1);
+
+    }
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String adminTable = "create table admin (admin_name text primary key,password text)";

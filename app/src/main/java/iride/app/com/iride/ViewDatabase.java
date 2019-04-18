@@ -22,7 +22,7 @@ public class ViewDatabase extends AppCompatActivity {
 
         dc = new DatabaseConnection(this);
         dc.read();
-        list = dc.tumKayıtlar();
+        list = dc.gunlukKayıtlar();
         dc.close();
 
 

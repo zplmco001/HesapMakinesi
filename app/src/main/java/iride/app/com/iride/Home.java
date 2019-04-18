@@ -100,6 +100,10 @@ public class Home extends AppCompatActivity {
         yonet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
+                dc.open();
+                dc.gunlukKaydet(getApplicationContext());
+                dc.open();
                 Intent i = new Intent(getApplicationContext(),AdminLogIn.class);
                 startActivity(i);
             }
@@ -133,8 +137,9 @@ public class Home extends AppCompatActivity {
                 DatabaseConnection dc = new DatabaseConnection(getBaseContext());
                 dc.open();
                 dc.satisEkle(j,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(19),
-                        String.valueOf(bitis.getText()).substring(14),fiyat);
+                        String.valueOf(bitis.getText()).substring(13),fiyat);
                 j++;
+                dc.close();
             }
         });
 

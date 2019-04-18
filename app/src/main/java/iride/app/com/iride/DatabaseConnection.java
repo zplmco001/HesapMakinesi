@@ -3,6 +3,7 @@ package iride.app.com.iride;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -11,13 +12,12 @@ import java.util.List;
 
 public class DatabaseConnection {
 
-    private SQLiteDatabase sqLiteDatabase;
-    private Database database;
+    private SQLiteDatabase sqLiteDatabase,sqldb;
+    private Database database,db;
 
     DatabaseConnection(Context context){
         database = new Database(context);
     }
-
 
     void open(){
         sqLiteDatabase = database.getWritableDatabase();
@@ -33,39 +33,8 @@ public class DatabaseConnection {
 
 
 
+    /**Tğm kayıtlarda kullanılan fonksiyonlar**/
 
-
-    void satisEkle(int fisNo,String kayitTarihi,String müsteriİsim,int adet,int tarife,String baslangicSure,String bitisSure,int toplamUcret){
-
-        String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
-                "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
-
-        String query2="insert into gunluk_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
-                "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
-
-
-
-        sqLiteDatabase.execSQL(query);
-        sqLiteDatabase.execSQL(query2);
-
-    }
-
-
-    void kayitGuncelle(int fisNo,int adet,int tarife,String bitisSure,int ucret){
-
-        /**fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret*/
-        String query = "update gunluk_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"'";
-        sqLiteDatabase.execSQL(query);
-
-    }
-
-    void kayitSil(int fisNo){
-        String query = "delete from gunluk_info where fis_no='"+fisNo+"'";
-        String query2 = "delete from satis_info where fis_no='"+fisNo+"'";
-        sqLiteDatabase.execSQL(query);
-        sqLiteDatabase.execSQL(query2);
-
-    }
 
 
     List<SatisInfo> tumKayıtlar(){
@@ -91,9 +60,100 @@ public class DatabaseConnection {
         }
         c.close();
         return list;
+    }
+
+
+    int toplamKazanc(){
+
+        String query= "select sum(toplam_ucret) from satis_info";
+        Cursor c = sqLiteDatabase.rawQuery(query,null);
+        if(c.moveToFirst()){
+            return c.getInt(0);
+        }else{
+         return 0;
+        }
+    }
+
+    /**Günlük kayıtlarda kullanılan işlemler**/
+
+
+    /**Genel tabloya kaydeder günlüğü siler**/
+    void gunlukKaydet(Context context){
+
+        DatabaseConnection dc = new DatabaseConnection(context);
+
+        dc.open();
+        List<SatisInfo> list = dc.gunlukKayıtlar();
+        dc.close();
+
+
+        if(list.size()!=0){
+            for(int i=0 ; i<list.size(); i++){
+                String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
+                        "values ('"+list.get(i).fisNo+"','"+list.get(i).kayitTarihi+"','"+list.get(i).müsteriİsim+"','"+list.get(i).adet+"','"+list.get(i).tarife+"','"+list.get(i).baslangıcSüre+"','"+list.get(i).bitisSüre+"','"+list.get(i).totalÜcret+"')";
+                sqLiteDatabase.execSQL(query);
+            }
+
+            String query2 = "delete from gunluk_info";
+            sqLiteDatabase.execSQL(query2);
+        }else{
+            Log.e("","boş");
+        }
 
     }
 
+
+    void satisEkle(int fisNo,String kayitTarihi,String müsteriİsim,int adet,int tarife,String baslangicSure,String bitisSure,int toplamUcret){
+
+        /*String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
+                "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";*/
+
+        String query="insert into gunluk_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
+                "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
+
+        sqLiteDatabase.execSQL(query);
+
+    }
+
+
+    void kayitGuncelle(int fisNo,int adet,int tarife,String bitisSure,int ucret){
+
+        /**fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret*/
+        String query = "update gunluk_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"'";
+        sqLiteDatabase.execSQL(query);
+
+    }
+
+    void kayitSil(int fisNo){
+        String query = "delete from gunluk_info where fis_no='"+fisNo+"'";
+        sqLiteDatabase.execSQL(query);
+    }
+
+
+    List<SatisInfo> gunlukKayıtlar(){
+
+        String columns [] = {"fis_no","kayit_tarih","musteri_isim","adet","tarife","baslangic_sure","bitis_sure","toplam_ucret"};
+        Cursor c = sqLiteDatabase.query("gunluk_info",columns,null,null,null,null,null);
+        Log.e("counter",""+c.getCount());
+
+        List<SatisInfo> list = new ArrayList<>();
+        c.moveToFirst();
+        for(int i=0 ; i<c.getCount(); i++){
+            int fis = c.getInt(c.getColumnIndex("fis_no"));
+            String tarih = c.getString(c.getColumnIndex("kayit_tarih"));
+            String isim = c.getString(c.getColumnIndex("musteri_isim"));
+            int adet = c.getInt(c.getColumnIndex("adet"));
+            int tarife = c.getInt(c.getColumnIndex("tarife"));
+            String bassüre = c.getString(c.getColumnIndex("baslangic_sure"));
+            String bitsüre = c.getString(c.getColumnIndex("bitis_sure"));
+            int total = c.getInt(c.getColumnIndex("toplam_ucret"));
+
+            list.add(new SatisInfo(fis,tarih,isim,adet,tarife,bassüre,bitsüre,total));
+            c.moveToNext();
+        }
+        c.close();
+        return list;
+    }
 
 
     SatisInfo fisNoSorgu(int fisNo){

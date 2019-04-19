@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".ViewDatabase"></activity>
+        <activity android:name=".ViewDatabase">
+
+        </activity>
         <activity android:name=".DeleteUser" />
         <activity
             android:name=".AddAdmin"
@@ -20,7 +22,8 @@
         <activity
             android:name=".PasswordChange"
             android:theme="@style/AppTheme.Popups" />
-        <activity android:name=".AdminPanel" />
+        <activity android:name=".AdminPanel"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".AdminLogIn"
             android:theme="@style/AppTheme.Popups" />
@@ -31,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

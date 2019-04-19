@@ -1,19 +1,31 @@
 package iride.app.com.iride;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.inputmethodservice.Keyboard;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,9 +41,12 @@ public class Home extends AppCompatActivity {
     private int selected = -1;
     private int selectedTarife = -1;
     private int fiyat;
-    private TextView ucret, baslangic,bitis;
+    private TextView ucret, baslangic,bitis,fis,toplam;
     private Timer timer;
     private EditText ekstra,editText2;
+    private int total,fisNo;
+    private AutoCompleteTextView actv;
+    private ImageButton arama;
 
 
     @Override
@@ -41,6 +56,18 @@ public class Home extends AppCompatActivity {
 
 
         editText2 = (EditText) findViewById(R.id.editText2);
+        actv = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
+        actv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                Log.e("","aradı");
+                return true;
+            }
+        });
+
+        fis = (TextView) findViewById(R.id.fis);
+
+        setFisNo();
 
         buttons[0] = (Button) findViewById(R.id.buton1);
         buttons[1] = (Button) findViewById(R.id.buton2);
@@ -69,7 +96,7 @@ public class Home extends AppCompatActivity {
 
         ekstra = (EditText)findViewById(R.id.ekstra);
         ucret = (TextView) findViewById(R.id.ucret);
-        final TextView toplam = (TextView)findViewById(R.id.toplam);
+        toplam = (TextView)findViewById(R.id.toplam);
         ekstra.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -80,7 +107,7 @@ public class Home extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 if (!String.valueOf(ekstra.getText()).equals("-")&&charSequence.length()>0){
-                    int total = fiyat+Integer.parseInt(String.valueOf(ekstra.getText()));
+                    total = fiyat+Integer.parseInt(String.valueOf(ekstra.getText()));
                     toplam.setText("Toplam: "+total+" TL");
                 }
                 else{
@@ -102,8 +129,8 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
                 dc.open();
-                dc.gunlukKaydet(getApplicationContext());
-                dc.open();
+                //dc.gunlukKaydet(getApplicationContext());
+                dc.close();
                 Intent i = new Intent(getApplicationContext(),AdminLogIn.class);
                 startActivity(i);
             }
@@ -118,9 +145,6 @@ public class Home extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
 
-        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        final int minute = calendar.get(Calendar.MINUTE);
-
         timer = new Timer();
         Task task = new Task(baslangic);
         timer.schedule(task,0,10000);
@@ -131,15 +155,40 @@ public class Home extends AppCompatActivity {
         Button yazdir = (Button)findViewById(R.id.yazdir);
 
         yazdir.setOnClickListener(new View.OnClickListener() {
-            int j=1;
+
             @Override
             public void onClick(View view) {
                 DatabaseConnection dc = new DatabaseConnection(getBaseContext());
                 dc.open();
-                dc.satisEkle(j,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(19),
-                        String.valueOf(bitis.getText()).substring(13),fiyat);
-                j++;
+                List<Integer> list = dc.fisNos("gunluk_info");
+                if (list.contains(fisNo)){
+
+                    if (selectedTarife!=4){
+                        dc.kayitGuncelle(fisNo, adet,selectedTarife,
+                                String.valueOf(bitis.getText()).substring(14),fiyat);
+                    }else {
+                        dc.kayitGuncelle(fisNo, adet,selectedTarife,
+                               "",
+                                Integer.parseInt(String.valueOf(toplam.getText()).substring(8,toplam.getText().length()-3)));
+                    }
+
+
+                }else {
+                    String bitisS = "";
+                    if(selectedTarife!=4){
+                        bitisS = String.valueOf(bitis.getText()).substring(14);
+
+                    }
+
+                    dc.satisEkle(fisNo,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(18),
+                            bitisS,fiyat);
+
+                }
+
                 dc.close();
+                initialize();
+
+
             }
         });
 
@@ -153,6 +202,149 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        arama = (ImageButton)findViewById(R.id.arama);
+        arama.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    int val = Integer.parseInt(String.valueOf(actv.getText()));
+                    DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
+                    dc.open();
+                    SatisInfo info = dc.fisNoSorgu(val);
+                    Log.e("as",""+info.fisNo);
+
+                    buttons[info.adet-1].callOnClick();
+                    tarife[info.tarife].callOnClick();
+                    editText2.setText(info.müsteriİsim);
+                    fisNo = info.fisNo;
+
+                    if (fisNo<10){
+                        fis.setText("Fiş No: 0000"+fisNo);
+                    }else if(fisNo<100){
+                        fis.setText("Fiş No: 000"+fisNo);
+                    }
+                    else if(fisNo<1000){
+                        fis.setText("Fiş No: 00"+fisNo);
+                    }
+                    else if(fisNo<10000){
+                        fis.setText("Fiş No: 0"+fisNo);
+                    }
+
+                    baslangic.setText("Başlangıç Zamanı: "+info.baslangıcSüre);
+                    bitis.setText("Bitiş Zamanı: "+info.bitisSüre);
+                    timer.cancel();
+
+                }catch (Exception e){
+                    Toast.makeText(Home.this,"Sonuç bulunamadı",Toast.LENGTH_LONG).show();
+                }
+                InputMethodManager imm = (InputMethodManager) Home.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                //Find the currently focused view, so we can grab the correct window token from it.
+                //If no view currently has focus, create a new one, just so we can grab a window token from it
+                if (view == null) {
+                    view = new View(Home.this);
+                }
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+            }
+        });
+
+        ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.constraint);
+
+        constraintLayout.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                hideSoftKeyboard(Home.this);
+                return false;
+            }
+        });
+
+    }
+
+    void initialize(){
+        setFisNo();
+        editText2.setText("");
+        buttons[selected].setBackgroundDrawable(getResources().getDrawable(R.drawable.round_button));
+        tarife[selectedTarife].setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
+
+        bitis.setText("Bitiş Zamanı:");
+        ekstra.setText("");
+        total = 0;
+        toplam.setText("Toplam:");
+        ucret.setText("Ücret:");
+        adet = 0;
+        tUcret = 0;
+        selected = -1;
+        selectedTarife = -1;
+        updateTime(baslangic);
+        timer = new Timer();
+        timer.schedule(new Task(baslangic),0,10000);
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    void setFisNo(){
+        DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
+        dc.open();
+        List<Integer> list = dc.fisNos("gunluk_info");
+        List<Integer> genelList = dc.fisNos("satis_info");
+
+
+        if (list.size()==0){
+
+            if (genelList.size()!=0){
+                fisNo = genelList.get(genelList.size()-1)+1;
+            }else{
+                fisNo = 1;
+            }
+
+
+        }else{
+            if (fisNo == 10000){
+                fisNo = 1;
+            }
+            else{
+                fisNo = list.get(list.size()-1)+1;
+            }
+
+        }
+
+        ArrayList<String> adaptor = new ArrayList<>();
+
+        for (int i=0;i<list.size();i++){
+            if (list.get(i)<10){
+                adaptor.add("0000"+list.get(i));
+            }else if(list.get(i)<100){
+                adaptor.add("000"+list.get(i));
+            }
+            else if(list.get(i)<1000){
+                adaptor.add("00"+list.get(i));
+            }
+            else if(list.get(i)<10000){
+                adaptor.add("0"+list.get(i));
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
+                android.R.layout.simple_spinner_dropdown_item, adaptor);
+        actv.setAdapter(adapter);
+
+
+        if (fisNo<10){
+            fis.setText("Fiş No: 0000"+fisNo);
+        }else if(fisNo<100){
+            fis.setText("Fiş No: 000"+fisNo);
+        }
+        else if(fisNo<1000){
+            fis.setText("Fiş No: 00"+fisNo);
+        }
+        else if(fisNo<10000){
+            fis.setText("Fiş No: 0"+fisNo);
+        }
     }
 
     public void updateTime(final TextView baslangic){
@@ -229,7 +421,6 @@ public class Home extends AppCompatActivity {
 
             this.index = index;
 
-
         }
 
         @Override
@@ -243,12 +434,10 @@ public class Home extends AppCompatActivity {
                 if (baslangic.getText().length()>22){
                     hour = Integer.parseInt(((String) baslangic.getText()).substring(18,20));
                     minute = Integer.parseInt(((String) baslangic.getText()).substring(21,23));
-                    Log.e("sure",""+hour+""+minute);
                 }
                 else{
                     hour = Integer.parseInt(((String) baslangic.getText()).substring(18,19));
                     minute = Integer.parseInt(((String) baslangic.getText()).substring(20,22));
-                    Log.e("sure",""+hour+""+minute);
                 }
 
 
@@ -271,6 +460,8 @@ public class Home extends AppCompatActivity {
             else{
                 ucret.setText("Ücret:\t");
                 bitis.setText("Bitiş Zamanı:");
+                fiyat = 0;
+
             }
             tarife[index].setBackgroundDrawable(getResources().getDrawable(R.drawable.seleected_round_button));
             if (selectedTarife>=0&&selectedTarife!=index){

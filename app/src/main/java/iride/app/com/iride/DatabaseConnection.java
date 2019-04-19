@@ -119,7 +119,7 @@ public class DatabaseConnection {
     void kayitGuncelle(int fisNo,int adet,int tarife,String bitisSure,int ucret){
 
         /**fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret*/
-        String query = "update gunluk_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"'";
+        String query = "update gunluk_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"' where fis_no = '"+fisNo+"'";
         sqLiteDatabase.execSQL(query);
 
     }
@@ -155,6 +155,21 @@ public class DatabaseConnection {
         return list;
     }
 
+    List<Integer> fisNos(String tablo){
+        String columns[] = {"fis_no"};
+        Cursor c = sqLiteDatabase.query(tablo,columns,null,null,null,null,null);
+        List<Integer> list = new ArrayList<>();
+        c.moveToFirst();
+        for (int i=0;i<c.getCount();i++){
+            list.add(c.getInt(c.getColumnIndex("fis_no")));
+            c.moveToNext();
+        }
+
+        c.close();
+        return list;
+    }
+
+
 
     SatisInfo fisNoSorgu(int fisNo){
             String query = "select * from gunluk_info where fis_no='"+fisNo+"'";
@@ -168,7 +183,7 @@ public class DatabaseConnection {
             c.moveToFirst();
             int fis = c.getInt(c.getColumnIndex("fis_no"));
             String tarih = c.getString(c.getColumnIndex("kayit_tarih"));
-            String isim = c.getString(c.getColumnIndex("müsteri_isim"));
+            String isim = c.getString(c.getColumnIndex("musteri_isim"));
             int adet = c.getInt(c.getColumnIndex("adet"));
             int tarife = c.getInt(c.getColumnIndex("tarife"));
             String bassüre = c.getString(c.getColumnIndex("baslangic_sure"));

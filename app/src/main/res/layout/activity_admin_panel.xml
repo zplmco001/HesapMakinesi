@@ -161,7 +161,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/araliklist"
         android:layout_width="131dp"
         android:layout_height="64dp"
         android:layout_marginStart="144dp"
@@ -169,6 +169,7 @@
         android:layout_marginTop="184dp"
         android:background="@drawable/corner_round_button"
         android:gravity="center"
+        android:text="Aralığa göre listele"
         android:textAlignment="gravity"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -190,7 +191,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/listall"
         android:layout_width="131dp"
         android:layout_height="64dp"
         android:layout_marginStart="284dp"
@@ -205,7 +206,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/listdate"
         android:layout_width="131dp"
         android:layout_height="64dp"
         android:layout_marginTop="184dp"
@@ -230,15 +231,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
-    <ListView
-        android:layout_width="414dp"
-        android:layout_height="442dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="8dp"
-        android:background="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

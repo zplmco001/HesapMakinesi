@@ -35,7 +35,41 @@ public class DatabaseConnection {
 
     /**Tğm kayıtlarda kullanılan fonksiyonlar**/
 
+    List<SatisInfo> tarihAralikGetir(String bas,String son){
 
+
+        return null;
+    }
+
+
+    List<SatisInfo> tarihGetir(String tarih){
+        String query = "select * from satis_info where kayit_tarih='"+tarih+"'";
+        Cursor c = sqLiteDatabase.rawQuery(query,null);
+        List<SatisInfo> list = new ArrayList<>();
+
+        if(c.getCount()==0){
+            c.close();
+            return list;
+        }else{
+
+            c.moveToFirst();
+            for(int i=0 ; i<c.getCount(); i++){
+                int fis = c.getInt(c.getColumnIndex("fis_no"));
+                String trh = c.getString(c.getColumnIndex("kayit_tarih"));
+                String isim = c.getString(c.getColumnIndex("musteri_isim"));
+                int adet = c.getInt(c.getColumnIndex("adet"));
+                int tarife = c.getInt(c.getColumnIndex("tarife"));
+                String bassüre = c.getString(c.getColumnIndex("baslangic_sure"));
+                String bitsüre = c.getString(c.getColumnIndex("bitis_sure"));
+                int total = c.getInt(c.getColumnIndex("toplam_ucret"));
+
+                list.add(new SatisInfo(fis,trh,isim,adet,tarife,bassüre,bitsüre,total));
+                c.moveToNext();
+            }
+            c.close();
+            return list;
+        }
+    }
 
     List<SatisInfo> tumKayıtlar(){
 

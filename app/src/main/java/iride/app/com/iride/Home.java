@@ -47,6 +47,8 @@ public class Home extends AppCompatActivity {
     private int total,fisNo;
     private AutoCompleteTextView actv;
     private ImageButton arama;
+    public static SatisInfo satisInfo = null;
+    public static Bundle bundle;
 
 
     @Override
@@ -187,6 +189,8 @@ public class Home extends AppCompatActivity {
 
                 dc.close();
                 initialize();
+                timer = new Timer();
+                timer.schedule(new Task(baslangic),0,10000);
 
 
             }
@@ -199,6 +203,7 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),ViewDatabase.class);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -206,37 +211,17 @@ public class Home extends AppCompatActivity {
         arama.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
+
                     int val = Integer.parseInt(String.valueOf(actv.getText()));
                     DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
                     dc.open();
                     SatisInfo info = dc.fisNoSorgu(val);
                     Log.e("as",""+info.fisNo);
+                    dc.close();
 
-                    buttons[info.adet-1].callOnClick();
-                    tarife[info.tarife].callOnClick();
-                    editText2.setText(info.müsteriİsim);
-                    fisNo = info.fisNo;
+                    getResult(info);
 
-                    if (fisNo<10){
-                        fis.setText("Fiş No: 0000"+fisNo);
-                    }else if(fisNo<100){
-                        fis.setText("Fiş No: 000"+fisNo);
-                    }
-                    else if(fisNo<1000){
-                        fis.setText("Fiş No: 00"+fisNo);
-                    }
-                    else if(fisNo<10000){
-                        fis.setText("Fiş No: 0"+fisNo);
-                    }
 
-                    baslangic.setText("Başlangıç Zamanı: "+info.baslangıcSüre);
-                    bitis.setText("Bitiş Zamanı: "+info.bitisSüre);
-                    timer.cancel();
-
-                }catch (Exception e){
-                    Toast.makeText(Home.this,"Sonuç bulunamadı",Toast.LENGTH_LONG).show();
-                }
                 InputMethodManager imm = (InputMethodManager) Home.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 //Find the currently focused view, so we can grab the correct window token from it.
                 //If no view currently has focus, create a new one, just so we can grab a window token from it
@@ -257,7 +242,54 @@ public class Home extends AppCompatActivity {
             }
         });
 
+       // try {
+
+            SatisInfo info = (SatisInfo) getIntent().getSerializableExtra("obje");
+        if (info != null){
+            Log.e("a",info.baslangıcSüre);
+            Log.e("a",info.tarife+"");
+            Log.e("a",info.bitisSüre);
+            getResult(info);
+        }
+
+
+        //}catch (Exception e){
+
+        //}
+
     }
+
+    void getResult(SatisInfo info){
+        //try{
+
+            editText2.setText(info.müsteriİsim);
+            fisNo = info.fisNo;
+
+
+
+            if (fisNo<10){
+                fis.setText("Fiş No: 0000"+fisNo);
+            }else if(fisNo<100){
+                fis.setText("Fiş No: 000"+fisNo);
+            }
+            else if(fisNo<1000){
+                fis.setText("Fiş No: 00"+fisNo);
+            }
+            else if(fisNo<10000){
+                fis.setText("Fiş No: 0"+fisNo);
+            }
+
+            baslangic.setText("Başlangıç Zamanı: "+info.baslangıcSüre);
+            bitis.setText("Bitiş Zamanı: "+info.bitisSüre);
+        buttons[info.adet-1].callOnClick();
+        tarife[info.tarife].callOnClick();
+            timer.cancel();
+
+        //}catch (Exception e){
+          //  Toast.makeText(Home.this,"Sonuç bulunamadı",Toast.LENGTH_LONG).show();
+       // }
+    }
+
 
     void initialize(){
         setFisNo();
@@ -275,8 +307,7 @@ public class Home extends AppCompatActivity {
         selected = -1;
         selectedTarife = -1;
         updateTime(baslangic);
-        timer = new Timer();
-        timer.schedule(new Task(baslangic),0,10000);
+
     }
 
     public static void hideSoftKeyboard(Activity activity) {

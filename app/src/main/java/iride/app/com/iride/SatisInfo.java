@@ -1,6 +1,8 @@
 package iride.app.com.iride;
 
-public class SatisInfo {
+import java.io.Serializable;
+
+public class SatisInfo implements Serializable{
 
     public String kayitTarihi,müsteriİsim,baslangıcSüre,bitisSüre;
     public int fisNo,adet,totalÜcret,tarife;

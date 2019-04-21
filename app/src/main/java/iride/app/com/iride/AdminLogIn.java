@@ -103,7 +103,7 @@ public class AdminLogIn extends AppCompatActivity {
 
         //if(  && getWindowManager().getDefaultDisplay().getWidth()<getWindowManager().getDefaultDisplay().getHeight())
 
-        if (getWindowManager().getDefaultDisplay().getRotation()%2!=0){
+        if (getWindowManager().getDefaultDisplay().getWidth()<getWindowManager().getDefaultDisplay().getHeight()){
             int width = dm.widthPixels;
             int height = dm.heightPixels;
 

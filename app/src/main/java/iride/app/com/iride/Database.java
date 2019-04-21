@@ -36,9 +36,10 @@ public class Database extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(gunlukTable);
 
 
-        String fiyatTable = "create table fiyat_table (tarife integer,ucret integer)";
+        String fiyatTable = "create table fiyat_table (tarife15 integer,tarife30 integer,tarife45 integer,tarife60 integer)";
         sqLiteDatabase.execSQL(fiyatTable);
 
+        sqLiteDatabase.execSQL("insert into fiyat_table (tarife15,tarife30,tarife45,tarife60) values ('15','25','35','45')");
     }
 
     @Override

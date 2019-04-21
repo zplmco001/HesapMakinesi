@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    tools:context=".TarieUcretUpdate">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="265dp"
+            tools:layout_editor_absoluteY="397dp">
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 DAKİKA"
+                android:textSize="50sp"
+                tools:layout_editor_absoluteX="274dp"
+                tools:layout_editor_absoluteY="364dp" />
+
+            <ImageView
+                android:id="@+id/plus1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="30dp"
+                app:srcCompat="@drawable/arttir"
+                tools:layout_editor_absoluteX="314dp"
+                tools:layout_editor_absoluteY="181dp" />
+
+            <EditText
+                android:id="@+id/tarife1"
+                android:layout_width="114dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:text="100"
+                android:textAlignment="center"
+                android:textSize="45sp"
+                tools:layout_editor_absoluteX="394dp"
+                tools:layout_editor_absoluteY="188dp" />
+
+            <ImageView
+                android:id="@+id/minus1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                app:srcCompat="@drawable/azalt"
+                tools:layout_editor_absoluteX="506dp"
+                tools:layout_editor_absoluteY="173dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="265dp"
+            tools:layout_editor_absoluteY="548dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30 DAKİKA"
+                android:textSize="50sp"
+                tools:layout_editor_absoluteX="274dp"
+                tools:layout_editor_absoluteY="364dp" />
+
+            <ImageView
+                android:id="@+id/plus2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="30dp"
+                app:srcCompat="@drawable/arttir"
+                tools:layout_editor_absoluteX="314dp"
+                tools:layout_editor_absoluteY="181dp" />
+
+            <EditText
+                android:id="@+id/tarife2"
+                android:layout_width="114dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:text="100"
+                android:textAlignment="center"
+                android:textSize="45sp"
+                tools:layout_editor_absoluteX="394dp"
+                tools:layout_editor_absoluteY="188dp" />
+
+            <ImageView
+                android:id="@+id/minus2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                app:srcCompat="@drawable/azalt"
+                tools:layout_editor_absoluteX="506dp"
+                tools:layout_editor_absoluteY="173dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="312dp"
+            tools:layout_editor_absoluteY="117dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="45 DAKİKA"
+                android:textSize="50sp"
+                tools:layout_editor_absoluteX="274dp"
+                tools:layout_editor_absoluteY="364dp" />
+
+            <ImageView
+                android:id="@+id/plus3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="30dp"
+                app:srcCompat="@drawable/arttir"
+                tools:layout_editor_absoluteX="314dp"
+                tools:layout_editor_absoluteY="181dp" />
+
+            <EditText
+                android:id="@+id/tarife3"
+                android:layout_width="114dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:text="100"
+                android:textAlignment="center"
+                android:textSize="45sp"
+                tools:layout_editor_absoluteX="394dp"
+                tools:layout_editor_absoluteY="188dp" />
+
+            <ImageView
+                android:id="@+id/minus3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                app:srcCompat="@drawable/azalt"
+                tools:layout_editor_absoluteX="506dp"
+                tools:layout_editor_absoluteY="173dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="245dp"
+            tools:layout_editor_absoluteY="261dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="60 DAKİKA"
+                android:textSize="50sp"
+                tools:layout_editor_absoluteX="274dp"
+                tools:layout_editor_absoluteY="364dp" />
+
+            <ImageView
+                android:id="@+id/plus4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="30dp"
+                app:srcCompat="@drawable/arttir"
+                tools:layout_editor_absoluteX="314dp"
+                tools:layout_editor_absoluteY="181dp" />
+
+            <EditText
+                android:id="@+id/tarife4"
+                android:layout_width="114dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:text="100"
+                android:textAlignment="center"
+                android:textSize="45sp"
+                tools:layout_editor_absoluteX="394dp"
+                tools:layout_editor_absoluteY="188dp" />
+
+            <ImageView
+                android:id="@+id/minus4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                app:srcCompat="@drawable/azalt"
+                tools:layout_editor_absoluteX="506dp"
+                tools:layout_editor_absoluteY="173dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/tarifeupd"
+        android:layout_width="130dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="360dp"
+        android:background="@drawable/corner_round_button"
+        android:text="KAYDET"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+</android.support.constraint.ConstraintLayout>

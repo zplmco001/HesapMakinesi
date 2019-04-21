@@ -3,7 +3,6 @@ package iride.app.com.iride;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -35,6 +34,25 @@ public class DatabaseConnection {
 
     /** Ücret ve tarifeyi güncelleyecek fonksiyonlar **/
 
+    void tarifeUpdate(int tarife15,int tarife30,int tarife45,int tarife60){
+        String query="update fiyat_table set tarife15='"+tarife15+"' and tarife30='"+tarife30+"' and tarife45='"+tarife45+"' and tarife60='"+tarife60+"'";
+        sqLiteDatabase.execSQL(query);
+    }
+
+    int[] getTarife(){
+        String query="select * from fiyat_table";
+        Cursor c = sqLiteDatabase.rawQuery(query,null);
+        int array [] = new int[4];
+
+        c.moveToFirst();
+        array[0]= c.getInt(c.getColumnIndex("tarife15"));
+        array[1]= c.getInt(c.getColumnIndex("tarife30"));
+        array[2]= c.getInt(c.getColumnIndex("tarife45"));
+        array[3]= c.getInt(c.getColumnIndex("tarife60"));
+        c.close();
+
+        return array;
+    }
 
 
 
@@ -321,6 +339,7 @@ public class DatabaseConnection {
             return true;
         }
     }
+
 
 
     void changePassword(String username,String password){

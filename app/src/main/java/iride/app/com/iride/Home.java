@@ -92,6 +92,8 @@ public class Home extends AppCompatActivity {
         tarife[3] = (Button) findViewById(R.id.tarife4);
         tarife[4] = (Button) findViewById(R.id.aciktarife);
 
+
+
         for (int i=0;i<tarife.length;i++){
             tarife[i].setOnClickListener(new TarifeClick(i));
         }
@@ -184,7 +186,7 @@ public class Home extends AppCompatActivity {
                 }else {
                     String bitisS = "";
                     if(selectedTarife!=4){
-                        bitisS = String.valueOf(bitis.getText()).substring(14);
+                        bitisS = String.valueOf(bitis.getText()).substring(13);
 
                     }
 

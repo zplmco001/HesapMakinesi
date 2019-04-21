@@ -29,6 +29,7 @@ public class AdminPanel extends AppCompatActivity  {
     private Button listDate;
     private Button tariharalik;
     private Button listall;
+    private Button tarifedegis;
     private List<SatisInfo> list,tarihlist,listaralik;
     private DatabaseConnection dc;
     private ListView listView;
@@ -49,6 +50,7 @@ public class AdminPanel extends AppCompatActivity  {
         listDate = (Button) findViewById(R.id.listdate);
         tariharalik = (Button) findViewById(R.id.araliklist);
         listall = (Button) findViewById(R.id.listall);
+        tarifedegis=(Button) findViewById(R.id.tarifedegis);
         listView = (ListView) findViewById(R.id.kayitadmin);
 
 
@@ -121,6 +123,15 @@ public class AdminPanel extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),AdminNameChange.class);
+                startActivity(i);
+            }
+        });
+
+
+        tarifedegis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),TarieUcretUpdate.class);
                 startActivity(i);
             }
         });

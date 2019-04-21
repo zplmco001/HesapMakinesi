@@ -1,28 +1,31 @@
 package iride.app.com.iride;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-public class AdminPanel extends AppCompatActivity {
+public class AdminPanel extends AppCompatActivity  {
 
     private Button changePassword;
     private Button changeName;
-    private Button addAdmin;
     private Button listDate;
     private Button tariharalik;
     private Button listall;
@@ -30,7 +33,12 @@ public class AdminPanel extends AppCompatActivity {
     private DatabaseConnection dc;
     private ListView listView;
     private SatisInfo satisInfo;
-    private String date;
+    private String date,basdate,bitdate;
+
+    private ImageView basbuton,bitbuton;
+    private TextView bastrh,bittrh;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +46,17 @@ public class AdminPanel extends AppCompatActivity {
 
         changePassword = (Button) findViewById(R.id.changepass);
         changeName = (Button) findViewById(R.id.changename);
-        addAdmin = (Button) findViewById(R.id.addadmin);
         listDate = (Button) findViewById(R.id.listdate);
         tariharalik = (Button) findViewById(R.id.araliklist);
         listall = (Button) findViewById(R.id.listall);
         listView = (ListView) findViewById(R.id.kayitadmin);
+
+
+
+        final Calendar c = Calendar.getInstance();
+        final int day=c.get(Calendar.DAY_OF_MONTH);
+        final int month = c.get(Calendar.MONTH);
+        final int year = c.get(Calendar.YEAR);
 
 
         tariharalik.setOnClickListener(new View.OnClickListener() {
@@ -70,10 +84,7 @@ public class AdminPanel extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final Calendar c = Calendar.getInstance();
-                int day=c.get(Calendar.DAY_OF_MONTH);
-                int month = c.get(Calendar.MONTH);
-                int year = c.get(Calendar.YEAR);
+
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AdminPanel.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -114,12 +125,6 @@ public class AdminPanel extends AppCompatActivity {
             }
         });
 
-        addAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),AddAdmin.class);
-                startActivity(i);
-            }
-        });
+
     }
 }

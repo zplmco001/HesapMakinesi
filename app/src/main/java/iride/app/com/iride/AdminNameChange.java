@@ -63,7 +63,7 @@ public class AdminNameChange extends AppCompatActivity {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        if (getWindowManager().getDefaultDisplay().getRotation()%2==0){
+        if (getWindowManager().getDefaultDisplay().getRotation()%2!=0){
             int width = dm.widthPixels;
             int height = dm.heightPixels;
 

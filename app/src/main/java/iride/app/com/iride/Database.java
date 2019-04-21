@@ -34,6 +34,11 @@ public class Database extends SQLiteOpenHelper {
                 "adet integer,tarife integer,baslangic_sure text,bitis_sure text,toplam_ucret integer)";
 
         sqLiteDatabase.execSQL(gunlukTable);
+
+
+        String fiyatTable = "create table fiyat_table (tarife integer,ucret integer)";
+        sqLiteDatabase.execSQL(fiyatTable);
+
     }
 
     @Override
@@ -41,5 +46,6 @@ public class Database extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table if exist admin");
         sqLiteDatabase.execSQL("drop table if exist satis_info");
         sqLiteDatabase.execSQL("drop table if exist gunluk_info");
+        sqLiteDatabase.execSQL("drop table if exist fiyat_table");
     }
 }

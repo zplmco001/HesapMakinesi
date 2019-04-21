@@ -33,13 +33,46 @@ public class DatabaseConnection {
 
 
 
+    /** Ücret ve tarifeyi güncelleyecek fonksiyonlar **/
+
+
+
+
+
+
     /**Tğm kayıtlarda kullanılan fonksiyonlar**/
 
     List<SatisInfo> tarihAralikGetir(String bas,String son){
 
+        String query = "select * from satis_info where kayit_tarih between '"+bas+"' and '"+son+"'";
+        Cursor c = sqLiteDatabase.rawQuery(query,null);
+        List<SatisInfo> list = new ArrayList<>();
 
-        return null;
+
+        if(c.getCount()==0){
+            c.close();
+            return list;
+        }else{
+            c.moveToFirst();
+            for(int i=0 ; i<c.getCount(); i++){
+                int fis = c.getInt(c.getColumnIndex("fis_no"));
+                String trh = c.getString(c.getColumnIndex("kayit_tarih"));
+                String isim = c.getString(c.getColumnIndex("musteri_isim"));
+                int adet = c.getInt(c.getColumnIndex("adet"));
+                int tarife = c.getInt(c.getColumnIndex("tarife"));
+                String bassüre = c.getString(c.getColumnIndex("baslangic_sure"));
+                String bitsüre = c.getString(c.getColumnIndex("bitis_sure"));
+                int total = c.getInt(c.getColumnIndex("toplam_ucret"));
+
+                list.add(new SatisInfo(fis,trh,isim,adet,tarife,bassüre,bitsüre,total));
+                c.moveToNext();
+            }
+            c.close();
+            return list;
+        }
     }
+
+
 
 
     List<SatisInfo> tarihGetir(String tarih){
@@ -104,7 +137,18 @@ public class DatabaseConnection {
         if(c.moveToFirst()){
             return c.getInt(0);
         }else{
-         return 0;
+            return 0;
+        }
+    }
+
+    int gunlukKazanc(){
+
+        String query= "select sum(toplam_ucret) from gunluk_info";
+        Cursor c = sqLiteDatabase.rawQuery(query,null);
+        if(c.moveToFirst()){
+            return c.getInt(0);
+        }else{
+            return 0;
         }
     }
 
@@ -112,7 +156,7 @@ public class DatabaseConnection {
 
 
     /**Genel tabloya kaydeder günlüğü siler**/
-    void gunlukKaydet(Context context){
+    /*void gunlukKaydet(Context context){
 
         DatabaseConnection dc = new DatabaseConnection(context);
 
@@ -128,24 +172,28 @@ public class DatabaseConnection {
                 sqLiteDatabase.execSQL(query);
             }
 
-            String query2 = "delete from gunluk_info";
-            sqLiteDatabase.execSQL(query2);
+
         }else{
             Log.e("","boş");
         }
+    }*/
 
+    void gunlukTemizle(){
+        String query = "delete from gunluk_info";
+        sqLiteDatabase.execSQL(query);
     }
 
 
     void satisEkle(int fisNo,String kayitTarihi,String müsteriİsim,int adet,int tarife,String baslangicSure,String bitisSure,int toplamUcret){
 
-        /*String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
-                "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";*/
+        String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
+                "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
 
-        String query="insert into gunluk_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
+        String query2="insert into gunluk_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
                 "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
 
         sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.execSQL(query2);
 
     }
 
@@ -206,7 +254,7 @@ public class DatabaseConnection {
 
 
     SatisInfo fisNoSorgu(int fisNo){
-            String query = "select * from gunluk_info where fis_no='"+fisNo+"'";
+        String query = "select * from gunluk_info where fis_no='"+fisNo+"'";
 
         Cursor c = sqLiteDatabase.rawQuery(query,null);
         if(c.getCount()==0){
@@ -274,11 +322,6 @@ public class DatabaseConnection {
         }
     }
 
-    void addUser(String username,String password){
-        String query = "insert into admin (admin_name,password) values ('"+username+"','"+password+"')";
-        sqLiteDatabase.execSQL(query);
-    }
-
 
     void changePassword(String username,String password){
         String query="update admin set password='"+password+"' where admin_name='"+username+"'";
@@ -289,7 +332,4 @@ public class DatabaseConnection {
         String query="update admin set admin_name='"+username+"' where admin_name='"+oldname+"'";
         sqLiteDatabase.execSQL(query);
     }
-
-
-
 }

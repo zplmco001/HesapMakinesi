@@ -121,19 +121,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/addadmin"
-        android:layout_width="131dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="108dp"
-        android:background="@drawable/corner_round_button"
-        android:gravity="center"
-        android:text="Yönetici ekle"
-        android:textAlignment="gravity"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:layout_width="131dp"
         android:layout_height="64dp"
         android:layout_marginStart="144dp"
@@ -151,10 +138,10 @@
         android:id="@+id/button2"
         android:layout_width="131dp"
         android:layout_height="64dp"
-        android:layout_marginTop="264dp"
+        android:layout_marginTop="108dp"
         android:background="@drawable/corner_round_button"
         android:gravity="center"
-        android:text="Şifre\n  değiştir  "
+        android:text="Tarife değiştir"
         android:textAlignment="gravity"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -199,7 +186,7 @@
         android:layout_marginTop="184dp"
         android:background="@drawable/corner_round_button"
         android:gravity="center"
-        android:text="Şifre\n  değiştir  "
+        android:text="Hepsini listele"
         android:textAlignment="gravity"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"

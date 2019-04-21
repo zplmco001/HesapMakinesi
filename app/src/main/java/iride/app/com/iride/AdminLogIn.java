@@ -93,7 +93,7 @@ public class AdminLogIn extends AppCompatActivity {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-       // Log.e("default ori",""+getWindowManager().getDefaultDisplay());
+        // Log.e("default ori",""+getWindowManager().getDefaultDisplay());
 
         /*Log.e("orientation",""+getWindowManager().getDefaultDisplay().getOrientation());
         Log.e("mode",""+getWindowManager().getDefaultDisplay().getDisplayId());
@@ -103,7 +103,7 @@ public class AdminLogIn extends AppCompatActivity {
 
         //if(  && getWindowManager().getDefaultDisplay().getWidth()<getWindowManager().getDefaultDisplay().getHeight())
 
-        if (getWindowManager().getDefaultDisplay().getRotation()%2==0){
+        if (getWindowManager().getDefaultDisplay().getRotation()%2!=0){
             int width = dm.widthPixels;
             int height = dm.heightPixels;
 

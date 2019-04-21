@@ -13,9 +13,7 @@
 
         </activity>
         <activity android:name=".DeleteUser" />
-        <activity
-            android:name=".AddAdmin"
-            android:theme="@style/AppTheme.Popups" />
+
         <activity
             android:name=".AdminNameChange"
             android:theme="@style/AppTheme.Popups" />
@@ -23,7 +21,7 @@
             android:name=".PasswordChange"
             android:theme="@style/AppTheme.Popups" />
         <activity android:name=".AdminPanel"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="reverseLandscape"/>
         <activity
             android:name=".AdminLogIn"
             android:theme="@style/AppTheme.Popups" />

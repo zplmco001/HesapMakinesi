@@ -51,6 +51,7 @@ public class ViewDatabase extends AppCompatActivity {
                     //Log.e("af",Home.satisInfo.baslangıcSüre);
                     Intent intent = new Intent(ViewDatabase.this,Home.class);
                     intent.putExtra("obje",satisInfo);
+                    Log.e("info",""+satisInfo.totalÜcret);
                     startActivity(intent);
                 }
             });

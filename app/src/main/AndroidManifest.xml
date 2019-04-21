@@ -27,7 +27,8 @@
         <activity
             android:name=".AdminLogIn"
             android:theme="@style/AppTheme.Popups" />
-        <activity android:name=".Home">
+        <activity android:name=".Home"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

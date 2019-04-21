@@ -87,10 +87,18 @@
 
                 <Button
                     android:id="@+id/button"
-                    android:layout_width="70dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:text="Görüntüle" />
+                    android:layout_weight="0.5"
+                    android:text="Görüntüle"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/yonet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Yönet" />
 
             </LinearLayout>
 
@@ -106,22 +114,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.3"
                     android:gravity="center_vertical"
                     android:text="Tarih:"
+                    android:textAllCaps="true"
                     android:textColor="?android:attr/colorBackground"
-                    android:textSize="20sp" />
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/fis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.19"
                     android:gravity="center_vertical"
                     android:text="Fiş No:"
+                    android:textAllCaps="true"
                     android:textColor="?android:attr/colorBackground"
-                    android:textSize="20sp" />
+                    android:textSize="25sp" />
 
             </LinearLayout>
 
@@ -135,23 +145,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.3"
                     android:gravity="center_vertical"
                     android:text="İsim Soyisim:"
+                    android:textAllCaps="true"
                     android:textColor="?android:attr/colorBackground"
-                    android:textSize="20sp" />
+                    android:textSize="25sp" />
 
                 <EditText
                     android:id="@+id/editText2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="40dp"
-                    android:layout_weight="0.4"
-                    android:backgroundTint="?android:attr/colorBackground"
+                    android:layout_weight="0.19"
+                    android:backgroundTint="@android:color/white"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="?android:attr/colorBackground"
-                    android:textSize="20sp" />
+                    android:textSize="25sp" />
 
             </LinearLayout>
 
@@ -168,11 +179,12 @@
                     android:layout_marginBottom="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="0.19"
+                    android:layout_weight="0.3"
                     android:gravity="center_vertical"
                     android:text="Adet:"
+                    android:textAllCaps="true"
                     android:textColor="?android:attr/colorBackground"
-                    android:textSize="20sp" />
+                    android:textSize="25sp" />
 
                 <LinearLayout
                     android:layout_width="320dp"
@@ -197,7 +209,7 @@
                             android:background="@drawable/round_button"
                             android:text="1"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -215,7 +227,7 @@
                             android:background="@drawable/round_button"
                             android:text="2"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -233,7 +245,7 @@
                             android:background="@drawable/round_button"
                             android:text="3"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -251,7 +263,7 @@
                             android:background="@drawable/round_button"
                             android:text="4"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -269,7 +281,7 @@
                             android:background="@drawable/round_button"
                             android:text="5"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -293,7 +305,7 @@
                             android:background="@drawable/round_button"
                             android:text="6"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -311,7 +323,7 @@
                             android:background="@drawable/round_button"
                             android:text="7"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -329,7 +341,7 @@
                             android:background="@drawable/round_button"
                             android:text="8"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -347,7 +359,7 @@
                             android:background="@drawable/round_button"
                             android:text="9"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -365,7 +377,7 @@
                             android:background="@drawable/round_button"
                             android:text="10"
                             android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
+                            android:textSize="25sp"
                             app:layout_constraintHorizontal_bias="0.729"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
@@ -388,72 +400,78 @@
                     android:layout_marginBottom="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.3"
                     android:gravity="center_vertical"
                     android:text="Tarife:"
+                    android:textAllCaps="true"
                     android:textColor="?android:attr/colorBackground"
-                    android:textSize="20sp" />
+                    android:textSize="25sp" />
 
                 <LinearLayout
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.37"
+                    android:layout_weight="0.12"
                     android:orientation="vertical">
 
                     <Button
                         android:id="@+id/tarife1"
-                        android:layout_width="match_parent"
+                        android:layout_width="360dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/corner_round_button"
                         android:text="15 dakika 15 TL"
-                        android:textColor="@android:color/background_light" />
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp" />
 
                     <Button
                         android:id="@+id/tarife2"
-                        android:layout_width="match_parent"
+                        android:layout_width="360dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/corner_round_button"
                         android:text="30 dakika 25 TL"
-                        android:textColor="@android:color/background_light" />
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp" />
 
                     <Button
                         android:id="@+id/tarife3"
-                        android:layout_width="match_parent"
+                        android:layout_width="360dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/corner_round_button"
                         android:text="45 dakika 35 TL"
-                        android:textColor="@android:color/background_light" />
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp" />
 
                     <Button
                         android:id="@+id/tarife4"
-                        android:layout_width="match_parent"
+                        android:layout_width="360dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/corner_round_button"
                         android:text="60 dakika 45 TL"
-                        android:textColor="@android:color/background_light" />
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp" />
 
                     <Button
                         android:id="@+id/aciktarife"
-                        android:layout_width="match_parent"
+                        android:layout_width="360dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/corner_round_button"
                         android:text="Açık Hesap"
-                        android:textColor="@android:color/background_light" />
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -472,8 +490,10 @@
                     android:layout_weight="0.5"
                     android:gravity="center_vertical"
                     android:text="Başlangıç Zamanı:"
+                    android:textAllCaps="true"
                     android:textColor="?android:attr/colorBackground"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/bitis"
@@ -485,8 +505,10 @@
                     android:layout_weight="0.5"
                     android:gravity="center_vertical"
                     android:text="Bitiş Zamanı:"
+                    android:textAllCaps="true"
                     android:textColor="?android:attr/colorBackground"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -504,8 +526,10 @@
                         android:layout_weight="0.28"
                         android:gravity="center_vertical"
                         android:text="Ücret:"
+                        android:textAllCaps="true"
                         android:textColor="?android:attr/colorBackground"
-                        android:textSize="20sp" />
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/ekstraText"
@@ -516,8 +540,10 @@
                         android:gravity="center_vertical"
                         android:text="Ekstra:"
                         android:textAlignment="center"
+                        android:textAllCaps="true"
                         android:textColor="?android:attr/colorBackground"
-                        android:textSize="20sp" />
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/ekstra"
@@ -528,7 +554,8 @@
                         android:backgroundTint="@android:color/background_light"
                         android:ems="10"
                         android:inputType="numberSigned"
-                        android:textColor="@android:color/background_light" />
+                        android:textColor="@android:color/background_light"
+                        android:textSize="25sp" />
 
                     <TextView
                         android:id="@+id/toplam"
@@ -538,8 +565,10 @@
                         android:layout_weight="0.5"
                         android:gravity="center_vertical"
                         android:text="Toplam:"
+                        android:textAllCaps="true"
                         android:textColor="?android:attr/colorBackground"
-                        android:textSize="20sp" />
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
 
@@ -550,21 +579,14 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/yonet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="20dp"
-                    android:text="Yönet" />
-
-                <Button
                     android:id="@+id/yazdir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="50dp"
-                    android:layout_marginTop="20dp"
-                    android:text="Yazdır" />
+                    android:layout_marginTop="10dp"
+                    android:text="Yazdır"
+                    android:textSize="23sp" />
             </RelativeLayout>
         </LinearLayout>
 

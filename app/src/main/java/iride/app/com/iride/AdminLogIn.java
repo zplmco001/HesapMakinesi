@@ -20,7 +20,7 @@ public class AdminLogIn extends AppCompatActivity {
 
 
     private EditText username,password;
-    private Button login,cancel;
+    private Button login;
     private String name,key;
     private boolean checkResult;
     private ImageView img;
@@ -43,8 +43,6 @@ public class AdminLogIn extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
 
         login = (Button) findViewById(R.id.login);
-        cancel =(Button) findViewById(R.id.cancel);
-
 
 
 
@@ -91,12 +89,6 @@ public class AdminLogIn extends AppCompatActivity {
         });
 
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         //Display id 0: DisplayInfo{"Built-in Screen", uniqueId "local:0", app 2560 x 1704, real 2560 x 1800, largest app 2560 x 2416,
         // smallest app 1800 x 1656, mode 1, defaultMode 1, modes [{id=1, width=1800, height=2560, fps=60.000004}], colorMode 0, supportedColorModes [0],

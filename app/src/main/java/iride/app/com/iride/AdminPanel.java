@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,7 @@ public class AdminPanel extends AppCompatActivity  {
     private DatabaseConnection dc;
     static ListView listView;
     private String date;
+    static TextView totalearn;
 
 
 
@@ -49,6 +51,22 @@ public class AdminPanel extends AppCompatActivity  {
         listall = (Button) findViewById(R.id.listall);
         tarifedegis=(Button) findViewById(R.id.tarifedegis);
         listView = (ListView) findViewById(R.id.kayitadmin);
+
+        totalearn = (TextView) findViewById(R.id.gettotal);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 
 
@@ -73,9 +91,11 @@ public class AdminPanel extends AppCompatActivity  {
                 dc = new DatabaseConnection(getApplicationContext());
                 dc.read();
                 list = dc.tumKayıtlar();
+                totalearn.setText(String.valueOf(dc.toplamKazanc())+" TL");
                 dc.close();
                 ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,list);
                 listView.setAdapter(adapter);
+
 
             }
         });
@@ -89,11 +109,22 @@ public class AdminPanel extends AppCompatActivity  {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AdminPanel.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
-                        date =mDay+"/"+(mMonth+1)+"/"+mYear;
+                        if(mDay<10){
+                            if(mMonth<10){
+                                date="0"+mDay+"/0"+(mMonth+1)+"/"+mYear;
+                            }else{
+                                date="0"+mDay+"/"+(mMonth+1)+"/"+mYear;
+                            }
+                        }else if(mMonth<10){
+                            date=mDay+"/0"+(mMonth+1)+"/"+mYear;
+                        }else{
+                            date=mDay+"/"+(mMonth+1)+"/"+mYear;
+                        }
 
                         DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
                         dc.read();
                         tarihlist = dc.tarihGetir(date);
+                        totalearn.setText(String.valueOf(dc.toplamKazanc())+" TL");
                         dc.close();
 
                         ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,tarihlist);

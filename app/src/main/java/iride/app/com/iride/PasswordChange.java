@@ -7,14 +7,15 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class PasswordChange extends AppCompatActivity {
 
 
     private EditText passChangeName,currentPass,newPass,newPassAgain;
-    private Button save,cancel;
-
+    private Button save;
+    private ImageView exit;
     private String passChName,cPass,nPass,nPassAg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,14 @@ public class PasswordChange extends AppCompatActivity {
         newPassAgain = (EditText) findViewById(R.id.newpassagain);
 
         save = (Button) findViewById(R.id.save);
-        cancel = (Button) findViewById(R.id.cancel);
+        exit = (ImageView) findViewById(R.id.passchexit);
+
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -65,12 +73,6 @@ public class PasswordChange extends AppCompatActivity {
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
 
         DisplayMetrics dm = new DisplayMetrics();

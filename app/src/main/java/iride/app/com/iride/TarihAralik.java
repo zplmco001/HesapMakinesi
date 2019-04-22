@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static iride.app.com.iride.AdminPanel.listView;
+import static iride.app.com.iride.AdminPanel.totalearn;
 
 public class TarihAralik extends AppCompatActivity {
 
@@ -116,6 +117,7 @@ public class TarihAralik extends AppCompatActivity {
                 DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
                 dc.read();
                 list = dc.tarihAralikGetir(trh1,trh2);
+                totalearn.setText(String.valueOf(dc.toplamKazanc())+" TL");
                 Log.e("liste boyutu",""+list.size());
                 dc.close();
                 ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,list);

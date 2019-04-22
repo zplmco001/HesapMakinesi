@@ -6,13 +6,15 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class AdminNameChange extends AppCompatActivity {
 
     private EditText currname,newname;
-    private Button acc,decc;
+    private Button acc;
     private String cName,nName;
+    private ImageView exit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +24,16 @@ public class AdminNameChange extends AppCompatActivity {
         newname = (EditText) findViewById(R.id.newname);
 
         acc = (Button) findViewById(R.id.acc);
-        decc = (Button) findViewById(R.id.decc);
+
+        exit = (ImageView) findViewById(R.id.namechexit);
+
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
         acc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,12 +63,7 @@ public class AdminNameChange extends AppCompatActivity {
         });
 
 
-        decc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
 
 
         DisplayMetrics dm = new DisplayMetrics();

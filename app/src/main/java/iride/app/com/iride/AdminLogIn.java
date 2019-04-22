@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.sql.SQLOutput;
@@ -21,7 +23,7 @@ public class AdminLogIn extends AppCompatActivity {
     private Button login,cancel;
     private String name,key;
     private boolean checkResult;
-
+    private ImageView img;
 
 
     @Override
@@ -29,9 +31,13 @@ public class AdminLogIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_log_in);
 
-
-
-
+        img = (ImageView)findViewById(R.id.addlogexit);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -63,11 +69,19 @@ public class AdminLogIn extends AppCompatActivity {
                     Log.e("dönen sonuc"," "+dc.checkUser(name,key));
                     dc.close();
 
+                    String cont = getIntent().getStringExtra("val");
+
                     if(checkResult){
-                        Intent i = new Intent(getApplicationContext(),AdminPanel.class);
-                        Toast.makeText(getApplicationContext(),"Giriş yapıldı!",Toast.LENGTH_SHORT).show();
-                        startActivity(i);
-                        finish();
+                        if (cont.equals("home")){
+                            Intent i = new Intent(getApplicationContext(),AdminPanel.class);
+                            Toast.makeText(getApplicationContext(),"Giriş yapıldı!",Toast.LENGTH_SHORT).show();
+                            startActivity(i);
+                            finish();
+                        }else if (cont.equals("viewdb")){
+                            ViewDatabase.code = 256;
+                            onBackPressed();
+                        }
+
 
                     }else{
                         Toast.makeText(getApplicationContext(),"Kullanıcı adı veya şifre yanlış!",Toast.LENGTH_LONG).show();

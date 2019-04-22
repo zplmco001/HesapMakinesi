@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:layout_weight="33"
         android:text="SÜTUN 1"
+        android:textAlignment="center"
         android:textSize="22dp" />
     <TextView
         android:id="@+id/tw3"

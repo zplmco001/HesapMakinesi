@@ -2,7 +2,7 @@ package iride.app.com.iride;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.inputmethodservice.Keyboard;
+import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,9 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -41,14 +39,13 @@ public class Home extends AppCompatActivity {
     private int selected = -1;
     private int selectedTarife = -1;
     private int fiyat;
-    private TextView ucret, baslangic,bitis,fis,toplam;
+    private TextView ucret, baslangic,bitis,fis,toplam,tarih;
     private Timer timer;
     private EditText ekstra,editText2;
     private int total,fisNo;
     private AutoCompleteTextView actv;
     private ImageButton arama;
     public SatisInfo info = null;
-    public static Bundle bundle;
 
 
     @Override
@@ -92,11 +89,36 @@ public class Home extends AppCompatActivity {
         tarife[3] = (Button) findViewById(R.id.tarife4);
         tarife[4] = (Button) findViewById(R.id.aciktarife);
 
+        DatabaseConnection dCon = new DatabaseConnection(getApplicationContext());
+        dCon.open();
+        tarifeUcret = dCon.getTarife();
+        dCon.close();
 
 
+        /**
+         * Tarifeyi set eder.
+         */
         for (int i=0;i<tarife.length;i++){
+            if (i == 4){
+                tarife[4].setText("Açık Hesap");
+            }else{
+                tarife[i].setText(tarifeZaman[i]+" Dakika "+tarifeUcret[i]+" TL");
+
+            }
             tarife[i].setOnClickListener(new TarifeClick(i));
         }
+
+        DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
+        dc.open();
+        List<SatisInfo> list = dc.gunlukKayıtlar();
+        dc.close();
+        FileWrite fw = new FileWrite(list);
+       // if (fw.isOldDay()){
+            fw.write();
+            Log.e("written","yazıldı");
+        Log.e("dir", Environment.getExternalStorageDirectory().getPath());
+        //}
+
 
         ekstra = (EditText)findViewById(R.id.ekstra);
         ucret = (TextView) findViewById(R.id.ucret);
@@ -111,12 +133,9 @@ public class Home extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 if (!String.valueOf(ekstra.getText()).equals("-")&&charSequence.length()>0){
-                    //if (info == null){
-                        total = fiyat+Integer.parseInt(String.valueOf(ekstra.getText()));
-                        toplam.setText("Toplam: "+total+" TL");
-                    //}else {
 
-                    //}
+                    total = fiyat+Integer.parseInt(String.valueOf(ekstra.getText()));
+                    toplam.setText("Toplam: "+total+" TL");
 
 
                 }
@@ -142,11 +161,12 @@ public class Home extends AppCompatActivity {
                 //dc.gunlukKaydet(getApplicationContext());
                 dc.close();
                 Intent i = new Intent(getApplicationContext(),AdminLogIn.class);
+                i.putExtra("val","home");
                 startActivity(i);
             }
         });
 
-        final TextView tarih = (TextView)findViewById(R.id.tarih);
+        tarih = (TextView)findViewById(R.id.tarih);
         baslangic = (TextView) findViewById(R.id.baslangic);
         bitis = (TextView) findViewById(R.id.bitis);
 
@@ -160,7 +180,7 @@ public class Home extends AppCompatActivity {
         timer.schedule(task,0,10000);
 
 
-        /**Pushlama memete gönder
+        /**Pushlama memete gönder*/
         if(day<10){
 
             if(month<10){
@@ -174,49 +194,39 @@ public class Home extends AppCompatActivity {
         }else{
             tarih.setText(tarih.getText()+" "+day+"/"+month+"/"+year);
         }
-        Pushlama memete gönder**/
+        /*Pushlama memete gönder**/
 
 
         Button yazdir = (Button)findViewById(R.id.yazdir);
+
+        final Button kaydet = (Button) findViewById(R.id.kaydet);
 
         yazdir.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                DatabaseConnection dc = new DatabaseConnection(getBaseContext());
-                dc.open();
-                List<Integer> list = dc.fisNos("gunluk_info");
-                if (list.contains(fisNo)){
 
-                    if (selectedTarife!=4){
-                        dc.kayitGuncelle(fisNo, adet,selectedTarife,
-                                String.valueOf(bitis.getText()).substring(14),total);
-                    }else {
-                        dc.kayitGuncelle(fisNo, adet,selectedTarife,
-                               "",
-                                Integer.parseInt(String.valueOf(toplam.getText()).substring(8,toplam.getText().length()-3)));
-                    }
+                if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
+                    kaydet();
+                    kaydet.setVisibility(View.INVISIBLE);
+                    print();
 
-
-                }else {
-                    String bitisS = "";
-                    if(selectedTarife!=4){
-                        bitisS = String.valueOf(bitis.getText()).substring(13);
-
-                    }
-
-                    dc.satisEkle(fisNo,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(18),
-                            bitisS,total);
-
+                }else{
+                    Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
                 }
 
-                dc.close();
-                initialize();
-                info = null;
-                timer = new Timer();
-                timer.schedule(new Task(baslangic),0,10000);
+            }
+        });
 
 
+        kaydet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
+                    kaydet();
+                }else{
+                    Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -245,6 +255,7 @@ public class Home extends AppCompatActivity {
                     dc.close();
 
                     getResult(info);
+                    kaydet.setVisibility(View.VISIBLE);
 
 
                 }
@@ -272,8 +283,6 @@ public class Home extends AppCompatActivity {
             }
         });
 
-       // try {
-
         info = (SatisInfo) getIntent().getSerializableExtra("obje");
         if (info != null){
             Log.e("a",info.baslangıcSüre);
@@ -284,10 +293,59 @@ public class Home extends AppCompatActivity {
 
         hideSoftKeyboard(Home.this);
         new View(this).getWindowToken();
-        //}catch (Exception e){
 
-        //}
+        Button yenile = (Button) findViewById(R.id.yenile);
+        yenile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                kaydet.setVisibility(View.INVISIBLE);
+                initialize();
+            }
+        });
 
+        if (info == null){
+            kaydet.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    void print(){
+
+    }
+
+    void kaydet(){
+        DatabaseConnection dc = new DatabaseConnection(getBaseContext());
+        dc.open();
+        List<Integer> list = dc.fisNos("gunluk_info");
+        if (list.contains(fisNo)){
+
+            if (selectedTarife!=4){
+                dc.kayitGuncelle(fisNo, adet,selectedTarife,
+                        String.valueOf(bitis.getText()).substring(14),total);
+            }else {
+                dc.kayitGuncelle(fisNo, adet,selectedTarife,
+                        "",
+                        Integer.parseInt(String.valueOf(toplam.getText()).substring(8,toplam.getText().length()-3)));
+            }
+
+
+        }else {
+            String bitisS = "";
+            if(selectedTarife!=4){
+                bitisS = String.valueOf(bitis.getText()).substring(14);
+
+            }
+
+            dc.satisEkle(fisNo,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(18),
+                    bitisS,total);
+
+        }
+
+        dc.close();
+        initialize();
+        info = null;
+        timer = new Timer();
+        timer.schedule(new Task(baslangic),0,10000);
     }
 
     void getResult(SatisInfo info){
@@ -313,23 +371,31 @@ public class Home extends AppCompatActivity {
             baslangic.setText("Başlangıç Zamanı: "+info.baslangıcSüre);
             bitis.setText("Bitiş Zamanı: "+info.bitisSüre);
 
-            buttons[info.adet-1].callOnClick();
-            tarife[info.tarife].callOnClick();
+
             ucret.setText("ÜCRET :"+info.totalÜcret+" TL");
             fiyat = info.totalÜcret;
+            total = fiyat;
+            ekstra.setText("");
+            toplam.setText("Toplam: "+total+" TL");
+            buttons[info.adet-1].callOnClick();
+            tarife[info.tarife].callOnClick();
+
             timer.cancel();
 
-        //}catch (Exception e){
-          //  Toast.makeText(Home.this,"Sonuç bulunamadı",Toast.LENGTH_LONG).show();
-       // }
     }
 
 
     void initialize(){
         setFisNo();
         editText2.setText("");
-        buttons[selected].setBackgroundDrawable(getResources().getDrawable(R.drawable.round_button));
-        tarife[selectedTarife].setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
+
+        if (selected != -1){
+            buttons[selected].setBackgroundDrawable(getResources().getDrawable(R.drawable.round_button));
+        }
+        if (selectedTarife != -1){
+            tarife[selectedTarife].setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
+        }
+
 
         bitis.setText("Bitiş Zamanı:");
         ekstra.setText("");
@@ -345,11 +411,6 @@ public class Home extends AppCompatActivity {
     }
 
     public void hideSoftKeyboard(Activity activity) {
-        /*InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);*/
         InputMethodManager imm = (InputMethodManager) getSystemService(activity.INPUT_METHOD_SERVICE);
         if (getCurrentFocus() != null)
             imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -468,9 +529,42 @@ public class Home extends AppCompatActivity {
         @Override
         public void onClick(View view) {
 
-            adet = index+1;
-            fiyat = adet*tUcret;
-            ucret.setText("Ücret:\t"+fiyat+" TL");
+            if (selectedTarife<4){
+                adet = index+1;
+                fiyat = adet*tUcret;
+                if (info == null){
+
+                    ucret.setText("Ücret:\t"+fiyat+" TL");
+                }
+
+                if (info != null){
+                    if (fiyat-info.totalÜcret!=0){
+                        ekstra.setText((fiyat-info.totalÜcret)+"");
+                    }else{
+                        ekstra.setText("");
+                    }
+
+                }else{
+                    ucret.setText("Ücret:\t"+fiyat+" TL");
+                }
+
+                if (ekstra.getText().length()==0){
+                    total = fiyat;
+
+                }
+                else{
+                    total = Integer.parseInt(String.valueOf(ekstra.getText()))+fiyat;
+                }
+
+
+
+                toplam.setText("Toplam: "+total+" TL");
+                Log.e("buton",""+total);
+                Log.e("fit",""+fiyat);
+            }
+
+
+
             buttons[index].setBackgroundDrawable(getResources().getDrawable(R.drawable.seleected_round_button));
             if (selected>=0&&selected!=index){
                 buttons[selected].setBackgroundDrawable(getResources().getDrawable(R.drawable.round_button));
@@ -497,12 +591,18 @@ public class Home extends AppCompatActivity {
             if (index<4){
                 tUcret = tarifeUcret[index];
                 fiyat = adet*tUcret;
-                if (!(String.valueOf(ekstra.getText()).equals(""))){
-
+                if (ekstra.getText().length()==0){
+                    total = fiyat;
+                }else{
+                    total = Integer.parseInt(String.valueOf(ekstra.getText()))+fiyat;
                 }
-                total = fiyat;
+
                 if (info != null){
-                    ekstra.setText((fiyat-info.totalÜcret)+"");
+                    if (fiyat-info.totalÜcret!=0){
+                        ekstra.setText((fiyat-info.totalÜcret)+"");
+                    }else{
+                        ekstra.setText("");
+                    }
                 }else{
                     ucret.setText("Ücret:\t"+fiyat+" TL");
                 }
@@ -537,11 +637,12 @@ public class Home extends AppCompatActivity {
             }
             else{
                 if (info != null){
-                    ucret.setText("Ücret: "+info.totalÜcret);
+                    ucret.setText("Ücret: "+info.totalÜcret+" TL");
                 }
                 else{
                     ucret.setText("Ücret:\t");
                     bitis.setText("Bitiş Zamanı:");
+                    toplam.setText("Toplam:");
                     fiyat = 0;
                 }
 
@@ -553,9 +654,6 @@ public class Home extends AppCompatActivity {
             }
 
             selectedTarife = index;
-
-
-
 
         }
     }

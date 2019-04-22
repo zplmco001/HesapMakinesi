@@ -1,0 +1,63 @@
+package iride.app.com.iride;
+
+import android.os.Environment;
+import android.util.Log;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
+
+/**
+ * Created by mehmetcanolgun on 22.04.2019.
+ */
+
+public class FileWrite {
+
+    private List<SatisInfo> list;
+
+    FileWrite(List<SatisInfo> list){
+        this.list = list;
+    }
+
+    public void write(){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath(),"trial.cvs"),true));
+            writer.write("Fis No;Tarih;Isim;Adet;Tarife;Cıkıs;Teslim;Ucret");
+            Log.e("dir",Environment.getExternalStorageDirectory().getPath());
+            writer.write("\n");
+            for(SatisInfo info:list){
+                writer.write(info.fisNo+";"+info.kayitTarihi+";"+info.müsteriİsim+";"+info.adet+";"+
+                info.tarife+";"+info.baslangıcSüre+";"+info.bitisSüre+";"+info.totalÜcret);
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("catch","");
+        }
+    }
+
+
+    public boolean isOldDay(){
+        if (list.size()>0){
+            String kayitTarihi = list.get(0).kayitTarihi;
+            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+            int day = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int year = calendar.get(Calendar.YEAR);
+            String today = day+"/"+month+"/"+year;
+            if (today.equals(kayitTarihi)){
+                return false;
+            }else {
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
+}

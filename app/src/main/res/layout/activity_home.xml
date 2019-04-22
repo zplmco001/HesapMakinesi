@@ -91,14 +91,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:text="Görüntüle"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/yonet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Yönet" />
+                    android:text="Yönet"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -586,6 +587,30 @@
                     android:layout_marginRight="50dp"
                     android:layout_marginTop="10dp"
                     android:text="Yazdır"
+                    android:textSize="23sp" />
+
+                <Button
+                    android:id="@+id/kaydet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toLeftOf="@+id/yazdir"
+                    android:layout_toStartOf="@+id/yazdir"
+                    android:text="Kaydet"
+                    android:textSize="23sp" />
+
+                <Button
+                    android:id="@+id/yenile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Yenile"
                     android:textSize="23sp" />
             </RelativeLayout>
         </LinearLayout>

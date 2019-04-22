@@ -159,7 +159,22 @@ public class Home extends AppCompatActivity {
         Task task = new Task(baslangic);
         timer.schedule(task,0,10000);
 
-        tarih.setText(tarih.getText()+" "+day+"/"+month+"/"+year);
+
+        /**Pushlama memete gönder
+        if(day<10){
+
+            if(month<10){
+                tarih.setText(tarih.getText()+" 0"+day+"/0"+month+"/"+year);
+            }else{
+                tarih.setText(tarih.getText()+" 0"+day+"/"+month+"/"+year);
+            }
+
+        }else if(month<10){
+            tarih.setText(tarih.getText()+" "+day+"/0"+month+"/"+year);
+        }else{
+            tarih.setText(tarih.getText()+" "+day+"/"+month+"/"+year);
+        }
+        Pushlama memete gönder**/
 
 
         Button yazdir = (Button)findViewById(R.id.yazdir);

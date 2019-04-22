@@ -35,7 +35,7 @@ public class DatabaseConnection {
     /** Ücret ve tarifeyi güncelleyecek fonksiyonlar **/
 
     void tarifeUpdate(int tarife15,int tarife30,int tarife45,int tarife60){
-        String query="update fiyat_table set tarife15='"+tarife15+"' and tarife30='"+tarife30+"' and tarife45='"+tarife45+"' and tarife60='"+tarife60+"'";
+        String query="update fiyat_table set tarife15='"+tarife15+"',tarife30='"+tarife30+"',tarife45='"+tarife45+"',tarife60='"+tarife60+"'";
         sqLiteDatabase.execSQL(query);
     }
 
@@ -220,12 +220,14 @@ public class DatabaseConnection {
 
         /**fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret*/
         String query = "update gunluk_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"' where fis_no = '"+fisNo+"'";
+        String query2 = "update satis_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"' where fis_no = '"+fisNo+"'";
         sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.execSQL(query2);
 
     }
 
-    void kayitSil(int fisNo){
-        String query = "delete from gunluk_info where fis_no='"+fisNo+"'";
+    void kayitSil(int fisNo,String tarih){
+        String query = "delete from gunluk_info where fis_no='"+fisNo+"' and kayit_tarih='"+tarih+"'";
         sqLiteDatabase.execSQL(query);
     }
 

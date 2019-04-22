@@ -30,14 +30,11 @@ public class AdminPanel extends AppCompatActivity  {
     private Button tariharalik;
     private Button listall;
     private Button tarifedegis;
-    private List<SatisInfo> list,tarihlist,listaralik;
+    private List<SatisInfo> list,tarihlist;
     private DatabaseConnection dc;
-    private ListView listView;
-    private SatisInfo satisInfo;
-    private String date,basdate,bitdate;
+    static ListView listView;
+    private String date;
 
-    private ImageView basbuton,bitbuton;
-    private TextView bastrh,bittrh;
 
 
     @Override
@@ -64,7 +61,8 @@ public class AdminPanel extends AppCompatActivity  {
         tariharalik.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(getApplicationContext(),TarihAralik.class);
+                startActivity(i);
             }
         });
 

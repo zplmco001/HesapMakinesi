@@ -9,9 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".TarieUcretUpdate"
+        <activity android:name=".TarihAralik"
             android:theme="@style/AppTheme.Popups"></activity>
-        <activity android:name=".ViewDatabase"></activity>
+        <activity
+            android:name=".TarieUcretUpdate"
+            android:theme="@style/AppTheme.Popups" />
+        <activity android:name=".ViewDatabase" />
         <activity
             android:name=".AdminNameChange"
             android:theme="@style/AppTheme.Popups" />

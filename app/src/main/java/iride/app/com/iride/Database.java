@@ -14,7 +14,7 @@ public class Database extends SQLiteOpenHelper {
     Database(){
         super(null,"database",null,1);
 
-    }
+}
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {

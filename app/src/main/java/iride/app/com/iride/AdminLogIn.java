@@ -93,15 +93,7 @@ public class AdminLogIn extends AppCompatActivity {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        // Log.e("default ori",""+getWindowManager().getDefaultDisplay());
 
-        /*Log.e("orientation",""+getWindowManager().getDefaultDisplay().getOrientation());
-        Log.e("mode",""+getWindowManager().getDefaultDisplay().getDisplayId());
-        Log.e("rotation",""+getWindowManager().getDefaultDisplay().getRotation());
-        Log.e("width",""+getWindowManager().getDefaultDisplay().getWidth());
-        Log.e("height",""+getWindowManager().getDefaultDisplay().getHeight());*/
-
-        //if(  && getWindowManager().getDefaultDisplay().getWidth()<getWindowManager().getDefaultDisplay().getHeight())
 
         if (getWindowManager().getDefaultDisplay().getWidth()<getWindowManager().getDefaultDisplay().getHeight()){
             int width = dm.widthPixels;
@@ -116,5 +108,15 @@ public class AdminLogIn extends AppCompatActivity {
             getWindow().setLayout((int) (width*.5),(int) (height*.85));
             getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
         }
+
+        // Log.e("default ori",""+getWindowManager().getDefaultDisplay());
+
+        /*Log.e("orientation",""+getWindowManager().getDefaultDisplay().getOrientation());
+        Log.e("mode",""+getWindowManager().getDefaultDisplay().getDisplayId());
+        Log.e("rotation",""+getWindowManager().getDefaultDisplay().getRotation());
+        Log.e("width",""+getWindowManager().getDefaultDisplay().getWidth());
+        Log.e("height",""+getWindowManager().getDefaultDisplay().getHeight());*/
+
+        //if(  && getWindowManager().getDefaultDisplay().getWidth()<getWindowManager().getDefaultDisplay().getHeight())
     }
 }

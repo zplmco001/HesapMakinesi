@@ -56,7 +56,6 @@
                 android:ems="10"
                 android:inputType="numberDecimal"
                 android:maxLength="3"
-                android:text="100"
                 android:textAlignment="center"
                 android:textSize="45sp"
                 tools:layout_editor_absoluteX="394dp"
@@ -104,7 +103,6 @@
                 android:ems="10"
                 android:inputType="numberDecimal"
                 android:maxLength="3"
-                android:text="100"
                 android:textAlignment="center"
                 android:textSize="45sp"
                 tools:layout_editor_absoluteX="394dp"
@@ -152,7 +150,6 @@
                 android:ems="10"
                 android:inputType="numberDecimal"
                 android:maxLength="3"
-                android:text="100"
                 android:textAlignment="center"
                 android:textSize="45sp"
                 tools:layout_editor_absoluteX="394dp"
@@ -200,7 +197,6 @@
                 android:ems="10"
                 android:inputType="numberDecimal"
                 android:maxLength="3"
-                android:text="100"
                 android:textAlignment="center"
                 android:textSize="45sp"
                 tools:layout_editor_absoluteX="394dp"
@@ -216,24 +212,45 @@
                 tools:layout_editor_absoluteY="173dp" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/tarifeupd"
+                android:layout_width="130dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/corner_round_button"
+                android:text="KAYDET"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/tarifeupd"
-        android:layout_width="130dp"
-        android:layout_height="70dp"
+    <ImageView
+        android:id="@+id/tarifeexit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="360dp"
-        android:background="@drawable/corner_round_button"
-        android:text="KAYDET"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.947"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.033"
+        app:srcCompat="@drawable/close" />
 
 </android.support.constraint.ConstraintLayout>

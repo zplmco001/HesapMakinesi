@@ -18,6 +18,9 @@ public class TarieUcretUpdate extends AppCompatActivity {
     private EditText tarife[] = new EditText[4];
     private Button kaydet ;
     private int ücret=0;
+    private int array[];
+    private DatabaseConnection dc;
+    private ImageView exit;
 
     private int tarifeUcret[] = new int[4];
     private final int tarifeZaman[] = {15,30,45,60};
@@ -42,25 +45,45 @@ public class TarieUcretUpdate extends AppCompatActivity {
         tarife[2] = (EditText) findViewById(R.id.tarife3);
         tarife[3] = (EditText) findViewById(R.id.tarife4);
 
+        exit = (ImageView) findViewById(R.id.tarifeexit);
+
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         kaydet = (Button) findViewById(R.id.tarifeupd);
 
-        for(int i=0 ; i<4; i++){
-            arttır[i].setOnClickListener(new UpClick(i));
+        dc = new DatabaseConnection(getApplicationContext());
+        dc.read();
+        array=dc.getTarife();
+        for(int i=0; i<array.length; i++){
+            Log.e("gelen tarifler"," "+array[i]);
+        }
+        dc.close();
 
+        for(int i=0 ; i<4; i++){
+            tarife[i].setText(String.valueOf(array[i]));
+            arttır[i].setOnClickListener(new UpClick(i));
             azalt[i].setOnClickListener(new DownClick(i));
         }
 
         kaydet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
                 dc.open();
                 int t1=Integer.parseInt(tarife[0].getText().toString());
                 int t2=Integer.parseInt(tarife[1].getText().toString());
                 int t3=Integer.parseInt(tarife[2].getText().toString());
                 int t4=Integer.parseInt(tarife[3].getText().toString());
                 dc.tarifeUpdate(t1,t2,t3,t4);
+                for(int i=0; i<tarife.length; i++){
+                    Log.e("giden tarifeler"," "+tarife[i].getText().toString());
+                }
                 dc.close();
+                finish();
             }
         });
 

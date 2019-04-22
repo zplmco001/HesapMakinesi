@@ -1,127 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
-    android:orientation="vertical"
-    tools:context=".AdminLogIn">
+    android:background="@android:color/darker_gray">
 
     <ImageView
-        android:layout_width="250sp"
-        android:layout_height="250sp"
-        android:layout_marginEnd="180dp"
-        android:layout_marginLeft="180dp"
-        android:layout_marginRight="180dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="30dp"
-        android:layout_weight="1"
+        android:id="@+id/addlogexit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/brand" />
+        app:layout_constraintVertical_bias="0.023"
+        app:srcCompat="@drawable/close" />
 
     <LinearLayout
-        android:layout_width="58dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="285dp"
-        android:background="@drawable/corner_left"
+        android:layout_width="323dp"
+        android:layout_height="523dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:srcCompat="@mipmap/ic_launcher" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="58dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="375dp"
-        android:background="@drawable/corner_left"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:srcCompat="@mipmap/ic_launcher" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="251dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="160dp"
-        android:layout_marginRight="160dp"
-        android:layout_marginTop="285dp"
-        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@drawable/corner_right"
-            android:ems="10"
-            android:hint="Kullanıcı Adı"
-            android:inputType="textPersonName"
-            android:textAlignment="center"
-            android:textSize="30sp" />
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/corner_right"
-            android:ems="10"
-            android:fontFamily="sans-serif"
-            android:hint="Şifre"
-            android:inputType="textPassword"
-            android:textAlignment="center"
-
-            android:textSize="30sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="115dp"
-        android:layout_marginStart="115dp"
-        android:layout_marginTop="475dp"
-        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_margin="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.007"
+            app:srcCompat="@drawable/brand" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="58dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/corner_left"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginTop="10dp"
+                        app:srcCompat="@mipmap/ic_launcher" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="58dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/corner_left"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginTop="10dp"
+                        app:srcCompat="@mipmap/ic_launcher" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="251dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@drawable/corner_right"
+                    android:ems="10"
+                    android:hint="Kullanıcı Adı"
+                    android:inputType="textPersonName"
+                    android:textAlignment="center"
+                    android:textSize="30sp" />
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/corner_right"
+                    android:ems="10"
+                    android:fontFamily="sans-serif"
+                    android:hint="Şifre"
+                    android:inputType="textPassword"
+
+                    android:textAlignment="center"
+                    android:textSize="30sp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <Button
             android:id="@+id/login"
-            android:layout_width="200sp"
-            android:layout_height="70sp"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:background="@drawable/corner_round_button"
             android:text="GİRİŞ"
             android:textSize="25sp" />
-
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="200sp"
-            android:layout_height="70sp"
-            android:layout_marginLeft="10sp"
-            android:background="@drawable/corner_round_button"
-            android:text="VAZGEÇ"
-            android:textSize="25sp" />
-
     </LinearLayout>
-
 
 </android.support.constraint.ConstraintLayout>

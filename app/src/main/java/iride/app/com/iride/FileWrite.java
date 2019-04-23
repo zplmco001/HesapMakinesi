@@ -24,15 +24,22 @@ public class FileWrite {
     }
 
     public void write(){
+        Log.e("afs","fa");
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath(),"trial.cvs"),true));
-            writer.write("Fis No;Tarih;Isim;Adet;Tarife;Cıkıs;Teslim;Ucret");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath(),"trial.csv"),true));
+            writer.write("Fis No;Tarih;Isim;Adet;Tarife;Cikis;Teslim;Ucret");
             Log.e("dir",Environment.getExternalStorageDirectory().getPath());
             writer.write("\n");
             for(SatisInfo info:list){
                 writer.write(info.fisNo+";"+info.kayitTarihi+";"+info.müsteriİsim+";"+info.adet+";"+
                 info.tarife+";"+info.baslangıcSüre+";"+info.bitisSüre+";"+info.totalÜcret);
+                Log.e("cvs",info.fisNo+";"+info.kayitTarihi+";"+info.müsteriİsim+";"+info.adet+";"+
+                        info.tarife+";"+info.baslangıcSüre+";"+info.bitisSüre+";"+info.totalÜcret);
+                writer.write("\n");
+                Log.e("içeride","yazıldı");
+
             }
+            writer.flush();
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

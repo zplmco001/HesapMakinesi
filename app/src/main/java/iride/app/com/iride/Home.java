@@ -114,9 +114,12 @@ public class Home extends AppCompatActivity {
         dc.close();
         FileWrite fw = new FileWrite(list);
        // if (fw.isOldDay()){
+        if (list.size()>0){
             fw.write();
             Log.e("written","yazıldı");
-        Log.e("dir", Environment.getExternalStorageDirectory().getPath());
+            Log.e("dir", Environment.getExternalStorageDirectory().getPath());
+        }
+
         //}
 
 
@@ -134,13 +137,19 @@ public class Home extends AppCompatActivity {
 
                 if (!String.valueOf(ekstra.getText()).equals("-")&&charSequence.length()>0){
 
-                    total = fiyat+Integer.parseInt(String.valueOf(ekstra.getText()));
-                    toplam.setText("Toplam: "+total+" TL");
+                    //if (info == null){
+                        total = fiyat+Integer.parseInt(String.valueOf(ekstra.getText()));
+                        toplam.setText("Toplam: "+total+" TL");
+                    //}
+
 
 
                 }
                 else{
-                    toplam.setText("Toplam: "+fiyat+" TL");
+                    //if (info == null)
+                        total = fiyat;
+                        toplam.setText("Toplam: "+fiyat+" TL");
+
                 }
 
             }
@@ -300,6 +309,7 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 kaydet.setVisibility(View.INVISIBLE);
                 initialize();
+                info = null;
             }
         });
 
@@ -325,7 +335,7 @@ public class Home extends AppCompatActivity {
             }else {
                 dc.kayitGuncelle(fisNo, adet,selectedTarife,
                         "",
-                        Integer.parseInt(String.valueOf(toplam.getText()).substring(8,toplam.getText().length()-3)));
+                        total);
             }
 
 
@@ -373,13 +383,30 @@ public class Home extends AppCompatActivity {
 
 
             ucret.setText("ÜCRET :"+info.totalÜcret+" TL");
+            total = info.totalÜcret;
             fiyat = info.totalÜcret;
-            total = fiyat;
+            //total = fiyat;
             ekstra.setText("");
             toplam.setText("Toplam: "+total+" TL");
-            buttons[info.adet-1].callOnClick();
-            tarife[info.tarife].callOnClick();
+            //buttons[info.adet-1].callOnClick();
+            //tarife[info.tarife].callOnClick();
+            buttons[info.adet-1].setBackgroundDrawable(getResources().getDrawable(R.drawable.seleected_round_button));
+            if (selected>=0&&selected!=info.adet-1){
+                buttons[selected].setBackgroundDrawable(getResources().getDrawable(R.drawable.round_button));
+            }
+            selected = info.adet-1;
+            adet = info.adet;
 
+            tarife[info.tarife].setBackgroundDrawable(getResources().getDrawable(R.drawable.seleected_round_button));
+            if (selectedTarife>=0&&selectedTarife!=info.tarife){
+                tarife[selectedTarife].setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
+            }
+
+            selectedTarife = info.tarife;
+            tUcret = tarifeUcret[selectedTarife];
+
+
+            toplam.setText("Toplam: "+total+" TL");
             timer.cancel();
 
     }
@@ -529,38 +556,35 @@ public class Home extends AppCompatActivity {
         @Override
         public void onClick(View view) {
 
-            if (selectedTarife<4){
-                adet = index+1;
-                fiyat = adet*tUcret;
-                if (info == null){
-
-                    ucret.setText("Ücret:\t"+fiyat+" TL");
+            if (selectedTarife<4) {
+                adet = index + 1;
+                //fiyat = adet * tUcret;
+                if (info == null) {
+                    fiyat = adet * tUcret;
+                    total = fiyat;
+                    Log.e("total1", "" + total);
+                } else {
+                    total = adet * tUcret;
+                    Log.e("total2", "" + total);
                 }
 
-                if (info != null){
-                    if (fiyat-info.totalÜcret!=0){
-                        ekstra.setText((fiyat-info.totalÜcret)+"");
-                    }else{
+                /*if (ekstra.getText().length()==0){
+                    total = fiyat;
+                }else{
+                    total = Integer.parseInt(String.valueOf(ekstra.getText()))+fiyat;
+                }*/
+
+                if (info != null) {
+                    if (total - info.totalÜcret != 0) {
+                        ekstra.setText((total - info.totalÜcret) + "");
+                    } else {
                         ekstra.setText("");
                     }
-
-                }else{
-                    ucret.setText("Ücret:\t"+fiyat+" TL");
+                } else {
+                    ucret.setText("Ücret:\t" + fiyat + " TL");
                 }
+                toplam.setText("TOPLAM: " + total + " TL");
 
-                if (ekstra.getText().length()==0){
-                    total = fiyat;
-
-                }
-                else{
-                    total = Integer.parseInt(String.valueOf(ekstra.getText()))+fiyat;
-                }
-
-
-
-                toplam.setText("Toplam: "+total+" TL");
-                Log.e("buton",""+total);
-                Log.e("fit",""+fiyat);
             }
 
 
@@ -588,18 +612,27 @@ public class Home extends AppCompatActivity {
         @Override
         public void onClick(View view) {
 
+            Log.e("index",""+index);
             if (index<4){
                 tUcret = tarifeUcret[index];
-                fiyat = adet*tUcret;
-                if (ekstra.getText().length()==0){
+                if (info == null){
+                    fiyat = adet*tUcret;
+                    total = fiyat;
+                    Log.e("total1",""+total);
+                }else {
+                    total = adet*tUcret;
+                    Log.e("total2",""+total);
+                }
+
+                /*if (ekstra.getText().length()==0){
                     total = fiyat;
                 }else{
                     total = Integer.parseInt(String.valueOf(ekstra.getText()))+fiyat;
-                }
+                }*/
 
                 if (info != null){
-                    if (fiyat-info.totalÜcret!=0){
-                        ekstra.setText((fiyat-info.totalÜcret)+"");
+                    if (total-info.totalÜcret!=0){
+                        ekstra.setText((total-info.totalÜcret)+"");
                     }else{
                         ekstra.setText("");
                     }
@@ -638,6 +671,9 @@ public class Home extends AppCompatActivity {
             else{
                 if (info != null){
                     ucret.setText("Ücret: "+info.totalÜcret+" TL");
+                    total = info.totalÜcret;
+                    ekstra.setText("");
+                    toplam.setText("Toplam: "+total+" TL");
                 }
                 else{
                     ucret.setText("Ücret:\t");

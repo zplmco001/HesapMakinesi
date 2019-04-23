@@ -30,6 +30,7 @@ public class ListAdapter extends ArrayAdapter<SatisInfo> {
 
     public View getView(int position, View convertView, ViewGroup parent){
         convertView=layoutInflater.inflate(id,null);
+        convertView.setMinimumHeight(70);
 
         SatisInfo info = satislist.get(position);
 
@@ -52,6 +53,12 @@ public class ListAdapter extends ArrayAdapter<SatisInfo> {
             tw[5].setText(info.baslangıcSüre);
             tw[6].setText(info.bitisSüre);
             tw[7].setText(String.valueOf(info.totalÜcret));
+
+            for (TextView tab : tw){
+                tab.setTextSize(38);
+            }
+
+
         }
         return convertView;
     }

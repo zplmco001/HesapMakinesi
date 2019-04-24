@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,10 +15,10 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -38,10 +39,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -68,6 +67,7 @@ public class Home extends AppCompatActivity implements Runnable{
     private AutoCompleteTextView actv;
     private ImageButton arama;
     public SatisInfo info = null;
+    private boolean printful = false;
 
 
 
@@ -92,32 +92,6 @@ public class Home extends AppCompatActivity implements Runnable{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-        /**Bluetooth aktif et**/
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null) {
-            Toast.makeText(getApplicationContext(), "Message1", Toast.LENGTH_SHORT).show();
-        } else {
-            if (!mBluetoothAdapter.isEnabled()) {
-                Intent enableBtIntent = new Intent(
-                        BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent,
-                        REQUEST_ENABLE_BT);
-            } else {
-                ListPairedDevices();
-                Intent connectIntent = new Intent(getApplicationContext(),
-                        DeviceListActivity.class);
-                startActivityForResult(connectIntent,
-                        REQUEST_CONNECT_DEVICE);
-
-            }
-        }
-
-        /**Bluetooth aktif et**/
-
-
-
-
         final Button kaydet = (Button) findViewById(R.id.kaydet);
 
         Button yazdir = (Button)findViewById(R.id.yazdir);
@@ -130,7 +104,10 @@ public class Home extends AppCompatActivity implements Runnable{
                 if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
 
                     print();
-                    kaydet();
+                    if (printful){
+                        kaydet();
+                    }
+
                     kaydet.setVisibility(View.INVISIBLE);
 
 
@@ -211,13 +188,15 @@ public class Home extends AppCompatActivity implements Runnable{
         DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
         dc.open();
         List<SatisInfo> list = dc.gunlukKayıtlar();
-        dc.close();
+
         FileWrite fw = new FileWrite(list);
         if (fw.isOldDay()){
             if (list.size()>0){
                 fw.write();
+                dc.gunlukTemizle();
             }
         }
+        dc.close();
 
 
         ekstra = (EditText)findViewById(R.id.ekstra);
@@ -294,6 +273,30 @@ public class Home extends AppCompatActivity implements Runnable{
             timer.schedule(task,0,10000);
         }
 
+
+        /**Bluetooth aktif et**/
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(getApplicationContext(), "Message1", Toast.LENGTH_SHORT).show();
+        } else {
+            if (!mBluetoothAdapter.isEnabled()) {
+                Intent enableBtIntent = new Intent(
+                        BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent,
+                        REQUEST_ENABLE_BT);
+            } else {
+                if (info == null){
+                    ListPairedDevices();
+                    Intent connectIntent = new Intent(getApplicationContext(),
+                            DeviceListActivity.class);
+                    startActivityForResult(connectIntent,
+                            REQUEST_CONNECT_DEVICE);
+                }
+
+            }
+        }
+
+        /**Bluetooth aktif et**/
 
 
 
@@ -770,10 +773,22 @@ public class Home extends AppCompatActivity implements Runnable{
 
 
 
+            printful = true;
 
 
+        }catch (NullPointerException e1){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Lütfen Bluetooth Cihazı Bağlayınız.");
+            builder.setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
-        } catch (Exception e) {
+                }
+            });
+            builder.show();
+            printful = false;
+        }
+        catch (Exception e) {
             Log.e("PrintActivity", "Exe ", e);
         }
     }

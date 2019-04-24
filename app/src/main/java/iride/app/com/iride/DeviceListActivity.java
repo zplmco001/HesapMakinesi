@@ -45,7 +45,7 @@ public class DeviceListActivity extends AppCompatActivity {
                 mPairedDevicesArrayAdapter.add(mDevice.getName() + "\n" + mDevice.getAddress());
             }
         } else {
-            String mNoDevices = "None Paired";//getResources().getText(R.string.none_paired).toString();
+            String mNoDevices = "Cihaz Bulunamadı";//getResources().getText(R.string.none_paired).toString();
             mPairedDevicesArrayAdapter.add(mNoDevices);
         }
 

@@ -81,6 +81,7 @@
                         android:id="@+id/arama"
                         android:layout_width="32dp"
                         android:layout_height="40dp"
+                        android:layout_marginTop="6dp"
                         android:background="#00ffffff"
                         android:src="@drawable/baseline_search_24" />
                 </LinearLayout>

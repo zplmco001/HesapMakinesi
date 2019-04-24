@@ -15,7 +15,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:permission=""
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".DeviceListActivity"></activity>
@@ -34,7 +34,7 @@
             android:theme="@style/AppTheme.Popups" />
         <activity
             android:name=".AdminPanel"
-            android:screenOrientation="reverseLandscape" />
+            android:screenOrientation="landscape" />
         <activity
             android:name=".AdminLogIn"
             android:theme="@style/AppTheme.Popups" />

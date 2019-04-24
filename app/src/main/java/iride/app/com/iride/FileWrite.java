@@ -65,11 +65,11 @@ public class FileWrite {
             if (today.equals(kayitTarihi)){
                 return false;
             }else {
-                return false;
+                return true;
             }
         }
         else {
-            return true;
+            return false;
         }
     }
 

@@ -22,13 +22,14 @@ import java.util.Objects;
 
 public class ViewDatabase extends AppCompatActivity {
 
-    private List<SatisInfo> list;
+    private List<SatisInfo> list,prevlist;
     DatabaseConnection dc;
     ListView listView;
     SatisInfo satisInfo;
     int fisNo;
     private Button goruntule;
     public static int code = 0;
+    static int temp;
 
 
     @Override
@@ -36,11 +37,20 @@ public class ViewDatabase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_database);
 
+        listView = (ListView) findViewById(R.id.listView);
+
+        prevlist = new ArrayList<>();
 
         dc = new DatabaseConnection(this);
         dc.read();
+
         list = dc.gunlukKayıtlar();
         dc.close();
+
+        for(int i=1; i<=list.size(); i++){
+            prevlist.add(list.get(list.size()-i));
+        }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,23 +71,74 @@ public class ViewDatabase extends AppCompatActivity {
             Toast.makeText(this,"Liste boş!",Toast.LENGTH_SHORT).show();
             finish();
         }else{
-            ListAdapter adapter = new ListAdapter(this,R.layout.list_adapter,list);
-            listView = (ListView) findViewById(R.id.listView);
+            ListAdapter adapter = new ListAdapter(this,R.layout.list_adapter,prevlist);
+
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    satisInfo = list.get(i);
+                    satisInfo = prevlist.get(i);
                     //Bundle bundle = Home.bundle;
                     //Home.satisInfo = satisInfo;
                     //Object o = satisInfo;
                     //Log.e("af",Home.satisInfo.baslangıcSüre);
-                    Intent intent = new Intent(ViewDatabase.this,Home.class);
-                    intent.putExtra("obje",satisInfo);
+                   // Intent intent = new Intent(ViewDatabase.this,Home.class);
+
+                    Home.info = satisInfo;
+                    onBackPressed();
+
+                    /*intent.putExtra("obje",satisInfo);
                     Log.e("info",""+satisInfo.totalÜcret);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
             });
+
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(ViewDatabase.this);
+                    builder.setTitle("iRide");
+                    builder.setMessage("Seçilen kayıt silinecek.Onaylıyor musunuz?");
+                    Log.e("index",""+i);
+                    Log.e("fişno",""+list.get(i).fisNo);
+                    Log.e("tarih",""+list.get(i).kayitTarihi);
+                    temp=i;
+
+                    builder.setPositiveButton("SİL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int t) {
+
+                            List<SatisInfo> tm,tn;
+
+                            tn=new ArrayList<>();
+                            dc.open();
+                            dc.kayitSil(prevlist.get(temp).fisNo,prevlist.get(temp).kayitTarihi);
+                            tm = dc.gunlukKayıtlar();
+                            dc.close();
+
+
+
+
+                            for(int i=1; i<=tm.size(); i++){
+                                tn.add(tm.get(tm.size()-i));
+                            }
+                            ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,tn);
+
+                            listView.setAdapter(adapter);
+                        }
+                    });
+
+                    builder.setNegativeButton("VAZGEÇ", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    builder.show();
+                    return true;
+                }
+            });
+
         }
 
         goruntule = (Button) findViewById(R.id.goruntule);

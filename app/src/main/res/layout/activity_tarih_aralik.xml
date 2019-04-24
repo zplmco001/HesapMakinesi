@@ -107,6 +107,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/corner_round_button"
             android:text="LİSTELE"
-            android:textSize="40dp" />
+            android:textSize="40dp"
+            android:textStyle="normal" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

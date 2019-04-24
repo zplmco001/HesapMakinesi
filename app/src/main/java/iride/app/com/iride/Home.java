@@ -682,7 +682,7 @@ public class Home extends AppCompatActivity implements Runnable{
 
             bisadet= "ADET  : "+(adet)+"\n\n";
 
-            cıkıstime = "CIKIS SAAT :"+baslangic.getText().toString().substring(17)+"\n";
+            cıkıstime = "CIKIS SAAT :"+baslangic.getText().toString().substring(12)+"\n";
 
 
             teslimtime = "TESLIM SAAT:"+bitis.getText().toString().substring(13)+"\n\n";

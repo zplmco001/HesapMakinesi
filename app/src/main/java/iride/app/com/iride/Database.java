@@ -22,6 +22,7 @@ public class Database extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(adminTable);
 
         sqLiteDatabase.execSQL("insert into admin (admin_name,password) values ('Admin','admin')");
+        sqLiteDatabase.execSQL("insert into admin (admin_name,password) values ('Gunluk','admin')");
 
 
         String satisTable = "create table satis_info (fis_no integer,kayit_tarih text,musteri_isim text," +

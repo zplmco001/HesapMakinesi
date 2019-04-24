@@ -149,7 +149,7 @@ public class DatabaseConnection {
 
     int toplamKazanc(String bas,String son){
 
-        String query= "select sum(toplam_ucret) from satis_info where kayit_tarih between '"+bas+"' and '"+son+"'";
+        String query= "select sum(toplam_ucret) from satis_info where kayit_tarih between '"+bas+"' and '"+son+"'"  ;
         Cursor c = sqLiteDatabase.rawQuery(query,null);
         if(c.moveToFirst()){
             return c.getInt(0);

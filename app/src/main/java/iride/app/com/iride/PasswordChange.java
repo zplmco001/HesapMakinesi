@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import static iride.app.com.iride.AdminPanel.dialog;
+
 public class PasswordChange extends AppCompatActivity {
 
 
@@ -64,6 +66,7 @@ public class PasswordChange extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Şifre değiştirildi",Toast.LENGTH_SHORT).show();
                             dc.close();
                             finish();
+                            dialog.dismiss();
                         }
                     }
                 }

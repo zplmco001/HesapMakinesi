@@ -1,6 +1,7 @@
 package iride.app.com.iride;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -37,6 +40,8 @@ public class AdminPanel extends AppCompatActivity  {
     private String date;
     static TextView totalearn;
     private Toolbar toolbar2;
+    Button gunpass;
+    Button addpass;
 
 
 
@@ -149,11 +154,15 @@ public class AdminPanel extends AppCompatActivity  {
             }
         });
 
+
+
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),PasswordChange.class);
-                startActivity(i);
+                /*Intent i = new Intent(getApplicationContext(),PasswordChange.class);
+                startActivity(i);*/
+                DialogView();
+
             }
         });
 
@@ -175,5 +184,42 @@ public class AdminPanel extends AppCompatActivity  {
         });
 
 
+    }
+
+
+    static Dialog dialog;
+
+
+    public void DialogView(){
+        dialog = new Dialog(AdminPanel.this);
+
+        Window window = dialog.getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+
+        dialog.setTitle("Şifre Değiştir");
+
+        dialog.setContentView(R.layout.pass_dialog);
+
+        addpass = (Button) dialog.findViewById(R.id.goadpassch);
+        gunpass = (Button) dialog.findViewById(R.id.gogunpassch);
+
+        addpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),PasswordChange.class);
+                startActivity(i);
+            }
+        });
+
+        gunpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),GunlukPassChange.class);
+                startActivity(i);
+            }
+        });
+
+
+        dialog.show();
     }
 }

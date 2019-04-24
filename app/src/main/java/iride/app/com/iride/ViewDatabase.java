@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -71,7 +72,7 @@ public class ViewDatabase extends AppCompatActivity {
             Toast.makeText(this,"Liste boş!",Toast.LENGTH_SHORT).show();
             finish();
         }else{
-            ListAdapter adapter = new ListAdapter(this,R.layout.list_adapter,prevlist);
+            final ListAdapter adapter = new ListAdapter(this,R.layout.list_adapter,prevlist);
 
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,7 +96,7 @@ public class ViewDatabase extends AppCompatActivity {
 
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
-                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(ViewDatabase.this);
                     builder.setTitle("iRide");
                     builder.setMessage("Seçilen kayıt silinecek.Onaylıyor musunuz?");
@@ -109,14 +110,15 @@ public class ViewDatabase extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int t) {
 
                             List<SatisInfo> tm,tn;
+                            DatabaseConnection data = new DatabaseConnection(getApplicationContext());
 
                             tn=new ArrayList<>();
-                            dc.open();
-                            dc.kayitSil(prevlist.get(temp).fisNo,prevlist.get(temp).kayitTarihi);
-                            tm = dc.gunlukKayıtlar();
-                            dc.close();
+                            data.open();
+                            data.kayitSil(prevlist.get(temp).fisNo,prevlist.get(temp).kayitTarihi);
+                            tm = data.gunlukKayıtlar();
+                            data.close();
 
-
+                            adapter.remove(adapter.getItem(i));
 
 
                             for(int i=1; i<=tm.size(); i++){
@@ -145,11 +147,13 @@ public class ViewDatabase extends AppCompatActivity {
         goruntule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),AdminLogIn.class);
-                i.putExtra("val","viewdb");
+                Intent i = new Intent(getApplicationContext(),GunlukPassword.class);
+                //i.putExtra("val","viewdb");
                 startActivity(i);
             }
         });
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
 

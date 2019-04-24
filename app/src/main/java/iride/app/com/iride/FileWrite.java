@@ -61,7 +61,22 @@ public class FileWrite {
             int day = calendar.get(Calendar.DATE);
             int month = calendar.get(Calendar.MONTH) + 1;
             int year = calendar.get(Calendar.YEAR);
-            String today = day+"/"+month+"/"+year;
+            String today;
+            if(day<10){
+
+                if(month<10){
+                    today = "0"+day+"/0"+month+"/"+year;
+                }else{
+                    today = "0"+day+"/"+month+"/"+year;
+                }
+
+            }else if(month<10){
+                today = day+"/0"+month+"/"+year;
+            }else{
+                today = day+"/"+month+"/"+year;
+            }
+            Log.e("today",today);
+            Log.e("kayit",kayitTarihi);
             if (today.equals(kayitTarihi)){
                 return false;
             }else {

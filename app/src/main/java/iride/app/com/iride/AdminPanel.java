@@ -183,6 +183,7 @@ public class AdminPanel extends AppCompatActivity  {
             }
         });
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
 

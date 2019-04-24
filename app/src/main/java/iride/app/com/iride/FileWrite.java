@@ -25,10 +25,16 @@ public class FileWrite {
 
     public void write(){
         Log.e("afs","fa");
+
+        String name = list.get(0).kayitTarihi+".csv";
+        name = name.replace('/','.');
+
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Environment.getExternalStorageDirectory().getPath(),"trial.csv"),true));
+            File file = new File("/storage/emulated/0/iRide Kayıtlar",name);
+            Log.e("filenem",file.getName());
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file,true));
             writer.write("Fis No;Tarih;Isim;Adet;Tarife;Cikis;Teslim;Ucret");
-            Log.e("dir",Environment.getExternalStorageDirectory().getPath());
+            Log.e("dir2",Environment.getExternalStorageDirectory().getPath());
             writer.write("\n");
             for(SatisInfo info:list){
                 writer.write(info.fisNo+";"+info.kayitTarihi+";"+info.müsteriİsim+";"+info.adet+";"+

@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -60,7 +61,7 @@ public class Home extends AppCompatActivity implements Runnable{
     private int selected = -1;
     private int selectedTarife = -1;
     private int fiyat;
-    private TextView ucret, baslangic,bitis,fis,toplam,tarih;
+    private TextView ucret,baslangic,bitis,fis,toplam,tarih;
     private Timer timer;
     private EditText ekstra,editText2;
     private int total,fisNo;
@@ -212,14 +213,11 @@ public class Home extends AppCompatActivity implements Runnable{
         List<SatisInfo> list = dc.gunlukKayıtlar();
         dc.close();
         FileWrite fw = new FileWrite(list);
-       // if (fw.isOldDay()){
-        if (list.size()>0){
-            fw.write();
-            Log.e("written","yazıldı");
-            Log.e("dir", Environment.getExternalStorageDirectory().getPath());
+        if (fw.isOldDay()){
+            if (list.size()>0){
+                fw.write();
+            }
         }
-
-        //}
 
 
         ekstra = (EditText)findViewById(R.id.ekstra);
@@ -283,9 +281,20 @@ public class Home extends AppCompatActivity implements Runnable{
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
 
-        timer = new Timer();
-        Task task = new Task(baslangic);
-        timer.schedule(task,0,10000);
+        info = (SatisInfo) getIntent().getSerializableExtra("obje");
+        if (info != null){
+            Log.e("a",info.baslangıcSüre);
+            Log.e("a",info.tarife+"");
+            Log.e("a",info.bitisSüre);
+            getResult(info);
+
+        }else {
+            timer = new Timer();
+            final Task task = new Task(baslangic);
+            timer.schedule(task,0,10000);
+        }
+
+
 
 
         /**Pushlama memete gönder*/
@@ -363,13 +372,7 @@ public class Home extends AppCompatActivity implements Runnable{
             }
         });
 
-        info = (SatisInfo) getIntent().getSerializableExtra("obje");
-        if (info != null){
-            Log.e("a",info.baslangıcSüre);
-            Log.e("a",info.tarife+"");
-            Log.e("a",info.bitisSüre);
-            getResult(info);
-        }
+
 
         hideSoftKeyboard(Home.this);
         new View(this).getWindowToken();
@@ -381,12 +384,16 @@ public class Home extends AppCompatActivity implements Runnable{
                 kaydet.setVisibility(View.INVISIBLE);
                 initialize();
                 info = null;
+                timer = new Timer();
+                timer.schedule(new Task(baslangic),0,10000);
             }
         });
 
         if (info == null){
             kaydet.setVisibility(View.INVISIBLE);
         }
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
 
@@ -414,7 +421,7 @@ public class Home extends AppCompatActivity implements Runnable{
 
             }
 
-            dc.satisEkle(fisNo,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(18),
+            dc.satisEkle(fisNo,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(13),
                     bitisS,total);
 
         }
@@ -446,8 +453,10 @@ public class Home extends AppCompatActivity implements Runnable{
                 fis.setText("Fiş No: 0"+fisNo);
             }
 
-            baslangic.setText("Başlangıç Zamanı: "+info.baslangıcSüre);
-            bitis.setText("Bitiş Zamanı: "+info.bitisSüre);
+            baslangic.setText("Çıkış Saati: "+info.baslangıcSüre);
+            Log.e("çıkış",String.valueOf(baslangic.getText()));
+            bitis.setText("Teslim Saati: "+info.bitisSüre);
+            Log.e("teslim",String.valueOf(bitis.getText()));
 
 
             ucret.setText("ÜCRET :"+info.totalÜcret+" TL");
@@ -471,11 +480,12 @@ public class Home extends AppCompatActivity implements Runnable{
             }
 
             selectedTarife = info.tarife;
-            tUcret = tarifeUcret[selectedTarife];
+            if (selectedTarife<4)
+                tUcret = tarifeUcret[selectedTarife];
 
 
             toplam.setText("Toplam: "+total+" TL");
-            timer.cancel();
+
 
     }
 
@@ -492,7 +502,7 @@ public class Home extends AppCompatActivity implements Runnable{
         }
 
 
-        bitis.setText("Bitiş Zamanı:");
+        bitis.setText("Teslim Saati:");
         ekstra.setText("");
         total = 0;
         toplam.setText("Toplam:");
@@ -502,6 +512,7 @@ public class Home extends AppCompatActivity implements Runnable{
         selected = -1;
         selectedTarife = -1;
         updateTime(baslangic);
+
 
     }
 
@@ -579,12 +590,14 @@ public class Home extends AppCompatActivity implements Runnable{
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
                 String val = (String)baslangic.getText();
-                val = val.substring(0,17);
+                val = val.substring(0,12);
                 if (minute<10){
                     baslangic.setText(val+" "+hour+":0"+minute);
+                    Log.e("sıkıntı11",String.valueOf(baslangic.getText()));
                 }
                 else
                     baslangic.setText(val+" "+hour+":"+minute);
+                    Log.e("sıkıntı12",String.valueOf(baslangic.getText()));
 
                 if(bitis.length()>13&&selectedTarife<4){
                    // int hourF = Integer.parseInt(((String) baslangic.getText()).substring(18,20));
@@ -954,13 +967,13 @@ public class Home extends AppCompatActivity implements Runnable{
                 toplam.setText("TOPLAM: "+total+" TL");
 
                 int hour,minute;
-                if (baslangic.getText().length()>22){
-                    hour = Integer.parseInt(((String) baslangic.getText()).substring(18,20));
-                    minute = Integer.parseInt(((String) baslangic.getText()).substring(21,23));
+                if (baslangic.getText().length()>17){
+                    hour = Integer.parseInt(((String) baslangic.getText()).substring(13,15));
+                    minute = Integer.parseInt(((String) baslangic.getText()).substring(16,18));
                 }
                 else{
-                    hour = Integer.parseInt(((String) baslangic.getText()).substring(18,19));
-                    minute = Integer.parseInt(((String) baslangic.getText()).substring(20,22));
+                    hour = Integer.parseInt(((String) baslangic.getText()).substring(13,14));
+                    minute = Integer.parseInt(((String) baslangic.getText()).substring(15,17));
                 }
 
 
@@ -982,6 +995,7 @@ public class Home extends AppCompatActivity implements Runnable{
             }
             else{
                 if (info != null){
+                    bitis.setText("Teslim Saati:");
                     ucret.setText("Ücret: "+info.totalÜcret+" TL");
                     total = info.totalÜcret;
                     ekstra.setText("");
@@ -989,7 +1003,7 @@ public class Home extends AppCompatActivity implements Runnable{
                 }
                 else{
                     ucret.setText("Ücret:\t");
-                    bitis.setText("Bitiş Zamanı:");
+                    bitis.setText("Teslim Saati:");
                     toplam.setText("Toplam:");
                     fiyat = 0;
                 }

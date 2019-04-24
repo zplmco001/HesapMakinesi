@@ -36,6 +36,7 @@ public class AdminPanel extends AppCompatActivity  {
     static ListView listView;
     private String date;
     static TextView totalearn;
+    private Toolbar toolbar2;
 
 
 
@@ -54,14 +55,22 @@ public class AdminPanel extends AppCompatActivity  {
 
         totalearn = (TextView) findViewById(R.id.gettotal);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
-        setSupportActionBar(toolbar);
+        dc = new DatabaseConnection(getApplicationContext());
+        dc.read();
+        totalearn.setText(String.valueOf(dc.toplamKazanc())+" TL");
+        list = dc.tumKayıtlar();
+        dc.close();
+        ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,list);
+        listView.setAdapter(adapter);
+
+        toolbar2 = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar2);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar2.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -124,7 +133,7 @@ public class AdminPanel extends AppCompatActivity  {
                         DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
                         dc.read();
                         tarihlist = dc.tarihGetir(date);
-                        totalearn.setText(String.valueOf(dc.toplamKazanc())+" TL");
+                        totalearn.setText(String.valueOf(dc.toplamKazanc(date))+" TL");
                         dc.close();
 
                         ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,tarihlist);

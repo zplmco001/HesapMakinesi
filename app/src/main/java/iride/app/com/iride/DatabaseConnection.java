@@ -147,6 +147,27 @@ public class DatabaseConnection {
         return list;
     }
 
+    int toplamKazanc(String bas,String son){
+
+        String query= "select sum(toplam_ucret) from satis_info where kayit_tarih between '"+bas+"' and '"+son+"'";
+        Cursor c = sqLiteDatabase.rawQuery(query,null);
+        if(c.moveToFirst()){
+            return c.getInt(0);
+        }else{
+            return 0;
+        }
+    }
+
+    int toplamKazanc(String tarih){
+
+        String query= "select sum(toplam_ucret) from satis_info where kayit_tarih='"+tarih+"'";
+        Cursor c = sqLiteDatabase.rawQuery(query,null);
+        if(c.moveToFirst()){
+            return c.getInt(0);
+        }else{
+            return 0;
+        }
+    }
 
     int toplamKazanc(){
 

@@ -49,7 +49,28 @@ public class ListAdapter extends ArrayAdapter<SatisInfo> {
             tw[1].setText(info.kayitTarihi);
             tw[2].setText(info.müsteriİsim);
             tw[3].setText(String.valueOf(info.adet));
-            tw[4].setText(String.valueOf(info.tarife));
+
+            switch (info.tarife){
+                case 0:
+                    tw[4].setText("15 DK");
+                    break;
+
+                case 1:
+                    tw[4].setText("30 DK");
+                    break;
+
+                case 2:
+                    tw[4].setText("45 DK");
+                    break;
+
+                case 3:
+                    tw[4].setText("60 DK");
+                    break;
+
+                case 4:
+                    tw[4].setText("AÇIK HESAP");
+            }
+
             tw[5].setText(info.baslangıcSüre);
             tw[6].setText(info.bitisSüre);
             tw[7].setText(String.valueOf(info.totalÜcret));

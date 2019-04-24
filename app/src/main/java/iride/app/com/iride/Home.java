@@ -1,8 +1,22 @@
 package iride.app.com.iride;
 
 import android.app.Activity;
+
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,14 +35,21 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements Runnable{
 
     private Button buttons[] = new Button[10];
     private Button tarife[] = new Button[5];
@@ -48,10 +69,88 @@ public class Home extends AppCompatActivity {
     public SatisInfo info = null;
 
 
+
+    /**Bluetooth parametreleri**/
+    private static final int REQUEST_CONNECT_DEVICE = 1;
+    private static final int REQUEST_ENABLE_BT = 2;
+    protected static final String TAG = "TAG";
+
+
+    BluetoothAdapter mBluetoothAdapter;
+    private UUID applicationUUID = UUID
+            .fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private ProgressDialog mBluetoothConnectProgressDialog;
+    private BluetoothSocket mBluetoothSocket;
+    BluetoothDevice mBluetoothDevice;
+    int printstat;
+    /**Bluetooth parametreleri**/
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        /**Bluetooth aktif et**/
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(getApplicationContext(), "Message1", Toast.LENGTH_SHORT).show();
+        } else {
+            if (!mBluetoothAdapter.isEnabled()) {
+                Intent enableBtIntent = new Intent(
+                        BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent,
+                        REQUEST_ENABLE_BT);
+            } else {
+                ListPairedDevices();
+                Intent connectIntent = new Intent(getApplicationContext(),
+                        DeviceListActivity.class);
+                startActivityForResult(connectIntent,
+                        REQUEST_CONNECT_DEVICE);
+
+            }
+        }
+
+        /**Bluetooth aktif et**/
+
+
+
+
+        final Button kaydet = (Button) findViewById(R.id.kaydet);
+
+        Button yazdir = (Button)findViewById(R.id.yazdir);
+
+        yazdir.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
+
+                    print();
+                    kaydet();
+                    kaydet.setVisibility(View.INVISIBLE);
+
+
+                }else{
+                    Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+
+        kaydet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
+                    kaydet();
+                }else{
+                    Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
         editText2 = (EditText) findViewById(R.id.editText2);
@@ -206,38 +305,9 @@ public class Home extends AppCompatActivity {
         /*Pushlama memete gönder**/
 
 
-        Button yazdir = (Button)findViewById(R.id.yazdir);
-
-        final Button kaydet = (Button) findViewById(R.id.kaydet);
-
-        yazdir.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
-                    kaydet();
-                    kaydet.setVisibility(View.INVISIBLE);
-                    print();
-
-                }else{
-                    Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
 
 
-        kaydet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
-                    kaydet();
-                }else{
-                    Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+
 
 
         Button deneme = (Button) findViewById(R.id.button);
@@ -246,6 +316,7 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),ViewDatabase.class);
                 startActivity(i);
+
             }
         });
 
@@ -319,9 +390,6 @@ public class Home extends AppCompatActivity {
 
     }
 
-    void print(){
-
-    }
 
     void kaydet(){
         DatabaseConnection dc = new DatabaseConnection(getBaseContext());
@@ -544,6 +612,250 @@ public class Home extends AppCompatActivity {
 
     }
 
+    /** BLUETOOTH **/
+
+    private void ListPairedDevices() {
+        Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter
+                .getBondedDevices();
+        if (mPairedDevices.size() > 0) {
+            for (BluetoothDevice mDevice : mPairedDevices) {
+                Log.v(TAG, "PairedDevices: " + mDevice.getName() + "  "
+                        + mDevice.getAddress());
+            }
+        }
+    }
+
+    public void print(){
+        p1();
+
+        int TIME = 200; //5000 ms (5 Seconds)
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                p2(); //call function!
+
+                printstat = 1;
+            }
+        }, TIME);
+    }
+
+    public void p1(){
+
+        try {
+            OutputStream os = mBluetoothSocket
+                    .getOutputStream();
+
+            String deneme = "üğışöçİŞĞÜÇÖ";
+            String musname = "";
+            String bisadet= "";
+            String fisnumara = "";
+            String cıkıstime = "";
+            String teslimtime = "" ;
+            String info= "";
+            String checktop_status = "";
+            String linespr="------------------\n";
+
+
+
+
+            fisnumara = "\n\nFIS NO:"+fis.getText().toString().substring(7)+"\n\n";
+
+            musname =  "ISIM  : "+editText2.getText().toString()+"\n\n";
+
+            bisadet= "ADET  : "+(adet)+"\n\n";
+
+            cıkıstime = "CIKIS SAAT :"+baslangic.getText().toString().substring(17)+"\n";
+
+
+            teslimtime = "TESLIM SAAT:"+bitis.getText().toString().substring(13)+"\n\n";
+
+            info = "           KIRALAMA DONUSUNDE\n     KIMLIGINIZI ALMAYI UNUTMAYINIZ.\n\n\n";
+
+            checktop_status="\n\n\n";
+
+            Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(R.drawable.fisbrand)).getBitmap();
+
+            byte[] arrayOfByte1 = { 27, 33, 0 };
+
+            byte[] format = { 27, 33, 0 };
+
+            format[2] = ((byte) (0x20 | arrayOfByte1[2]));
+// Width
+
+
+
+
+
+            os.write(POS_PrintBMP(bitmap,384,0));
+            os.write(format);
+            os.write(fisnumara.getBytes());
+            os.write(musname.getBytes());
+            os.write(bisadet.getBytes());
+            os.write(cıkıstime.getBytes());
+            os.write(linespr.getBytes());
+            os.write(teslimtime.getBytes());
+            byte[] nrml = { 27, 33, 0 };
+
+            os.write(nrml);
+            os.write(info.getBytes());
+            os.write(checktop_status.getBytes());
+
+
+
+
+            //This is printer specific code you can comment ==== > Start
+
+            // Setting height
+            int gs = 29;
+            os.write(intToByteArray(gs));
+            int h = 104;
+            os.write(intToByteArray(h));
+            int n = 162;
+            os.write(intToByteArray(n));
+
+            // Setting Width
+            int gs_width = 29;
+            os.write(intToByteArray(gs_width));
+            int w = 119;
+            os.write(intToByteArray(w));
+            int n_width = 2;
+            os.write(intToByteArray(n_width));
+
+
+        } catch (Exception e) {
+            Log.e("PrintActivity", "Exe ", e);
+        }
+    }
+
+
+
+    public void p2(){
+
+
+        try {
+            OutputStream os = mBluetoothSocket
+                    .getOutputStream();
+
+            int c1=29;
+            int c2=86;
+            int c3=66;
+
+                    /*String checktop_status = "";
+                    os.write(checktop_status.getBytes());*/
+
+            os.write(intToByteArray(c1));
+            os.write(intToByteArray(c2));
+            os.write(intToByteArray(c3));
+
+
+            String checktop_status = "\n";
+
+
+            os.write(checktop_status.getBytes());
+
+
+
+
+
+
+        } catch (Exception e) {
+            Log.e("PrintActivity", "Exe ", e);
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            mBluetoothSocket = mBluetoothDevice
+                    .createRfcommSocketToServiceRecord(applicationUUID);
+            mBluetoothAdapter.cancelDiscovery();
+            mBluetoothSocket.connect();
+            mHandler.sendEmptyMessage(0);
+        } catch (IOException eConnectException) {
+            Log.d(TAG, "CouldNotConnectToSocket", eConnectException);
+            closeSocket(mBluetoothSocket);
+            return;
+        }
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mBluetoothConnectProgressDialog.dismiss();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        try {
+            if (mBluetoothSocket != null)
+                mBluetoothSocket.close();
+        } catch (Exception e) {
+            Log.e("Tag", "Exe ", e);
+        }
+    }
+
+    private void closeSocket(BluetoothSocket nOpenSocket) {
+        try {
+            nOpenSocket.close();
+            Log.d(TAG, "SocketClosed");
+        } catch (IOException ex) {
+            Log.d(TAG, "CouldNotCloseSocket");
+        }
+    }
+
+    public void onActivityResult(int mRequestCode, int mResultCode,
+                                 Intent mDataIntent) {
+        super.onActivityResult(mRequestCode, mResultCode, mDataIntent);
+
+        switch (mRequestCode) {
+            case REQUEST_CONNECT_DEVICE:
+                if (mResultCode == Activity.RESULT_OK) {
+                    Bundle mExtra = mDataIntent.getExtras();
+                    String mDeviceAddress = mExtra.getString("DeviceAddress");
+                    Log.v(TAG, "Coming incoming address " + mDeviceAddress);
+                    mBluetoothDevice = mBluetoothAdapter
+                            .getRemoteDevice(mDeviceAddress);
+                    mBluetoothConnectProgressDialog = ProgressDialog.show(this,
+                            "Cihaza bağlanıyor...", mBluetoothDevice.getName() + " : "
+                                    + mBluetoothDevice.getAddress(), true, false);
+                    Thread mBlutoothConnectThread = new Thread(this);
+                    mBlutoothConnectThread.start();
+                    // pairToDevice(mBluetoothDevice); This method is replaced by
+                    // progress dialog with thread
+                }
+                break;
+
+            case REQUEST_ENABLE_BT:
+                if (mResultCode == Activity.RESULT_OK) {
+                    ListPairedDevices();
+                    Intent connectIntent = new Intent(getApplicationContext(),
+                            DeviceListActivity.class);
+                    startActivityForResult(connectIntent, REQUEST_CONNECT_DEVICE);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Message", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    public static byte intToByteArray(int value) {
+        byte[] b = ByteBuffer.allocate(4).putInt(value).array();
+
+        for (int k = 0; k < b.length; k++) {
+            System.out.println("Selva  [" + k + "] = " + "0x"
+                    + UnicodeFormatter.byteToHex(b[k]));
+        }
+
+        return b[3];
+    }
+
+
+    /** BLUETOOTH**/
     private class ButonClick implements View.OnClickListener{
 
         private int index;
@@ -709,4 +1021,158 @@ public class Home extends AppCompatActivity {
             updateTime(tv);
         }
     }
+
+
+
+
+    /**Print Logo**/
+
+    public static byte[] POS_PrintBMP(Bitmap var0, int var1, int var2) {
+        var1 = (var1 + 7) / 8 * 8;
+        int var3 = (var0.getHeight() * var1 / var0.getWidth() + 7) / 8;
+        Bitmap var4 = var0;
+        if (var0.getWidth() != var1) {
+            var4 = resizeImage(var0, var1, var3 * 8);
+        }
+
+        return eachLinePixToCmd(thresholdToBWPic(toGrayscale(var4)), var1, var2);
+    }
+
+    public static Bitmap resizeImage(Bitmap var0, int var1, int var2) {
+        int var3 = var0.getWidth();
+        int var4 = var0.getHeight();
+        float var5 = (float)var1 / (float)var3;
+        float var6 = (float)var2 / (float)var4;
+        Matrix var7 = new Matrix();
+        var7.postScale(var5, var6);
+        return Bitmap.createBitmap(var0, 0, 0, var3, var4, var7, true);
+    }
+
+    public static Bitmap toGrayscale(Bitmap var0) {
+        int var1 = var0.getHeight();
+        Bitmap var2 = Bitmap.createBitmap(var0.getWidth(), var1, Bitmap.Config.ARGB_8888);
+        Canvas var3 = new Canvas(var2);
+        Paint var4 = new Paint();
+        ColorMatrix var5 = new ColorMatrix();
+        var5.setSaturation(0.0F);
+        var4.setColorFilter(new ColorMatrixColorFilter(var5));
+        var3.drawBitmap(var0, 0.0F, 0.0F, var4);
+        return var2;
+    }
+
+
+    public static byte[] thresholdToBWPic(Bitmap var0) {
+        int[] var1 = new int[var0.getWidth() * var0.getHeight()];
+        byte[] var2 = new byte[var0.getWidth() * var0.getHeight()];
+        var0.getPixels(var1, 0, var0.getWidth(), 0, 0, var0.getWidth(), var0.getHeight());
+        format_K_threshold(var1, var0.getWidth(), var0.getHeight(), var2);
+        return var2;
+    }
+
+    private static void format_K_threshold(int[] var0, int var1, int var2, byte[] var3) {
+        int var4 = 0;
+        int var5 = 0;
+
+        int var6;
+        int var7;
+        for(var6 = 0; var6 < var2; ++var6) {
+            for(var7 = 0; var7 < var1; ++var7) {
+                var4 += var0[var5] & 255;
+                ++var5;
+            }
+        }
+
+        var4 = var4 / var2 / var1;
+        var5 = 0;
+
+        for(var6 = 0; var6 < var2; ++var6) {
+            for(var7 = 0; var7 < var1; ++var7) {
+                if ((var0[var5] & 255) > var4) {
+                    var3[var5] = (byte)0;
+                } else {
+                    var3[var5] = (byte)1;
+                }
+
+                ++var5;
+            }
+        }
+    }
+
+
+
+
+    private static int[] p0;
+    private static int[] p1;
+    private static int[] p2;
+    private static int[] p3;
+    private static int[] p4;
+    private static int[] p5;
+    private static int[] p6;
+    private static final byte[] chartobyte;
+
+
+    static {
+        int[] var0 = new int[]{0, 128};
+        p0 = var0;
+        var0 = new int[]{0, 64};
+        p1 = var0;
+        var0 = new int[]{0, 32};
+        p2 = var0;
+        var0 = new int[]{0, 16};
+        p3 = var0;
+        var0 = new int[]{0, 8};
+        p4 = var0;
+        var0 = new int[]{0, 4};
+        p5 = var0;
+        var0 = new int[]{0, 2};
+        p6 = var0;
+        byte[] var1 = new byte[23];
+        var1[1] = (byte)1;
+        var1[2] = (byte)2;
+        var1[3] = (byte)3;
+        var1[4] = (byte)4;
+        var1[5] = (byte)5;
+        var1[6] = (byte)6;
+        var1[7] = (byte)7;
+        var1[8] = (byte)8;
+        var1[9] = (byte)9;
+        var1[17] = (byte)10;
+        var1[18] = (byte)11;
+        var1[19] = (byte)12;
+        var1[20] = (byte)13;
+        var1[21] = (byte)14;
+        var1[22] = (byte)15;
+        chartobyte = var1;
+    }
+
+
+
+    public static byte[] eachLinePixToCmd(byte[] var0, int var1, int var2) {
+        int var3 = var0.length / var1;
+        int var4 = var1 / 8;
+        byte[] var5 = new byte[(var4 + 8) * var3];
+        int var6 = 0;
+
+        for(var1 = 0; var1 < var3; ++var1) {
+            int var7 = var1 * (var4 + 8);
+            var5[var7 + 0] = (byte)29;
+            var5[var7 + 1] = (byte)118;
+            var5[var7 + 2] = (byte)48;
+            var5[var7 + 3] = (byte)((byte)(var2 & 1));
+            var5[var7 + 4] = (byte)((byte)(var4 % 256));
+            var5[var7 + 5] = (byte)((byte)(var4 / 256));
+            var5[var7 + 6] = (byte)1;
+            var5[var7 + 7] = (byte)0;
+
+            for(int var8 = 0; var8 < var4; ++var8) {
+                var5[var7 + 8 + var8] = (byte)((byte)(p0[var0[var6]] + p1[var0[var6 + 1]] + p2[var0[var6 + 2]] + p3[var0[var6 + 3]] + p4[var0[var6 + 4]] + p5[var0[var6 + 5]] + p6[var0[var6 + 6]] + var0[var6 + 7]));
+                var6 += 8;
+            }
+        }
+
+        return var5;
+    }
+
+
+
 }

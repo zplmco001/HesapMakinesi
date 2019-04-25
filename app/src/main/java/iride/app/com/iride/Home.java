@@ -284,6 +284,15 @@ public class Home extends AppCompatActivity implements Runnable{
         int day = calendar.get(Calendar.DATE);
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
+        int modus =2000;
+
+        if(year%modus!=0){
+            year=year%modus;
+        }else{
+            modus+=1000;
+            year=year%modus;
+        }
+
 
         info = (SatisInfo) getIntent().getSerializableExtra("obje");
         /*/if (info != null){

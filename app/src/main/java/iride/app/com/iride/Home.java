@@ -648,7 +648,16 @@ public class Home extends AppCompatActivity implements Runnable{
             public void run() {
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                int minute = calendar.get(Calendar.MINUTE);
+                int minute = calendar.get(Calendar.MINUTE)+3;
+
+                if(minute/60!=0){
+                    minute=minute%60;
+                    hour+=1;
+                    if(hour>=24){
+                        hour=hour%24;
+                    }
+                }
+
                 String val = (String)baslangic.getText();
                 val = val.substring(0,12);
                 if (minute<10){
@@ -674,10 +683,10 @@ public class Home extends AppCompatActivity implements Runnable{
                     String valu = (String)bitis.getText();
                     valu = valu.substring(0,13);
                     if (minute<10){
-                        bitis.setText(valu+" "+hour+":0"+minute);
+                        bitis.setText(valu+" "+hour+":0"+(minute));
                     }
                     else
-                        bitis.setText(valu+" "+hour+":"+minute);
+                        bitis.setText(valu+" "+hour+":"+(minute));
                 }
 
             }
@@ -1081,10 +1090,10 @@ public class Home extends AppCompatActivity implements Runnable{
                 String val = (String)bitis.getText();
                 val = val.substring(0,13);
                 if (minute<10){
-                    bitis.setText(val+" "+hour+":0"+minute);
+                    bitis.setText(val+" "+hour+":0"+(minute));
                 }
                 else
-                    bitis.setText(val+" "+hour+":"+minute);
+                    bitis.setText(val+" "+hour+":"+(minute));
             }
             else{
                 if (info != null){

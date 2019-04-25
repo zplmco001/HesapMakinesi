@@ -103,7 +103,7 @@ public class ViewDatabase extends AppCompatActivity {
                 }
             });
 
-            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(ViewDatabase.this);
@@ -148,7 +148,7 @@ public class ViewDatabase extends AppCompatActivity {
                     builder.show();
                     return true;
                 }
-            });
+            });*/
 
         }
 

@@ -168,8 +168,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="0dp"
             android:background="@drawable/round_corner"
-            android:text="Görüntüle"
+            android:text="GÜN \nTOPLAMI"
             tools:layout_editor_absoluteX="-7dp"
             tools:layout_editor_absoluteY="54dp" />
     </RelativeLayout>

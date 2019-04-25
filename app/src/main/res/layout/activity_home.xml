@@ -153,7 +153,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_weight="0.3"
                     android:gravity="center_vertical"
-                    android:text="İsim Soyisim:"
+                    android:text="AD SOYAD:"
                     android:textAllCaps="true"
                     android:textColor="?android:attr/colorBackground"
                     android:textSize="25sp" />

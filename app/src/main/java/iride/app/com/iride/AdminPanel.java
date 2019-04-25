@@ -42,6 +42,7 @@ public class AdminPanel extends AppCompatActivity  {
     private Toolbar toolbar2;
     Button gunpass;
     Button addpass;
+    private Button back;
 
 
 
@@ -68,7 +69,7 @@ public class AdminPanel extends AppCompatActivity  {
         ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,list);
         listView.setAdapter(adapter);
 
-        toolbar2 = (Toolbar) findViewById(R.id.toolbar2);
+        /*toolbar2 = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar2);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,14 +81,23 @@ public class AdminPanel extends AppCompatActivity  {
             public void onClick(View v) {
                 onBackPressed();
             }
+        });*/
+        back = (Button)findViewById(R.id.backadmin);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
         });
 
 
 
-        final Calendar c = Calendar.getInstance();
+
+        Calendar c = Calendar.getInstance();
         final int day=c.get(Calendar.DAY_OF_MONTH);
         final int month = c.get(Calendar.MONTH);
         final int year = c.get(Calendar.YEAR);
+
 
 
         tariharalik.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +133,16 @@ public class AdminPanel extends AppCompatActivity  {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AdminPanel.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
+
+                        int modus =2000;
+
+                        if(mYear%modus!=0){
+                            mYear=mYear%modus;
+                        }else{
+                            modus+=1000;
+                            mYear=mYear%modus;
+                        }
+
                         if(mDay<10){
                             if(mMonth<10){
                                 date="0"+mDay+"/0"+(mMonth+1)+"/"+mYear;
@@ -134,6 +154,7 @@ public class AdminPanel extends AppCompatActivity  {
                         }else{
                             date=mDay+"/"+(mMonth+1)+"/"+mYear;
                         }
+
 
                         DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
                         dc.read();

@@ -29,6 +29,10 @@ public class FileWrite {
         String name = list.get(0).kayitTarihi+".csv";
         name = name.replace('/','.');
 
+        String trftxt="";
+
+
+
         try {
             File file = new File("/storage/emulated/0/iRide Kayıtlar",name);
             Log.e("filenem",file.getName());
@@ -37,8 +41,30 @@ public class FileWrite {
             Log.e("dir2",Environment.getExternalStorageDirectory().getPath());
             writer.write("\n");
             for(SatisInfo info:list){
+
+                switch (info.tarife){
+                    case 0:
+                        trftxt="15 DK";
+                        break;
+
+                    case 1:
+                        trftxt="30 DK";
+                        break;
+
+                    case 2:
+                        trftxt="45 DK";
+                        break;
+
+                    case 3:
+                        trftxt="60 DK";
+                        break;
+
+                    case 4:
+                        trftxt="AÇIK HESAP";
+                }
+
                 writer.write(info.fisNo+";"+info.kayitTarihi+";"+info.müsteriİsim+";"+info.adet+";"+
-                info.tarife+";"+info.baslangıcSüre+";"+info.bitisSüre+";"+info.totalÜcret);
+                trftxt+";"+info.baslangıcSüre+";"+info.bitisSüre+";"+info.totalÜcret);
                 Log.e("cvs",info.fisNo+";"+info.kayitTarihi+";"+info.müsteriİsim+";"+info.adet+";"+
                         info.tarife+";"+info.baslangıcSüre+";"+info.bitisSüre+";"+info.totalÜcret);
                 writer.write("\n");

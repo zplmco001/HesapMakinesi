@@ -31,12 +31,21 @@ public class ViewDatabase extends AppCompatActivity {
     private Button goruntule;
     public static int code = 0;
     static int temp;
+    private Button back;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_database);
+
+        back = (Button)findViewById(R.id.backdb);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -53,7 +62,7 @@ public class ViewDatabase extends AppCompatActivity {
         }
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,7 +74,7 @@ public class ViewDatabase extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
-        });
+        });*/
 
 
         if(list.size()==0){

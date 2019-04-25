@@ -76,7 +76,7 @@ public class ListAdapter extends ArrayAdapter<SatisInfo> {
             tw[7].setText(String.valueOf(info.totalÜcret));
 
             for (TextView tab : tw){
-                tab.setTextSize(38);
+                tab.setTextSize(36);
             }
 
 

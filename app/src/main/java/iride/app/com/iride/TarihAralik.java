@@ -66,6 +66,16 @@ public class TarihAralik extends AppCompatActivity {
                 DatePickerDialog dialog = new DatePickerDialog(TarihAralik.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
+
+                        int modus =2000;
+
+                        if(mYear%modus!=0){
+                            mYear=mYear%modus;
+                        }else{
+                            modus+=1000;
+                            mYear=mYear%modus;
+                        }
+
                         if(mDay<10){
                             if(mMonth<10){
                                 trh1="0"+mDay+"/0"+(mMonth+1)+"/"+mYear;
@@ -92,6 +102,16 @@ public class TarihAralik extends AppCompatActivity {
                 DatePickerDialog dialog = new DatePickerDialog(TarihAralik.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
+
+                        int modus =2000;
+
+                        if(mYear%modus!=0){
+                            mYear=mYear%modus;
+                        }else{
+                            modus+=1000;
+                            mYear=mYear%modus;
+                        }
+                        
                         if(mDay<10){
                             if(mMonth<10){
                                 trh2="0"+mDay+"/0"+(mMonth+1)+"/"+mYear;

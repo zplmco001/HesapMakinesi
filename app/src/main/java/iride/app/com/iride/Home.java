@@ -100,6 +100,25 @@ public class Home extends AppCompatActivity implements Runnable{
             timer.schedule(taskresume,0,10000);
         }
 
+        DatabaseConnection dCon = new DatabaseConnection(getApplicationContext());
+        dCon.open();
+        tarifeUcret = dCon.getTarife();
+        dCon.close();
+
+
+        /**
+         * Tarifeyi set eder.
+         */
+        for (int i=0;i<tarife.length;i++){
+            if (i == 4){
+                tarife[4].setText("Açık Hesap");
+            }else{
+                tarife[i].setText(tarifeZaman[i]+" Dakika "+tarifeUcret[i]+" TL");
+
+            }
+            tarife[i].setOnClickListener(new TarifeClick(i));
+        }
+
 
 
     }
@@ -421,6 +440,7 @@ public class Home extends AppCompatActivity implements Runnable{
             public void onClick(View view) {
                 kaydet.setVisibility(View.INVISIBLE);
                 initialize();
+                actv.setText("");
                 info = null;
                 timer = new Timer();
                 timer.schedule(new Task(baslangic),0,10000);
@@ -470,6 +490,7 @@ public class Home extends AppCompatActivity implements Runnable{
         timer = new Timer();
         timer.schedule(new Task(baslangic),0,10000);
         kaydet.setVisibility(View.INVISIBLE);
+        actv.setText("");
     }
 
     void getResult(SatisInfo info){
@@ -842,6 +863,14 @@ public class Home extends AppCompatActivity implements Runnable{
             Log.d(TAG, "CouldNotConnectToSocket", eConnectException);
            // closeSocket(mBluetoothSocket);
 
+            mHandler.sendEmptyMessage(0);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),"PRİNTERA BAĞLANILAMADI! LÜTFEN CİHAZI KONTROL EDİNİZ!",Toast.LENGTH_LONG).show();
+                }
+            });
+
             printful=false;
             return;
         }
@@ -939,8 +968,14 @@ public class Home extends AppCompatActivity implements Runnable{
         @Override
         public void onClick(View view) {
 
+            adet = index + 1;
+
+            if(selectedTarife>=0&&selectedTarife<4){
+                tUcret = tarifeUcret[selectedTarife];
+            }
+
             if (selectedTarife<4) {
-                adet = index + 1;
+                //adet = index + 1;
                 //fiyat = adet * tUcret;
                 if (info == null) {
                     fiyat = adet * tUcret;
@@ -1063,6 +1098,7 @@ public class Home extends AppCompatActivity implements Runnable{
                     ucret.setText("Ücret:\t");
                     bitis.setText("Teslim Saati:");
                     toplam.setText("Toplam:");
+                    total = 0;
                     fiyat = 0;
                 }
 

@@ -152,36 +152,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/listall"
-                android:layout_width="131dp"
-                android:layout_height="90dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginStart="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/corner_round_button"
-                android:gravity="center"
-                android:text="Hepsini listele"
-                android:textAlignment="gravity"
-                android:textSize="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/araliklist"
-                android:layout_width="131dp"
-                android:layout_height="90dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginStart="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/corner_round_button"
-                android:gravity="center"
-                android:text="Aralığa göre listele"
-                android:textAlignment="gravity"
-                android:textSize="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
                 android:id="@+id/changename"
                 android:layout_width="131dp"
                 android:layout_height="90dp"
@@ -191,21 +161,6 @@
                 android:background="@drawable/corner_round_button"
                 android:gravity="center"
                 android:text="Kullanıcı Adı Değiştir"
-                android:textAlignment="gravity"
-                android:textSize="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/listdate"
-                android:layout_width="131dp"
-                android:layout_height="90dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginStart="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/corner_round_button"
-                android:gravity="center"
-                android:text="Tarihe göre listele  "
                 android:textAlignment="gravity"
                 android:textSize="20dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -236,6 +191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginLeft="50dp"
                     android:text="TOPLAM KAZANÇ"
                     android:textColor="#000000"
                     android:textAlignment="center"
@@ -243,7 +199,8 @@
 
                 <TextView
                     android:id="@+id/gettotal"
-                    android:layout_width="match_parent"
+                    android:layout_marginLeft="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"

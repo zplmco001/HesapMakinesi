@@ -49,7 +49,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-public class Home extends AppCompatActivity implements Runnable{
+public class Home extends AppCompatActivity{
 
     private Button buttons[] = new Button[10];
     private Button tarife[] = new Button[5];
@@ -69,7 +69,7 @@ public class Home extends AppCompatActivity implements Runnable{
     static SatisInfo info = null;
     private boolean printful = false;
 
-
+    /** GENEL DATABASE SİLME EKLENDİ (1 GÜN SÜRELİ GÖSTERİM EKLENECEK) **/
 
     /**Bluetooth parametreleri**/
     private static final int REQUEST_CONNECT_DEVICE = 1;
@@ -146,12 +146,12 @@ public class Home extends AppCompatActivity implements Runnable{
 
                 if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
 
-                    print();
-                    if (printful){
-                        kaydet();
+                    //print();
+                    /*if (printful){
+                        //kaydet();
                         printful=false;
-                    }
-
+                    }*/
+                    kaydet();
                     kaydet.setVisibility(View.INVISIBLE);
 
 
@@ -236,8 +236,8 @@ public class Home extends AppCompatActivity implements Runnable{
         FileWrite fw = new FileWrite(list);
         if (fw.isOldDay()){
             if (list.size()>0){
-                fw.write();
                 dc.gunlukTemizle();
+                dc.genelTemizle();
             }
         }
         dc.close();
@@ -314,20 +314,8 @@ public class Home extends AppCompatActivity implements Runnable{
 
 
         info = (SatisInfo) getIntent().getSerializableExtra("obje");
-        /*/if (info != null){
-            Log.e("a",info.baslangıcSüre);
-            Log.e("a",info.tarife+"");
-            Log.e("a",info.bitisSüre);
-            getResult(info);
 
-        }else {
-            timer = new Timer();
-            final Task task = new Task(baslangic);
-            timer.schedule(task,0,10000);
-        }*/
-
-
-        /**Bluetooth aktif et**/
+        /**Bluetooth aktif et**//**
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(), "Message1", Toast.LENGTH_SHORT).show();
@@ -348,7 +336,7 @@ public class Home extends AppCompatActivity implements Runnable{
                 }
 
             }
-        }
+        }**/
 
         /**Bluetooth aktif et**/
 
@@ -695,7 +683,7 @@ public class Home extends AppCompatActivity implements Runnable{
     }
 
     /** BLUETOOTH **/
-
+/**
     private void ListPairedDevices() {
         Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter
                 .getBondedDevices();
@@ -713,7 +701,7 @@ public class Home extends AppCompatActivity implements Runnable{
 
         int TIME = 200; //5000 ms (5 Seconds)
 
-        /*new Handler().postDelayed(new Runnable() {
+        +new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
@@ -721,7 +709,7 @@ public class Home extends AppCompatActivity implements Runnable{
 
                 printstat = 1;
             }
-        }, TIME);*/
+        }, TIME);+
     }
 
     public void p1(){
@@ -825,8 +813,7 @@ public class Home extends AppCompatActivity implements Runnable{
             int c2=86;
             int c3=66;
 
-                    /*String checktop_status = "";
-                    os.write(checktop_status.getBytes());*/
+
 
             os.write(intToByteArray(c1));
             os.write(intToByteArray(c2));
@@ -963,7 +950,7 @@ public class Home extends AppCompatActivity implements Runnable{
         return b[3];
     }
 
-
+**/
     /** BLUETOOTH**/
     private class ButonClick implements View.OnClickListener{
 
@@ -1143,7 +1130,7 @@ public class Home extends AppCompatActivity implements Runnable{
 
 
     /**Print Logo**/
-
+/**
     public static byte[] POS_PrintBMP(Bitmap var0, int var1, int var2) {
         var1 = (var1 + 7) / 8 * 8;
         int var3 = (var0.getHeight() * var1 / var0.getWidth() + 7) / 8;
@@ -1290,6 +1277,6 @@ public class Home extends AppCompatActivity implements Runnable{
         return var5;
     }
 
-
+**/
 
 }

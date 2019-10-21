@@ -194,35 +194,20 @@ public class DatabaseConnection {
     /**Günlük kayıtlarda kullanılan işlemler**/
 
 
-    /**Genel tabloya kaydeder günlüğü siler**/
-    /*void gunlukKaydet(Context context){
-
-        DatabaseConnection dc = new DatabaseConnection(context);
-
-        dc.open();
-        List<SatisInfo> list = dc.gunlukKayıtlar();
-        dc.close();
-
-
-        if(list.size()!=0){
-            for(int i=0 ; i<list.size(); i++){
-                String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
-                        "values ('"+list.get(i).fisNo+"','"+list.get(i).kayitTarihi+"','"+list.get(i).müsteriİsim+"','"+list.get(i).adet+"','"+list.get(i).tarife+"','"+list.get(i).baslangıcSüre+"','"+list.get(i).bitisSüre+"','"+list.get(i).totalÜcret+"')";
-                sqLiteDatabase.execSQL(query);
-            }
-
-
-        }else{
-            Log.e("","boş");
-        }
-    }*/
 
     void gunlukTemizle(){
         String query = "delete from gunluk_info";
         sqLiteDatabase.execSQL(query);
     }
 
+    /** GENEL TABLO TEMİZLEME**/
 
+    void genelTemizle(){
+        String query = "delete from satis_info";
+        sqLiteDatabase.execSQL(query);
+    }
+
+/****/
     void satisEkle(int fisNo,String kayitTarihi,String müsteriİsim,int adet,int tarife,String baslangicSure,String bitisSure,int toplamUcret){
 
         String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +

@@ -30,9 +30,6 @@ public class AdminPanel extends AppCompatActivity  {
 
     private Button changePassword;
     private Button changeName;
-    private Button listDate;
-    private Button tariharalik;
-    private Button listall;
     private Button tarifedegis;
     private List<SatisInfo> list,tarihlist;
     private DatabaseConnection dc;
@@ -45,6 +42,7 @@ public class AdminPanel extends AppCompatActivity  {
     private Button back;
 
 
+    /** GEREKSİZ BUTONLAR KALDIRILDI **/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +51,6 @@ public class AdminPanel extends AppCompatActivity  {
 
         changePassword = (Button) findViewById(R.id.changepass);
         changeName = (Button) findViewById(R.id.changename);
-        listDate = (Button) findViewById(R.id.listdate);
-        tariharalik = (Button) findViewById(R.id.araliklist);
-        listall = (Button) findViewById(R.id.listall);
         tarifedegis=(Button) findViewById(R.id.tarifedegis);
         listView = (ListView) findViewById(R.id.kayitadmin);
 
@@ -97,84 +92,6 @@ public class AdminPanel extends AppCompatActivity  {
         final int day=c.get(Calendar.DAY_OF_MONTH);
         final int month = c.get(Calendar.MONTH);
         final int year = c.get(Calendar.YEAR);
-
-
-
-        tariharalik.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),TarihAralik.class);
-                startActivity(i);
-            }
-        });
-
-
-        listall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dc = new DatabaseConnection(getApplicationContext());
-                dc.read();
-                list = dc.tumKayıtlar();
-                totalearn.setText(String.valueOf(dc.toplamKazanc())+" TL");
-                dc.close();
-                ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,list);
-                listView.setAdapter(adapter);
-
-
-            }
-        });
-
-        listDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AdminPanel.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
-
-                        int modus =2000;
-
-                        if(mYear%modus!=0){
-                            mYear=mYear%modus;
-                        }else{
-                            modus+=1000;
-                            mYear=mYear%modus;
-                        }
-
-                        if(mDay<10){
-                            if(mMonth<10){
-                                date="0"+mDay+"/0"+(mMonth+1)+"/"+mYear;
-                            }else{
-                                date="0"+mDay+"/"+(mMonth+1)+"/"+mYear;
-                            }
-                        }else if(mMonth<10){
-                            date=mDay+"/0"+(mMonth+1)+"/"+mYear;
-                        }else{
-                            date=mDay+"/"+(mMonth+1)+"/"+mYear;
-                        }
-
-
-                        DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
-                        dc.read();
-                        tarihlist = dc.tarihGetir(date);
-                        totalearn.setText(String.valueOf(dc.toplamKazanc(date))+" TL");
-                        dc.close();
-
-                        ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,tarihlist);
-                        listView.setAdapter(adapter);
-
-
-                    }
-                },year,month,day);
-
-
-                datePickerDialog.show();
-
-            }
-        });
-
 
 
         changePassword.setOnClickListener(new View.OnClickListener() {

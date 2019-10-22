@@ -60,7 +60,7 @@ public class DatabaseConnection {
 
     /**Tğm kayıtlarda kullanılan fonksiyonlar**/
 
-    List<SatisInfo> tarihAralikGetir(String bas,String son){
+    /**List<SatisInfo> tarihAralikGetir(String bas,String son){
 
         String query = "select * from satis_info where kayit_tarih between '"+bas+"' and '"+son+"'";
         Cursor c = sqLiteDatabase.rawQuery(query,null);
@@ -88,12 +88,12 @@ public class DatabaseConnection {
             c.close();
             return list;
         }
-    }
+    }**/
 
 
 
 
-    List<SatisInfo> tarihGetir(String tarih){
+    /**List<SatisInfo> tarihGetir(String tarih){
         String query = "select * from satis_info where kayit_tarih='"+tarih+"'";
         Cursor c = sqLiteDatabase.rawQuery(query,null);
         List<SatisInfo> list = new ArrayList<>();
@@ -120,7 +120,8 @@ public class DatabaseConnection {
             c.close();
             return list;
         }
-    }
+    }**/
+
 
     List<SatisInfo> tumKayıtlar(){
 
@@ -146,7 +147,7 @@ public class DatabaseConnection {
         c.close();
         return list;
     }
-
+/**
     int toplamKazanc(String bas,String son){
 
         String query= "select sum(toplam_ucret) from satis_info where kayit_tarih between '"+bas+"' and '"+son+"'"  ;
@@ -167,7 +168,7 @@ public class DatabaseConnection {
         }else{
             return 0;
         }
-    }
+    }**/
 
     int toplamKazanc(){
 
@@ -207,17 +208,24 @@ public class DatabaseConnection {
         sqLiteDatabase.execSQL(query);
     }
 
-/****/
+    /** GENEL TABLO TEMİZLEME**/
+
+    /** GÜNLÜK TABLO GENELE KOPYALAMA**/
+
+    void gunlukToGenel(){
+        String query = "insert into satis_info select * from gunluk_info";
+        sqLiteDatabase.execSQL(query);
+    }
+
+    /** GÜNLÜK TABLO GENELE KOPYALAMA**/
+
+
     void satisEkle(int fisNo,String kayitTarihi,String müsteriİsim,int adet,int tarife,String baslangicSure,String bitisSure,int toplamUcret){
 
-        String query="insert into satis_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
-                "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
-
-        String query2="insert into gunluk_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
+        String query="insert into gunluk_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
                 "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
 
         sqLiteDatabase.execSQL(query);
-        sqLiteDatabase.execSQL(query2);
 
     }
 
@@ -226,9 +234,7 @@ public class DatabaseConnection {
 
         /**fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret*/
         String query = "update gunluk_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"' where fis_no = '"+fisNo+"'";
-        String query2 = "update satis_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"' where fis_no = '"+fisNo+"'";
         sqLiteDatabase.execSQL(query);
-        sqLiteDatabase.execSQL(query2);
 
     }
 

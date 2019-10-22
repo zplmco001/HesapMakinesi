@@ -6,8 +6,10 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
@@ -17,6 +19,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +37,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +53,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-public class Home extends AppCompatActivity{
+public class Home extends AppCompatActivity implements Runnable{
 
     private Button buttons[] = new Button[10];
     private Button tarife[] = new Button[5];
@@ -85,6 +89,10 @@ public class Home extends AppCompatActivity{
     Button kaydet;
     BluetoothDevice mBluetoothDevice;
     int printstat;
+
+
+    /** secret yonet **/
+    int secretCount = 1;
 
     @Override
     protected void onResume() {
@@ -127,7 +135,6 @@ public class Home extends AppCompatActivity{
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +143,6 @@ public class Home extends AppCompatActivity{
         kaydet = (Button) findViewById(R.id.kaydet);
 
         Button yazdir = (Button)findViewById(R.id.yazdir);
-
 
 
         yazdir.setOnClickListener(new View.OnClickListener() {
@@ -233,12 +239,11 @@ public class Home extends AppCompatActivity{
         dc.open();
         List<SatisInfo> list = dc.gunlukKayıtlar();
 
-        FileWrite fw = new FileWrite(list);
-        if (fw.isOldDay()){
-            if (list.size()>0){
-                dc.gunlukTemizle();
-                dc.genelTemizle();
-            }
+
+        if (isOldDay(list)){
+            dc.genelTemizle();
+            dc.gunlukToGenel();
+            dc.gunlukTemizle();
         }
         dc.close();
 
@@ -280,8 +285,31 @@ public class Home extends AppCompatActivity{
             }
         });
 
+        TextView secretYonet = findViewById(R.id.secretYonet);
 
-        Button yonet = (Button)findViewById(R.id.yonet);
+
+        secretYonet.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                if(secretCount==5){
+                    secretCount=1;
+                    DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
+                    dc.open();
+                    //dc.gunlukKaydet(getApplicationContext());
+                    dc.close();
+                    Intent i = new Intent(getApplicationContext(),AdminLogIn.class);
+                    i.putExtra("val","home");
+                    startActivity(i);
+                }else{
+                    secretCount++;
+                }
+            }
+        });
+
+
+        /**Button yonet = (Button)findViewById(R.id.yonet);
         yonet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -293,7 +321,7 @@ public class Home extends AppCompatActivity{
                 i.putExtra("val","home");
                 startActivity(i);
             }
-        });
+        });**/
 
         tarih = (TextView)findViewById(R.id.tarih);
         baslangic = (TextView) findViewById(R.id.baslangic);
@@ -315,7 +343,7 @@ public class Home extends AppCompatActivity{
 
         info = (SatisInfo) getIntent().getSerializableExtra("obje");
 
-        /**Bluetooth aktif et**//**
+        /**Bluetooth aktif et**/
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(), "Message1", Toast.LENGTH_SHORT).show();
@@ -336,8 +364,7 @@ public class Home extends AppCompatActivity{
                 }
 
             }
-        }**/
-
+        }
         /**Bluetooth aktif et**/
 
 
@@ -441,6 +468,50 @@ public class Home extends AppCompatActivity{
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+    }
+
+    public boolean isOldDay(List<SatisInfo> list){
+        if (list.size()>0){
+            String kayitTarihi = list.get(0).kayitTarihi;
+            Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+            int day = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int year = calendar.get(Calendar.YEAR);
+
+            int modus =2000;
+
+            if(year%modus!=0){
+                year=year%modus;
+            }else{
+                modus+=1000;
+                year=year%modus;
+            }
+
+            String today;
+            if(day<10){
+
+                if(month<10){
+                    today = "0"+day+"/0"+month+"/"+year;
+                }else{
+                    today = "0"+day+"/"+month+"/"+year;
+                }
+
+            }else if(month<10){
+                today = day+"/0"+month+"/"+year;
+            }else{
+                today = day+"/"+month+"/"+year;
+            }
+            Log.e("today",today);
+            Log.e("kayit",kayitTarihi);
+            if (today.equals(kayitTarihi)){
+                return false;
+            }else {
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
     }
 
 
@@ -596,6 +667,7 @@ public class Home extends AppCompatActivity{
 
         }
 
+
         ArrayList<String> adaptor = new ArrayList<>();
 
         for (int i=0;i<list.size();i++){
@@ -615,6 +687,7 @@ public class Home extends AppCompatActivity{
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item, adaptor);
         actv.setAdapter(adapter);
+
 
 
         if (fisNo<10){
@@ -683,7 +756,7 @@ public class Home extends AppCompatActivity{
     }
 
     /** BLUETOOTH **/
-/**
+
     private void ListPairedDevices() {
         Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter
                 .getBondedDevices();
@@ -701,7 +774,7 @@ public class Home extends AppCompatActivity{
 
         int TIME = 200; //5000 ms (5 Seconds)
 
-        +new Handler().postDelayed(new Runnable() {
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
@@ -709,7 +782,7 @@ public class Home extends AppCompatActivity{
 
                 printstat = 1;
             }
-        }, TIME);+
+        }, TIME);*/
     }
 
     public void p1(){
@@ -950,7 +1023,7 @@ public class Home extends AppCompatActivity{
         return b[3];
     }
 
-**/
+
     /** BLUETOOTH**/
     private class ButonClick implements View.OnClickListener{
 
@@ -1130,7 +1203,7 @@ public class Home extends AppCompatActivity{
 
 
     /**Print Logo**/
-/**
+
     public static byte[] POS_PrintBMP(Bitmap var0, int var1, int var2) {
         var1 = (var1 + 7) / 8 * 8;
         int var3 = (var0.getHeight() * var1 / var0.getWidth() + 7) / 8;
@@ -1277,6 +1350,9 @@ public class Home extends AppCompatActivity{
         return var5;
     }
 
-**/
+
+
+
+
 
 }

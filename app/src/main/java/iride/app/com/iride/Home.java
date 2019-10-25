@@ -118,7 +118,7 @@ public class Home extends AppCompatActivity implements Runnable{
             kaydet.setVisibility(View.VISIBLE);
             yeniKayıt.setVisibility(View.VISIBLE);
             getResult(info);
-            timer.cancel();
+            //timer.cancel();
         }else{
             Log.e("log","resume");
             timer= new Timer();
@@ -171,7 +171,10 @@ public class Home extends AppCompatActivity implements Runnable{
                         kaydet(false);
                         printful=false;
                     }*/
-                    kaydet(true);
+                    if (info==null)
+                        kaydet(true);
+                    else
+                        kaydet(false);
                     kaydet.setVisibility(View.INVISIBLE);
                     yeniKayıt.setVisibility(View.INVISIBLE);
                     isFisPrint=false;
@@ -220,13 +223,13 @@ public class Home extends AppCompatActivity implements Runnable{
                 editText2.setText(info.müsteriİsim);
                 actv.setText("");
                 info = null;
-                if(info != null){
+                /*if(info != null){
                     timer.cancel();
                 }else{
                     Log.e("log","yeni kayıt");
                     timer = new Timer();
                     timer.schedule(new Task(baslangic),0,10000);
-                }
+                }*/
 
 
             }
@@ -526,13 +529,13 @@ public class Home extends AppCompatActivity implements Runnable{
                 initialize();
                 actv.setText("");
 
-                if(info!=null){
+                /*if(info!=null){
                     timer.cancel();
                 }else{
                     Log.e("log","yenile");
                     timer = new Timer();
                     timer.schedule(new Task(baslangic),0,10000);
-                }
+                }*/
 
             }
         });
@@ -631,7 +634,7 @@ public class Home extends AppCompatActivity implements Runnable{
         initialize();
         setFisNo();
 
-        if(info!=null){
+        /*if(info!=null){
             timer.cancel();
         }else{
             Log.e("log","kaydet");
@@ -639,7 +642,7 @@ public class Home extends AppCompatActivity implements Runnable{
             timer.schedule(new Task(baslangic),0,10000);
         }
         timer = new Timer();
-        timer.schedule(new Task(baslangic),0,10000);
+        timer.schedule(new Task(baslangic),0,10000);*/
 
         info = null;
         kaydet.setVisibility(View.INVISIBLE);
@@ -734,6 +737,8 @@ public class Home extends AppCompatActivity implements Runnable{
         selectedTarife = -1;
         updateTime(baslangic);
 
+        timer = new Timer();
+        timer.schedule(new Task(baslangic),10000);
 
     }
 

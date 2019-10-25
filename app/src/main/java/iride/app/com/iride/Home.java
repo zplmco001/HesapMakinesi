@@ -219,17 +219,23 @@ public class Home extends AppCompatActivity implements Runnable{
                 kaydet.setVisibility(View.INVISIBLE);
                 yeniKayıt.setVisibility(View.INVISIBLE);
                 isFisPrint = true;
-                initialize();
-                editText2.setText(info.müsteriİsim);
-                actv.setText("");
+                int fNO = info.fisNo;
+                String isim = info.müsteriİsim;
+
                 info = null;
+                initialize();
+                setFisNo(fNO);
+                editText2.setText(isim);
+                actv.setText("");
+
                 /*if(info != null){
                     timer.cancel();
                 }else{
                     Log.e("log","yeni kayıt");
-                    timer = new Timer();
-                    timer.schedule(new Task(baslangic),0,10000);
+
                 }*/
+                timer = new Timer();
+                timer.schedule(new Task(baslangic),0,10000);
 
 
             }
@@ -488,6 +494,8 @@ public class Home extends AppCompatActivity implements Runnable{
                     kaydet.setVisibility(View.VISIBLE);
                     yeniKayıt.setVisibility(View.VISIBLE);
 
+                    timer.cancel();
+                    Home.this.onResume();
 
                 }
                 catch (Exception e){
@@ -709,11 +717,11 @@ public class Home extends AppCompatActivity implements Runnable{
 
     void initialize(){
 
-        if (info==null){
+        //if (info==null){
             setFisNo();
-        }
-        else
-            setFisNo(fisNo);
+        //}
+        //else
+          //  setFisNo(fisNo);
 
 
         editText2.setText("");
@@ -737,8 +745,11 @@ public class Home extends AppCompatActivity implements Runnable{
         selectedTarife = -1;
         updateTime(baslangic);
 
-        timer = new Timer();
-        timer.schedule(new Task(baslangic),10000);
+        if (info!=null){
+            timer = new Timer();
+            timer.schedule(new Task(baslangic),10000);
+        }
+
 
     }
 

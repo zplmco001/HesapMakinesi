@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,6 +56,10 @@ public class ViewDatabase extends AppCompatActivity {
         dc.read();
 
         list = dc.gunlukKayıtlar();
+        //list.add(new SatisInfo(2,"t","m",3,3,"s","s",123));
+        Collections.sort(list);
+        for(SatisInfo s : list)
+            System.out.println("Sıralı gelen fiş no"+s.getFisNo());
         dc.close();
 
         for(int i=1; i<=list.size(); i++){
@@ -75,8 +80,6 @@ public class ViewDatabase extends AppCompatActivity {
                 onBackPressed();
             }
         });*/
-
-
         if(list.size()==0){
             Toast.makeText(this,"Liste boş!",Toast.LENGTH_SHORT).show();
             finish();
@@ -149,9 +152,7 @@ public class ViewDatabase extends AppCompatActivity {
                     return true;
                 }
             });*/
-
         }
-
         goruntule = (Button) findViewById(R.id.goruntule);
         goruntule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,19 +162,15 @@ public class ViewDatabase extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         if (code == 256){
             code = 0;
             Log.e("code",""+code);
-
             DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
             dc.read();
             int total = dc.gunlukKazanc();
@@ -182,8 +179,6 @@ public class ViewDatabase extends AppCompatActivity {
             builder.show();
             TextView textView = (TextView) builder.findViewById(android.R.id.message);
             textView.setTextSize(32);//to change font size
-
-
         }
     }
 }

@@ -1,10 +1,12 @@
 package iride.app.com.iride;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
-public class SatisInfo implements Serializable{
+public class SatisInfo implements Comparable<SatisInfo>,Serializable{
 
-    public String kayitTarihi,müsteriİsim,baslangıcSüre,bitisSüre;
+    String kayitTarihi,müsteriİsim,baslangıcSüre,bitisSüre;
     public int fisNo,adet,totalÜcret,tarife;
 
     SatisInfo(int fisNo, String kayitTarihi, String müsteriİsim, int adet, int tarife, String baslangıcSüre, String bitisSüre, int totalÜcret){
@@ -17,5 +19,18 @@ public class SatisInfo implements Serializable{
         this.bitisSüre=bitisSüre;
         this.totalÜcret=totalÜcret;
 
+    }
+
+    public int getFisNo() {
+        return fisNo;
+    }
+
+    public void setFisNo(int fisNo) {
+        this.fisNo = fisNo;
+    }
+
+    @Override
+    public int compareTo(@NonNull SatisInfo satisInfo) {
+        return this.fisNo - satisInfo.fisNo;
     }
 }

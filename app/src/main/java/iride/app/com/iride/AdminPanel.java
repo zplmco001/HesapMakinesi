@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -60,6 +61,7 @@ public class AdminPanel extends AppCompatActivity  {
         dc.read();
         totalearn.setText(String.valueOf(dc.toplamKazanc())+" TL");
         list = dc.tumKayıtlar();
+        Collections.sort(list);
         dc.close();
         ListAdapter adapter = new ListAdapter(getApplicationContext(),R.layout.list_adapter,list);
         listView.setAdapter(adapter);

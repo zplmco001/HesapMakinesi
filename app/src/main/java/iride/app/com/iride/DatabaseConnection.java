@@ -230,10 +230,11 @@ public class DatabaseConnection {
     }
 
 
-    void kayitGuncelle(int fisNo,int adet,int tarife,String bitisSure,int ucret){
+    void kayitGuncelle(int fisNo,int adet,int tarife,String baslangicSure,String bitisSure,int ucret){
 
         /**fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret*/
-        String query = "update gunluk_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"' where fis_no = '"+fisNo+"'";
+        String query = "update gunluk_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"' where fis_no = '"+fisNo+"' " +
+                "and baslangic_sure='"+baslangicSure+"'";
         sqLiteDatabase.execSQL(query);
 
     }
@@ -285,8 +286,8 @@ public class DatabaseConnection {
 
 
 
-    SatisInfo fisNoSorgu(int fisNo){
-        String query = "select * from gunluk_info where fis_no='"+fisNo+"'";
+    SatisInfo fisNoSorgu(int fisNo,String basSure){
+        String query = "select * from gunluk_info where fis_no='"+fisNo+"' and baslangic_sure='"+basSure+"'";
 
         Cursor c = sqLiteDatabase.rawQuery(query,null);
         if(c.getCount()==0){

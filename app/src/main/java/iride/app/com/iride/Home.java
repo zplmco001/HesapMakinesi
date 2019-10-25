@@ -46,6 +46,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
@@ -73,7 +74,7 @@ public class Home extends AppCompatActivity implements Runnable{
     static SatisInfo info = null;
     private boolean printful = false;
 
-    /** GENEL DATABASE SİLME EKLENDİ (1 GÜN SÜRELİ GÖSTERİM EKLENECEK) **/
+    /**GENEL DATABASE SİLME EKLENDİ**/
 
     /**Bluetooth parametreleri**/
     private static final int REQUEST_CONNECT_DEVICE = 1;
@@ -94,13 +95,28 @@ public class Home extends AppCompatActivity implements Runnable{
     /** secret yonet **/
     int secretCount = 1;
 
+    /** Aynı fiş no üstüne kayıt**/
+
+    private Button yeniKayıt;
+    //private String fisBasSure="";
+
+    private int selectFis = 0;
+
+
+    private boolean isFisPrint=false;
+
+
+
     @Override
     protected void onResume() {
         super.onResume();
 
         if(info!=null){
+            Log.e("info nul değl","info null gelmedi");
             kaydet.setVisibility(View.VISIBLE);
+            yeniKayıt.setVisibility(View.VISIBLE);
             getResult(info);
+            timer.cancel();
         }else{
 
             timer= new Timer();
@@ -112,8 +128,6 @@ public class Home extends AppCompatActivity implements Runnable{
         dCon.open();
         tarifeUcret = dCon.getTarife();
         dCon.close();
-
-
         /**
          * Tarifeyi set eder.
          */
@@ -122,13 +136,9 @@ public class Home extends AppCompatActivity implements Runnable{
                 tarife[4].setText("Açık Hesap");
             }else{
                 tarife[i].setText(tarifeZaman[i]+" Dakika "+tarifeUcret[i]+" TL");
-
             }
             tarife[i].setOnClickListener(new TarifeClick(i));
         }
-
-
-
     }
 
     /**Bluetooth parametreleri**/
@@ -142,6 +152,8 @@ public class Home extends AppCompatActivity implements Runnable{
 
         kaydet = (Button) findViewById(R.id.kaydet);
 
+        yeniKayıt = findViewById(R.id.yeniKayıt);
+
         Button yazdir = (Button)findViewById(R.id.yazdir);
 
 
@@ -152,13 +164,15 @@ public class Home extends AppCompatActivity implements Runnable{
 
                 if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
 
-                    //print();
-                    /*if (printful){
-                        //kaydet();
+                    /*print();
+                    if (printful){
+                        kaydet(false);
                         printful=false;
                     }*/
-                    kaydet();
+                    kaydet(true);
                     kaydet.setVisibility(View.INVISIBLE);
+                    yeniKayıt.setVisibility(View.INVISIBLE);
+                    isFisPrint=false;
 
 
                 }else{
@@ -173,10 +187,44 @@ public class Home extends AppCompatActivity implements Runnable{
             @Override
             public void onClick(View view) {
                 if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
-                    kaydet();
+                    kaydet(true);
                 }else{
                     Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        yeniKayıt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* timer.schedule(new Task(baslangic),1000);
+                if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
+                    /*print();
+                    if (printful){
+                        kaydet(true);
+                        printful=false;
+                    }
+                    kaydet(true);
+                    kaydet.setVisibility(View.INVISIBLE);
+                    yeniKayıt.setVisibility(View.INVISIBLE);
+                }else{
+                    Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
+                }*/
+
+                kaydet.setVisibility(View.INVISIBLE);
+                yeniKayıt.setVisibility(View.INVISIBLE);
+                isFisPrint = true;
+                initialize();
+                editText2.setText(info.müsteriİsim);
+                actv.setText("");
+                info = null;
+                if(info != null){
+                    timer = new Timer();
+                    timer.schedule(new Task(baslangic),0,10000);
+                }else{
+                    timer.cancel();
+                }
+
             }
         });
 
@@ -190,6 +238,7 @@ public class Home extends AppCompatActivity implements Runnable{
                 return true;
             }
         });
+
 
         fis = (TextView) findViewById(R.id.fis);
 
@@ -241,6 +290,16 @@ public class Home extends AppCompatActivity implements Runnable{
 
 
         if (isOldDay(list)){
+
+            List<Integer> nos = dc.fisNos("satis_info");
+            Collections.sort(nos);
+            if(nos.size()>0){
+                int lastNo = nos.get(nos.size()-1);
+                SharedPreferences preferences = this.getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("lastNo",lastNo);
+                editor.apply();
+            }
             dc.genelTemizle();
             dc.gunlukToGenel();
             dc.gunlukTemizle();
@@ -344,6 +403,7 @@ public class Home extends AppCompatActivity implements Runnable{
         info = (SatisInfo) getIntent().getSerializableExtra("obje");
 
         /**Bluetooth aktif et**/
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(), "Message1", Toast.LENGTH_SHORT).show();
@@ -408,15 +468,18 @@ public class Home extends AppCompatActivity implements Runnable{
 
                 try {
 
-                    int val = Integer.parseInt(String.valueOf(actv.getText()));
+                    String [] values = actv.getText().toString().trim().split("-");
+
+                    //int val = Integer.parseInt(String.valueOf(actv.getText()));
                     DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
                     dc.open();
-                    info = dc.fisNoSorgu(val);
+                    info = dc.fisNoSorgu(Integer.parseInt(values[0]),values[1]);
                     Log.e("as", "" + info.fisNo);
                     dc.close();
 
                     getResult(info);
                     kaydet.setVisibility(View.VISIBLE);
+                    yeniKayıt.setVisibility(View.VISIBLE);
 
 
                 }
@@ -454,16 +517,24 @@ public class Home extends AppCompatActivity implements Runnable{
             @Override
             public void onClick(View view) {
                 kaydet.setVisibility(View.INVISIBLE);
+                yeniKayıt.setVisibility(View.INVISIBLE);
+                info = null;
                 initialize();
                 actv.setText("");
-                info = null;
-                timer = new Timer();
-                timer.schedule(new Task(baslangic),0,10000);
+
+                if(info!=null){
+                    timer = new Timer();
+                    timer.schedule(new Task(baslangic),0,10000);
+                }else{
+                    timer.cancel();
+                }
+
             }
         });
 
         if (info == null){
             kaydet.setVisibility(View.INVISIBLE);
+            yeniKayıt.setVisibility(View.INVISIBLE);
         }
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -515,18 +586,26 @@ public class Home extends AppCompatActivity implements Runnable{
     }
 
 
-    void kaydet(){
+    void kaydet(boolean isYeniKayıt){
         DatabaseConnection dc = new DatabaseConnection(getBaseContext());
         dc.open();
-        List<Integer> list = dc.fisNos("gunluk_info");
-        if (list.contains(fisNo)){
+        List<SatisInfo> list = dc.gunlukKayıtlar();
+
+        //Log.e("contains",""+info.fisNo+" "+info.baslangıcSüre);
+        /*Log.e("if içi","info null mü : "+info+
+                "\nisYeniKayıt : "+(!isYeniKayıt)+
+                "\nisFisPrint : "+isFisPrint+
+                "\ninfo fisno : "+info.fisNo+" fisNo : "+fisNo+
+                "\ninfo Bas Süre : "+info.baslangıcSüre.equals(String.valueOf(baslangic.getText()).substring(13)));*/
+
+        if (info!=null  &&info.fisNo == fisNo &&info.baslangıcSüre.equals(String.valueOf(baslangic.getText()).substring(13))){
 
             if (selectedTarife!=4){
-                dc.kayitGuncelle(fisNo, adet,selectedTarife,
+                dc.kayitGuncelle(info.fisNo,adet,selectedTarife,info.baslangıcSüre,
                         String.valueOf(bitis.getText()).substring(14),total);
             }else {
                 dc.kayitGuncelle(fisNo, adet,selectedTarife,
-                        "",
+                        info.baslangıcSüre,"",
                         total);
             }
 
@@ -545,10 +624,18 @@ public class Home extends AppCompatActivity implements Runnable{
 
         dc.close();
         initialize();
+        setFisNo();
         info = null;
+        if(info!=null){
+            timer = new Timer();
+            timer.schedule(new Task(baslangic),0,10000);
+        }else{
+            timer.cancel();
+        }
         timer = new Timer();
         timer.schedule(new Task(baslangic),0,10000);
         kaydet.setVisibility(View.INVISIBLE);
+        yeniKayıt.setVisibility(View.INVISIBLE);
         actv.setText("");
     }
 
@@ -610,7 +697,14 @@ public class Home extends AppCompatActivity implements Runnable{
 
 
     void initialize(){
-        setFisNo();
+
+        if (info==null){
+            setFisNo();
+        }
+        else
+            setFisNo(fisNo);
+
+
         editText2.setText("");
 
         if (selected != -1){
@@ -641,46 +735,63 @@ public class Home extends AppCompatActivity implements Runnable{
             imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    void setFisNo(int fisNo){
+
+        this.fisNo = fisNo;
+
+        if (fisNo<10){
+            fis.setText("Fiş No: 0000"+fisNo);
+        }else if(fisNo<100){
+            fis.setText("Fiş No: 000"+fisNo);
+        }
+        else if(fisNo<1000){
+            fis.setText("Fiş No: 00"+fisNo);
+        }
+        else if(fisNo<10000){
+            fis.setText("Fiş No: 0"+fisNo);
+        }
+    }
+
     void setFisNo(){
         DatabaseConnection dc = new DatabaseConnection(getApplicationContext());
         dc.open();
-        List<Integer> list = dc.fisNos("gunluk_info");
-        List<Integer> genelList = dc.fisNos("satis_info");
+        List<SatisInfo> list = dc.gunlukKayıtlar();
+        List<SatisInfo> genelList = dc.tumKayıtlar();
+        Collections.sort(list);
+        Collections.sort(genelList);
+
 
 
         if (list.size()==0){
 
             if (genelList.size()!=0){
-                fisNo = genelList.get(genelList.size()-1)+1;
+                fisNo = genelList.get(genelList.size()-1).fisNo+1;
             }else{
-                fisNo = 1;
+                SharedPreferences preferences = this.getPreferences(Context.MODE_PRIVATE);
+                fisNo = preferences.getInt("lastNo",0) + 1;
             }
-
 
         }else{
-            if (fisNo == 10000){
-                fisNo = 1;
-            }
-            else{
-                fisNo = list.get(list.size()-1)+1;
-            }
-
+            fisNo = list.get(list.size()-1).fisNo+1;
         }
 
+        if (fisNo == 10000){
+            fisNo = 1;
+        }
 
         ArrayList<String> adaptor = new ArrayList<>();
 
         for (int i=0;i<list.size();i++){
-            if (list.get(i)<10){
-                adaptor.add("0000"+list.get(i));
-            }else if(list.get(i)<100){
-                adaptor.add("000"+list.get(i));
+            if (list.get(i).fisNo<10){
+                adaptor.add("0000"+list.get(i).fisNo+"-"+list.get(i).baslangıcSüre);
+            }else if(list.get(i).fisNo<100){
+                adaptor.add("000"+list.get(i).fisNo+"-"+list.get(i).baslangıcSüre);
             }
-            else if(list.get(i)<1000){
-                adaptor.add("00"+list.get(i));
+            else if(list.get(i).fisNo<1000){
+                adaptor.add("00"+list.get(i).fisNo+"-"+list.get(i).baslangıcSüre);
             }
-            else if(list.get(i)<10000){
-                adaptor.add("0"+list.get(i));
+            else if(list.get(i).fisNo<10000){
+                adaptor.add("0"+list.get(i).fisNo+"-"+list.get(i).baslangıcSüre);
             }
         }
 
@@ -756,6 +867,7 @@ public class Home extends AppCompatActivity implements Runnable{
     }
 
     /** BLUETOOTH **/
+
 
     private void ListPairedDevices() {
         Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter
@@ -913,6 +1025,7 @@ public class Home extends AppCompatActivity implements Runnable{
                 }
             });
             builder.show();
+
             printful = false;
         }
         catch (Exception e) {
@@ -1139,7 +1252,6 @@ public class Home extends AppCompatActivity implements Runnable{
                 }
 
 
-
                 if ((minute+tarifeZaman[index])>=60){
                     minute = (minute+tarifeZaman[index])%60;
                     hour = (hour+1)%24;
@@ -1191,6 +1303,7 @@ public class Home extends AppCompatActivity implements Runnable{
             this.tv = tv;
 
         }
+
 
         @Override
         public void run() {
@@ -1349,10 +1462,5 @@ public class Home extends AppCompatActivity implements Runnable{
 
         return var5;
     }
-
-
-
-
-
 
 }

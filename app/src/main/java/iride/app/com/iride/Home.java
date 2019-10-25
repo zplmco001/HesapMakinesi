@@ -66,7 +66,9 @@ public class Home extends AppCompatActivity implements Runnable{
     private int selectedTarife = -1;
     private int fiyat;
     private TextView ucret,baslangic,bitis,fis,toplam,tarih;
-    private Timer timer;
+
+    public static Timer timer;
+
     private EditText ekstra,editText2;
     private int total,fisNo;
     private AutoCompleteTextView actv;
@@ -118,10 +120,10 @@ public class Home extends AppCompatActivity implements Runnable{
             getResult(info);
             timer.cancel();
         }else{
-
+            Log.e("log","resume");
             timer= new Timer();
             Task taskresume = new Task(baslangic);
-            timer.schedule(taskresume,0,10000);
+            timer.schedule(new Task(baslangic),0,10000);
         }
 
         DatabaseConnection dCon = new DatabaseConnection(getApplicationContext());
@@ -187,7 +189,7 @@ public class Home extends AppCompatActivity implements Runnable{
             @Override
             public void onClick(View view) {
                 if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
-                    kaydet(true);
+                    kaydet(false);
                 }else{
                     Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
                 }
@@ -219,11 +221,13 @@ public class Home extends AppCompatActivity implements Runnable{
                 actv.setText("");
                 info = null;
                 if(info != null){
+                    timer.cancel();
+                }else{
+                    Log.e("log","yeni kayıt");
                     timer = new Timer();
                     timer.schedule(new Task(baslangic),0,10000);
-                }else{
-                    timer.cancel();
                 }
+
 
             }
         });
@@ -523,10 +527,11 @@ public class Home extends AppCompatActivity implements Runnable{
                 actv.setText("");
 
                 if(info!=null){
+                    timer.cancel();
+                }else{
+                    Log.e("log","yenile");
                     timer = new Timer();
                     timer.schedule(new Task(baslangic),0,10000);
-                }else{
-                    timer.cancel();
                 }
 
             }
@@ -598,7 +603,7 @@ public class Home extends AppCompatActivity implements Runnable{
                 "\ninfo fisno : "+info.fisNo+" fisNo : "+fisNo+
                 "\ninfo Bas Süre : "+info.baslangıcSüre.equals(String.valueOf(baslangic.getText()).substring(13)));*/
 
-        if (info!=null  &&info.fisNo == fisNo &&info.baslangıcSüre.equals(String.valueOf(baslangic.getText()).substring(13))){
+        if (info!=null &&(!isYeniKayıt)&&info.fisNo == fisNo &&info.baslangıcSüre.equals(String.valueOf(baslangic.getText()).substring(13))){
 
             if (selectedTarife!=4){
                 dc.kayitGuncelle(info.fisNo,adet,selectedTarife,info.baslangıcSüre,
@@ -625,15 +630,18 @@ public class Home extends AppCompatActivity implements Runnable{
         dc.close();
         initialize();
         setFisNo();
-        info = null;
+
         if(info!=null){
+            timer.cancel();
+        }else{
+            Log.e("log","kaydet");
             timer = new Timer();
             timer.schedule(new Task(baslangic),0,10000);
-        }else{
-            timer.cancel();
         }
         timer = new Timer();
         timer.schedule(new Task(baslangic),0,10000);
+
+        info = null;
         kaydet.setVisibility(View.INVISIBLE);
         yeniKayıt.setVisibility(View.INVISIBLE);
         actv.setText("");

@@ -98,6 +98,7 @@ public class ViewDatabase extends AppCompatActivity {
                    // Intent intent = new Intent(ViewDatabase.this,Home.class);
 
                     Home.info = satisInfo;
+                    Home.timer.cancel();
                     onBackPressed();
 
                     /*intent.putExtra("obje",satisInfo);

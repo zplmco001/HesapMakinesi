@@ -166,15 +166,19 @@ public class Home extends AppCompatActivity implements Runnable{
 
                 if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
 
-                    /*print();
+                    print();
                     if (printful){
-                        kaydet(false);
+                        //kaydet(false);
+                        if (info==null)
+                            kaydet(true);
+                        else
+                            kaydet(false);
                         printful=false;
-                    }*/
-                    if (info==null)
+                    }
+                    /*if (info==null)
                         kaydet(true);
                     else
-                        kaydet(false);
+                        kaydet(false);*/
                     kaydet.setVisibility(View.INVISIBLE);
                     yeniKayıt.setVisibility(View.INVISIBLE);
                     isFisPrint=false;

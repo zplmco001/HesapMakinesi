@@ -56,6 +56,7 @@ public class DeviceListActivity extends AppCompatActivity {
 
 
 
+
         if (getWindowManager().getDefaultDisplay().getWidth()<getWindowManager().getDefaultDisplay().getHeight()){
             int width = dm.widthPixels;
             int height = dm.heightPixels;
@@ -69,6 +70,8 @@ public class DeviceListActivity extends AppCompatActivity {
             getWindow().setLayout((int) (width*.4),(int) (height*.1));
             getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
         }
+
+        Home.timer.cancel();
     }
 
     @Override
@@ -76,15 +79,19 @@ public class DeviceListActivity extends AppCompatActivity {
         super.onDestroy();
         if (mBluetoothAdapter != null) {
             mBluetoothAdapter.cancelDiscovery();
+            Home.timer.cancel();
         }
+
     }
+
+
 
     private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> mAdapterView, View mView, int mPosition, long mLong) {
 
             try {
 
-
+                Home.timer.cancel();
                 mBluetoothAdapter.cancelDiscovery();
                 String mDeviceInfo = ((TextView) mView).getText().toString();
                 String mDeviceAddress = mDeviceInfo.substring(mDeviceInfo.length() - 17);
@@ -95,12 +102,16 @@ public class DeviceListActivity extends AppCompatActivity {
                 Intent mBackIntent = new Intent();
                 mBackIntent.putExtras(mBundle);
                 setResult(Activity.RESULT_OK, mBackIntent);
+
                 finish();
+
             } catch (Exception ex) {
 
             }
         }
     };
+
+
 
 
 }

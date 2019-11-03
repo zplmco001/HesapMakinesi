@@ -83,6 +83,7 @@ public class AdminPanel extends AppCompatActivity  {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 onBackPressed();
             }
         });
@@ -130,6 +131,11 @@ public class AdminPanel extends AppCompatActivity  {
 
     static Dialog dialog;
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Home.timer.cancel();
+    }
 
     public void DialogView(){
         dialog = new Dialog(AdminPanel.this);

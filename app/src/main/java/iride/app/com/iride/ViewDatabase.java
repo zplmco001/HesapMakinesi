@@ -98,7 +98,7 @@ public class ViewDatabase extends AppCompatActivity {
                    // Intent intent = new Intent(ViewDatabase.this,Home.class);
 
                     Home.info = satisInfo;
-                    Home.timer.cancel();
+                    //Home.timer.cancel();
                     onBackPressed();
 
                     /*intent.putExtra("obje",satisInfo);
@@ -164,6 +164,12 @@ public class ViewDatabase extends AppCompatActivity {
             }
         });
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //Home.timer.cancel();
     }
 
     @Override

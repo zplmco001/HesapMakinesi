@@ -25,13 +25,13 @@ public class Database extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("insert into admin (admin_name,password) values ('Gunluk','admin')");
 
 
-        String satisTable = "create table satis_info (fis_no integer,kayit_tarih text,musteri_isim text," +
+        String satisTable = "create table satis_info (id integer,fis_no integer,kayit_tarih text,musteri_isim text," +
                 "adet integer,tarife integer,baslangic_sure text,bitis_sure text,toplam_ucret integer)";
 
         sqLiteDatabase.execSQL(satisTable);
 
 
-        String gunlukTable = "create table gunluk_info (fis_no integer,kayit_tarih text,musteri_isim text," +
+        String gunlukTable = "create table gunluk_info (id integer,fis_no integer,kayit_tarih text,musteri_isim text," +
                 "adet integer,tarife integer,baslangic_sure text,bitis_sure text,toplam_ucret integer)";
 
         sqLiteDatabase.execSQL(gunlukTable);
@@ -45,9 +45,9 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("drop table if exist admin");
-        sqLiteDatabase.execSQL("drop table if exist satis_info");
-        sqLiteDatabase.execSQL("drop table if exist gunluk_info");
-        sqLiteDatabase.execSQL("drop table if exist fiyat_table");
+        sqLiteDatabase.execSQL("drop table if exists admin");
+        sqLiteDatabase.execSQL("drop table if exists satis_info");
+        sqLiteDatabase.execSQL("drop table if exists gunluk_info");
+        sqLiteDatabase.execSQL("drop table if exists fiyat_table");
     }
 }

@@ -125,7 +125,7 @@ public class DatabaseConnection {
 
     List<SatisInfo> tumKayıtlar(){
 
-        String columns [] = {"fis_no","kayit_tarih","musteri_isim","adet","tarife","baslangic_sure","bitis_sure","toplam_ucret"};
+        String columns [] = {"id","fis_no","kayit_tarih","musteri_isim","adet","tarife","baslangic_sure","bitis_sure","toplam_ucret"};
         Cursor c = sqLiteDatabase.query("satis_info",columns,null,null,null,null,null);
         Log.e("counter",""+c.getCount());
 
@@ -140,8 +140,9 @@ public class DatabaseConnection {
             String bassüre = c.getString(c.getColumnIndex("baslangic_sure"));
             String bitsüre = c.getString(c.getColumnIndex("bitis_sure"));
             int total = c.getInt(c.getColumnIndex("toplam_ucret"));
+            int id = c.getInt(c.getColumnIndex("id"));
 
-            list.add(new SatisInfo(fis,tarih,isim,adet,tarife,bassüre,bitsüre,total));
+            list.add(new SatisInfo(id,fis,tarih,isim,adet,tarife,bassüre,bitsüre,total));
             c.moveToNext();
         }
         c.close();
@@ -220,21 +221,22 @@ public class DatabaseConnection {
     /** GÜNLÜK TABLO GENELE KOPYALAMA**/
 
 
-    void satisEkle(int fisNo,String kayitTarihi,String müsteriİsim,int adet,int tarife,String baslangicSure,String bitisSure,int toplamUcret){
+    void satisEkle(int id,int fisNo,String kayitTarihi,String müsteriİsim,int adet,int tarife,
+                   String baslangicSure,String bitisSure,int toplamUcret){
 
-        String query="insert into gunluk_info (fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
-                "values ('"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
+        String query="insert into gunluk_info (id,fis_no,kayit_tarih,musteri_isim,adet,tarife,baslangic_sure,bitis_sure,toplam_ucret)" +
+                "values ('"+id+"','"+fisNo+"','"+kayitTarihi+"','"+müsteriİsim+"','"+adet+"','"+tarife+"','"+baslangicSure+"','"+bitisSure+"','"+toplamUcret+"')";
 
         sqLiteDatabase.execSQL(query);
 
     }
 
 
-    void kayitGuncelle(int fisNo,int adet,int tarife,String baslangicSure,String bitisSure,int ucret){
+    void kayitGuncelle(int id,String isim,int fisNo,int adet,int tarife,String baslangicSure,String bitisSure,int ucret){
 
-        /**fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret*/
-        String query = "update gunluk_info set adet='"+adet+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"' where fis_no = '"+fisNo+"' " +
-                "and baslangic_sure='"+baslangicSure+"'";
+        /**id,fis_no,kayit_tarih,musteri_isim,adet,tarife,baslagic_sure,bitis_sure,toplam_ucret*/
+        String query = "update gunluk_info set musteri_isim='"+isim+"',adet='"+adet+"',baslangic_sure='"+baslangicSure+"',tarife='"+tarife+"',bitis_sure='"+bitisSure+"',toplam_ucret='"+ucret+"' where fis_no = '"+fisNo+"' " +
+                " and musteri_isim='"+isim+"' and id='"+id+"'";
         sqLiteDatabase.execSQL(query);
 
     }
@@ -244,10 +246,23 @@ public class DatabaseConnection {
         sqLiteDatabase.execSQL(query);
     }
 
+    int getLastID(){
+        //String columns [] = {"id","fis_no","kayit_tarih","musteri_isim","adet","tarife","baslangic_sure","bitis_sure","toplam_ucret"};
+        try{
+            Cursor c = sqLiteDatabase.rawQuery("SELECT MAX(id) AS MAX FROM gunluk_info", null);
+            c.moveToFirst();
+            int id = c.getInt(c.getColumnIndex("MAX"));
+
+            return id;
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
 
     List<SatisInfo> gunlukKayıtlar(){
 
-        String columns [] = {"fis_no","kayit_tarih","musteri_isim","adet","tarife","baslangic_sure","bitis_sure","toplam_ucret"};
+        String columns [] = {"id","fis_no","kayit_tarih","musteri_isim","adet","tarife","baslangic_sure","bitis_sure","toplam_ucret"};
         Cursor c = sqLiteDatabase.query("gunluk_info",columns,null,null,null,null,null);
         Log.e("counter",""+c.getCount());
 
@@ -262,8 +277,9 @@ public class DatabaseConnection {
             String bassüre = c.getString(c.getColumnIndex("baslangic_sure"));
             String bitsüre = c.getString(c.getColumnIndex("bitis_sure"));
             int total = c.getInt(c.getColumnIndex("toplam_ucret"));
+            int id = c.getInt(c.getColumnIndex("id"));
 
-            list.add(new SatisInfo(fis,tarih,isim,adet,tarife,bassüre,bitsüre,total));
+            list.add(new SatisInfo(id,fis,tarih,isim,adet,tarife,bassüre,bitsüre,total));
             c.moveToNext();
         }
         c.close();
@@ -304,10 +320,11 @@ public class DatabaseConnection {
             String bassüre = c.getString(c.getColumnIndex("baslangic_sure"));
             String bitsüre = c.getString(c.getColumnIndex("bitis_sure"));
             int total = c.getInt(c.getColumnIndex("toplam_ucret"));
+            int id = c.getInt(c.getColumnIndex("id"));
 
             c.close();
 
-            return new SatisInfo(fis,tarih,isim,adet,tarife,bassüre,bitsüre,total);
+            return new SatisInfo(id,fis,tarih,isim,adet,tarife,bassüre,bitsüre,total);
         }
     }
 

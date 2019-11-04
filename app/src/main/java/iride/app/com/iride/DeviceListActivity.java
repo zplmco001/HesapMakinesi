@@ -69,6 +69,7 @@ public class DeviceListActivity extends AppCompatActivity {
             getWindow().setLayout((int) (width*.4),(int) (height*.1));
             getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_round_button));
         }
+        Home.timer.cancel();
     }
 
     @Override

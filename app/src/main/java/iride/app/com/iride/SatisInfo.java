@@ -8,8 +8,9 @@ public class SatisInfo implements Comparable<SatisInfo>,Serializable{
 
     String kayitTarihi,müsteriİsim,baslangıcSüre,bitisSüre;
     public int fisNo,adet,totalÜcret,tarife;
+    int id;
 
-    SatisInfo(int fisNo, String kayitTarihi, String müsteriİsim, int adet, int tarife, String baslangıcSüre, String bitisSüre, int totalÜcret){
+    SatisInfo(int id,int fisNo, String kayitTarihi, String müsteriİsim, int adet, int tarife, String baslangıcSüre, String bitisSüre, int totalÜcret){
         this.fisNo=fisNo;
         this.kayitTarihi=kayitTarihi;
         this.müsteriİsim=müsteriİsim;
@@ -18,6 +19,7 @@ public class SatisInfo implements Comparable<SatisInfo>,Serializable{
         this.baslangıcSüre=baslangıcSüre;
         this.bitisSüre=bitisSüre;
         this.totalÜcret=totalÜcret;
+        this.id = id;
 
     }
 

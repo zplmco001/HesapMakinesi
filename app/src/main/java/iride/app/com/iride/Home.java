@@ -123,7 +123,7 @@ public class Home extends AppCompatActivity implements Runnable{
             Log.e("log","resume");
             timer= new Timer();
             Task taskresume = new Task(baslangic);
-            timer.schedule(new Task(baslangic),0,10000);
+            timer.schedule(new Task(baslangic),0,500);
         }
 
         DatabaseConnection dCon = new DatabaseConnection(getApplicationContext());
@@ -166,15 +166,16 @@ public class Home extends AppCompatActivity implements Runnable{
 
                 if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
 
-                    /*print();
-                    if (printful){
-                        kaydet(false);
-                        printful=false;
-                    }*/
-                    if (info==null)
-                        kaydet(true);
-                    else
-                        kaydet(false);
+                    //print();
+                    //if (printful){
+                        //kaydet(false);
+                        if (info==null)
+                            kaydet(true,false,true);
+                        else
+                            kaydet(false,false,false);
+                      //  printful=false;
+                    //}
+                    //ASDXXX
                     kaydet.setVisibility(View.INVISIBLE);
                     yeniKayıt.setVisibility(View.INVISIBLE);
                     isFisPrint=false;
@@ -192,7 +193,7 @@ public class Home extends AppCompatActivity implements Runnable{
             @Override
             public void onClick(View view) {
                 if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
-                    kaydet(false);
+                    kaydet(false,true,false);
                 }else{
                     Toast.makeText(Home.this,"Lütfen eksik değerleri giriniz!",Toast.LENGTH_LONG).show();
                 }
@@ -202,7 +203,7 @@ public class Home extends AppCompatActivity implements Runnable{
         yeniKayıt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* timer.schedule(new Task(baslangic),1000);
+               /*timer.schedule(new Task(baslangic),1000);
                 if (editText2.getText().length()>0&&selected>=0&&selectedTarife>=0){
                     /*print();
                     if (printful){
@@ -235,7 +236,7 @@ public class Home extends AppCompatActivity implements Runnable{
 
                 }*/
                 timer = new Timer();
-                timer.schedule(new Task(baslangic),0,10000);
+                timer.schedule(new Task(baslangic),0,500);
 
 
             }
@@ -602,7 +603,7 @@ public class Home extends AppCompatActivity implements Runnable{
     }
 
 
-    void kaydet(boolean isYeniKayıt){
+    void kaydet(boolean isYeniKayıt,boolean isJustSave,boolean isNew){
         DatabaseConnection dc = new DatabaseConnection(getBaseContext());
         dc.open();
         List<SatisInfo> list = dc.gunlukKayıtlar();
@@ -614,15 +615,17 @@ public class Home extends AppCompatActivity implements Runnable{
                 "\ninfo fisno : "+info.fisNo+" fisNo : "+fisNo+
                 "\ninfo Bas Süre : "+info.baslangıcSüre.equals(String.valueOf(baslangic.getText()).substring(13)));*/
 
-        if (info!=null &&(!isYeniKayıt)&&info.fisNo == fisNo &&info.baslangıcSüre.equals(String.valueOf(baslangic.getText()).substring(13))){
+        if (info!=null &&(!isYeniKayıt)&&info.fisNo == fisNo /*&&isJustSave&&info.baslangıcSüre.equals(String.valueOf(baslangic.getText()).substring(13))*/){
 
             if (selectedTarife!=4){
-                dc.kayitGuncelle(info.fisNo,adet,selectedTarife,info.baslangıcSüre,
+                dc.kayitGuncelle(info.id,info.müsteriİsim,info.fisNo,adet,selectedTarife,String.valueOf(baslangic.getText()).substring(13),
                         String.valueOf(bitis.getText()).substring(14),total);
             }else {
-                dc.kayitGuncelle(fisNo, adet,selectedTarife,
-                        info.baslangıcSüre,"",
+                dc.kayitGuncelle(info.id,info.müsteriİsim,fisNo, adet,selectedTarife,
+                        String.valueOf(baslangic.getText()).substring(13),"",
                         total);
+
+                /**Başlangıç Süreyi unutma*/
             }
 
 
@@ -633,8 +636,20 @@ public class Home extends AppCompatActivity implements Runnable{
 
             }
 
-            dc.satisEkle(fisNo,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(13),
+
+            int lastID = dc.getLastID()+1;
+            //if (isNew)
+            Log.v("id",lastID+"");
+            //{
+                dc.satisEkle(lastID,fisNo,String.valueOf(tarih.getText()).substring(7),
+                    String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(13),
                     bitisS,total);
+            //}
+            //else{
+                //dc.satisEkle(lastID,fisNo,String.valueOf(tarih.getText()).substring(7), String.valueOf(editText2.getText()),adet,selectedTarife,String.valueOf(baslangic.getText()).substring(13),
+                  //      bitisS,total);
+            //}
+
 
         }
 
@@ -747,7 +762,7 @@ public class Home extends AppCompatActivity implements Runnable{
 
         if (info!=null){
             timer = new Timer();
-            timer.schedule(new Task(baslangic),10000);
+            timer.schedule(new Task(baslangic),500);
         }
 
 
